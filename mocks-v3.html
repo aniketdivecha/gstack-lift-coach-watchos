@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>WristCoach v3 — Over-Count States</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #111; font-family: -apple-system, "SF Pro Display", sans-serif; color: #fff; padding: 40px 40px 60px; }
+
+  h1 { font-size: 15px; font-weight: 600; color: #666; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+  .subtitle { font-size: 12px; color: #444; margin-bottom: 48px; }
+
+  .row { display: flex; gap: 36px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 56px; }
+  .screen-group { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .screen-label { font-size: 11px; color: #555; letter-spacing: 0.06em; text-transform: uppercase; }
+  .screen-sublabel { font-size: 10px; color: #383838; margin-top: 2px; text-align: center; max-width: 198px; }
+
+  .watch {
+    width: 198px; height: 242px;
+    background: #000;
+    border-radius: 58px;
+    border: 1.5px solid #2a2a2a;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 22px 16px 18px;
+    position: relative; overflow: hidden;
+    box-shadow: 0 0 0 0.5px #1a1a1a, 0 12px 40px rgba(0,0,0,.9), inset 0 0 0 0.5px #333;
+  }
+
+  .section-header {
+    width: 100%;
+    font-size: 11px; color: #444; letter-spacing: 0.1em; text-transform: uppercase;
+    border-top: 1px solid #1e1e1e; padding-top: 18px; margin-bottom: 4px;
+  }
+  .section-desc {
+    font-size: 12px; color: #555; margin-bottom: 28px; line-height: 1.6;
+  }
+
+  /* ── shared components ── */
+  .ex-label { font-size: 9px; color: #666; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1px; }
+  .wt-label { font-size: 11px; font-weight: 500; color: #aaa; margin-bottom: 6px; }
+  .stop-bar {
+    margin-top: 6px; width: 100%; background: #1c1c1c; border: 1px solid #333;
+    border-radius: 10px; padding: 6px; text-align: center; font-size: 11px; font-weight: 600; color: #ff453a;
+  }
+
+  /* ── SCREEN 4b normal (for comparison) ── */
+  .rep-ring-wrap { position: relative; width: 104px; height: 104px; margin-bottom: 8px; }
+  .rep-ring-wrap svg { position: absolute; top:0; left:0; transform: rotate(-90deg); }
+  .rep-center { position: absolute; top:50%; left:50%; transform: translate(-50%,-50%); text-align: center; }
+  .rep-num { font-size: 42px; font-weight: 800; line-height: 1; }
+  .rep-of { font-size: 10px; color: #444; margin-top: 1px; }
+  .motivation-bar { font-size: 10px; font-weight: 700; background: rgba(255,159,10,0.1); border-radius: 8px; padding: 5px 10px; width: 100%; text-align: center; }
+
+  /* ── SCREEN 4b-over: over-target counting ── */
+  /* ring is full gold, number glows */
+
+  /* ── SCREEN 4c-over-a: same weight, over-count ── */
+  /* ── SCREEN 4c-over-b: increased weight, over-count ── */
+
+  .confetti-num { font-size: 48px; font-weight: 900; line-height: 1; }
+  .congrats-badge {
+    font-size: 10px; font-weight: 700; border-radius: 8px;
+    padding: 5px 10px; width: 100%; text-align: center;
+    margin-bottom: 6px;
+  }
+  .next-weight-box {
+    width: 100%; border-radius: 11px; padding: 8px 10px;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .next-weight-label { font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .next-weight-val { font-size: 15px; font-weight: 800; line-height: 1; }
+  .next-weight-reason { font-size: 9px; opacity: 0.7; }
+  .rest-cta { margin-top: 6px; width: 100%; border-radius: 11px; padding: 7px; text-align: center; font-size: 11px; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<h1>WristCoach — Over-Count States</h1>
+<p class="subtitle">v3 · What happens when the trainee beats their target reps</p>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SECTION: Normal flow (reference) -->
+<!-- ═══════════════════════════════════════════════ -->
+<div style="width:100%">
+  <div class="section-header">Normal flow (reference)</div>
+  <div class="section-desc">Target = 8 reps. Trainee hits exactly 8, struggled on the last 2. Weight holds next session.</div>
+</div>
+
+<div class="row">
+
+  <!-- 4b normal: counting, 6/8 -->
+  <div class="screen-group">
+    <div class="watch">
+      <div class="ex-label">Bench Press</div>
+      <div class="wt-label">135 lb · Set 1/3</div>
+      <div class="rep-ring-wrap">
+        <svg width="104" height="104" viewBox="0 0 104 104">
+          <circle cx="52" cy="52" r="46" fill="none" stroke="#1a1a1a" stroke-width="9"/>
+          <circle cx="52" cy="52" r="46" fill="none" stroke="#0a84ff" stroke-width="9"
+            stroke-dasharray="216.8 289.0" stroke-linecap="round"/>
+        </svg>
+        <div class="rep-center">
+          <div class="rep-num" style="color:#fff;">6</div>
+          <div class="rep-of">of 8</div>
+        </div>
+      </div>
+      <div class="motivation-bar" style="color:#ff9f0a;">💪 2 more, push it!</div>
+      <div class="stop-bar">■ STOP</div>
+    </div>
+    <div class="screen-label">4b · counting (6/8)</div>
+  </div>
+
+  <!-- 4c normal: done, 8 reps, struggled -->
+  <div class="screen-group">
+    <div class="watch" style="justify-content:center; gap:6px;">
+      <div class="ex-label">Bench Press</div>
+      <div class="confetti-num" style="color:#fff;">8</div>
+      <div style="font-size:10px;color:#666;margin-bottom:4px;">reps · 135 lb</div>
+      <div class="congrats-badge" style="color:#aaa;background:#1a1a1a;">"Nice work." ✓</div>
+      <div class="next-weight-box" style="background:#1a1a1a;border:1px solid #2a2a2a;">
+        <div class="next-weight-label" style="color:#555;">Next session</div>
+        <div class="next-weight-val" style="color:#aaa;">135 lb × 8</div>
+        <div class="next-weight-reason" style="color:#555;">Struggled — holding weight</div>
+      </div>
+      <div class="rest-cta" style="background:#1c1c1c;border:1px solid #333;color:#666;">Rest →</div>
+    </div>
+    <div class="screen-label">4c · done (struggled)</div>
+    <div class="screen-sublabel">Weight holds · same next session</div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SECTION: Over-count, same weight -->
+<!-- ═══════════════════════════════════════════════ -->
+<div style="width:100%">
+  <div class="section-header">Over-count · same weight as last session</div>
+  <div class="section-desc">Target = 8. Trainee hits 10. They've clearly mastered 135 lb — time to go heavier. Next session bumps weight.</div>
+</div>
+
+<div class="row">
+
+  <!-- 4b-over: ring full, counting past 8 → now on 9 -->
+  <div class="screen-group">
+    <div class="watch">
+      <div class="ex-label">Bench Press</div>
+      <div class="wt-label">135 lb · Set 1/3</div>
+      <div class="rep-ring-wrap">
+        <svg width="104" height="104" viewBox="0 0 104 104">
+          <!-- background -->
+          <circle cx="52" cy="52" r="46" fill="none" stroke="#1a1a1a" stroke-width="9"/>
+          <!-- full ring = gold once target hit -->
+          <circle cx="52" cy="52" r="46" fill="none" stroke="#ffd60a" stroke-width="9"
+            stroke-dasharray="289.0 289.0" stroke-linecap="round"/>
+          <!-- outer pulse ring -->
+          <circle cx="52" cy="52" r="46" fill="none" stroke="#ffd60a" stroke-width="2" opacity="0.25"/>
+        </svg>
+        <div class="rep-center">
+          <div class="rep-num" style="color:#ffd60a;">9</div>
+          <div class="rep-of" style="color:#665500;">keep going</div>
+        </div>
+      </div>
+      <div class="motivation-bar" style="color:#ffd60a;background:rgba(255,214,10,0.1);">🔥 Beyond target! Keep going!</div>
+      <div class="stop-bar">■ STOP</div>
+    </div>
+    <div class="screen-label">4b-over · past target (9+)</div>
+    <div class="screen-sublabel">Ring turns gold · number keeps climbing</div>
+  </div>
+
+  <!-- 4c-over-a: done, 10 reps, same weight → bump weight next -->
+  <div class="screen-group">
+    <div class="watch" style="justify-content:center; gap:6px;">
+      <div class="ex-label">Bench Press</div>
+      <div style="position:relative;display:inline-block;">
+        <div class="confetti-num" style="color:#ffd60a;">10</div>
+        <div style="position:absolute;top:-6px;right:-14px;font-size:14px;">🔥</div>
+      </div>
+      <div style="font-size:10px;color:#887700;margin-bottom:4px;">reps · 135 lb · +2 bonus!</div>
+      <div class="congrats-badge" style="color:#ffd60a;background:rgba(255,214,10,0.1);">"You crushed it!" 🏆</div>
+      <div class="next-weight-box" style="background:#0d1a00;border:1px solid #2a4a00;">
+        <div class="next-weight-label" style="color:#4a7a00;">Next session</div>
+        <div class="next-weight-val" style="color:#30d158;">140 lb × 8</div>
+        <div class="next-weight-reason" style="color:#3a6a00;">Mastered 135 — going heavier</div>
+      </div>
+      <div class="rest-cta" style="background:#30d158;color:#000;">Rest →</div>
+    </div>
+    <div class="screen-label">4c-over-a · done (same weight)</div>
+    <div class="screen-sublabel">Mastered weight → bumps to 140 lb next</div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SECTION: Over-count, increased weight -->
+<!-- ═══════════════════════════════════════════════ -->
+<div style="width:100%">
+  <div class="section-header">Over-count · increased weight from last session</div>
+  <div class="section-desc">Last session: 135 lb × 8. This session: stepped up to 140 lb AND hit 10 reps. Double win — jump was too conservative. Next session adds weight again.</div>
+</div>
+
+<div class="row">
+
+  <!-- 4b-over increased weight: same gold ring state but different weight shown -->
+  <div class="screen-group">
+    <div class="watch">
+      <div class="ex-label">Bench Press</div>
+      <div class="wt-label" style="color:#30d158;">140 lb ↑ · Set 1/3</div>
+      <div class="rep-ring-wrap">
+        <svg width="104" height="104" viewBox="0 0 104 104">
+          <circle cx="52" cy="52" r="46" fill="none" stroke="#1a1a1a" stroke-width="9"/>
+          <circle cx="52" cy="52" r="46" fill="none" stroke="#ffd60a" stroke-width="9"
+            stroke-dasharray="289.0 289.0" stroke-linecap="round"/>
+          <circle cx="52" cy="52" r="46" fill="none" stroke="#ffd60a" stroke-width="2" opacity="0.25"/>
+        </svg>
+        <div class="rep-center">
+          <div class="rep-num" style="color:#ffd60a;">10</div>
+          <div class="rep-of" style="color:#665500;">keep going</div>
+        </div>
+      </div>
+      <div class="motivation-bar" style="color:#ffd60a;background:rgba(255,214,10,0.1);">🔥 New weight, extra reps!</div>
+      <div class="stop-bar">■ STOP</div>
+    </div>
+    <div class="screen-label">4b-over · increased weight (10+)</div>
+    <div class="screen-sublabel">Weight shown in green (↑ from last session)</div>
+  </div>
+
+  <!-- 4c-over-b: done, 10 reps, new weight → jump was conservative, bump again -->
+  <div class="screen-group">
+    <div class="watch" style="justify-content:center; gap:6px;">
+      <div class="ex-label">Bench Press</div>
+      <div style="position:relative;display:inline-block;">
+        <div class="confetti-num" style="color:#ffd60a;">10</div>
+        <div style="position:absolute;top:-6px;right:-14px;font-size:14px;">⚡</div>
+      </div>
+      <div style="font-size:10px;color:#887700;margin-bottom:4px;">reps · 140 lb ↑ · PR!</div>
+      <div class="congrats-badge" style="color:#ffd60a;background:rgba(255,214,10,0.1);">"Exceptional lift!" ⚡</div>
+      <div class="next-weight-box" style="background:#0d1a00;border:1px solid #2a4a00;">
+        <div class="next-weight-label" style="color:#4a7a00;">Next session</div>
+        <div class="next-weight-val" style="color:#30d158;">145 lb × 8</div>
+        <div class="next-weight-reason" style="color:#3a6a00;">140 lb too easy — going heavier</div>
+      </div>
+      <div class="rest-cta" style="background:#30d158;color:#000;">Rest →</div>
+    </div>
+    <div class="screen-label">4c-over-b · done (increased weight)</div>
+    <div class="screen-sublabel">PR badge · jumps again to 145 lb</div>
+  </div>
+
+  <!-- Edge case: over-count but struggling towards the end -->
+  <div class="screen-group">
+    <div class="watch" style="justify-content:center; gap:6px;">
+      <div class="ex-label">Bench Press</div>
+      <div style="position:relative;display:inline-block;">
+        <div class="confetti-num" style="color:#30d158;">9</div>
+      </div>
+      <div style="font-size:10px;color:#555;margin-bottom:4px;">reps · 140 lb ↑ · +1 bonus</div>
+      <div class="congrats-badge" style="color:#30d158;background:rgba(48,209,88,0.1);">"Great effort!" ✓</div>
+      <div class="next-weight-box" style="background:#0d1a00;border:1px solid #1e3a00;">
+        <div class="next-weight-label" style="color:#4a7a00;">Next session</div>
+        <div class="next-weight-val" style="color:#30d158;">145 lb × 8</div>
+        <div class="next-weight-reason" style="color:#3a6a00;">+1 bonus rep → still bumping</div>
+      </div>
+      <div class="rest-cta" style="background:#1c1c1c;border:1px solid #30d158;color:#30d158;">Rest →</div>
+    </div>
+    <div class="screen-label">4c-over-b · +1 rep (new weight)</div>
+    <div class="screen-sublabel">Even +1 over target triggers next jump</div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- ALGORITHM SUMMARY -->
+<!-- ═══════════════════════════════════════════════ -->
+<div style="width:100%;margin-top:8px;">
+  <div class="section-header">Algorithm summary</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:48px;">
+
+  <div style="background:#0d0d0d;border:1px solid #1e1e1e;border-radius:12px;padding:16px;">
+    <div style="font-size:10px;color:#555;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">Case 1 — hit target, struggled</div>
+    <div style="font-size:13px;font-weight:600;color:#aaa;margin-bottom:4px;">8/8 · struggled</div>
+    <div style="font-size:11px;color:#555;line-height:1.6;">"Nice work." · Weight holds. Same weight × 8 next session.</div>
+  </div>
+
+  <div style="background:#0d0d0d;border:1px solid #1e1e1e;border-radius:12px;padding:16px;">
+    <div style="font-size:10px;color:#555;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">Case 2 — hit target, no struggle</div>
+    <div style="font-size:13px;font-weight:600;color:#30d158;margin-bottom:4px;">8/8 · clean</div>
+    <div style="font-size:11px;color:#555;line-height:1.6;">"Solid set." · Add increment next session (2.5–10 lb by muscle group).</div>
+  </div>
+
+  <div style="background:#0a1500;border:1px solid #1e3a00;border-radius:12px;padding:16px;">
+    <div style="font-size:10px;color:#3a7a00;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">Case 3 — over-count, same weight</div>
+    <div style="font-size:13px;font-weight:700;color:#ffd60a;margin-bottom:4px;">10/8 🔥 · same weight</div>
+    <div style="font-size:11px;color:#5a8a00;line-height:1.6;">"You crushed it!" · Mastered this weight. Add increment next session. <em>Same jump as Case 2.</em></div>
+  </div>
+
+  <div style="background:#0a1500;border:1px solid #1e3a00;border-radius:12px;padding:16px;">
+    <div style="font-size:10px;color:#3a7a00;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">Case 4 — over-count, increased weight</div>
+    <div style="font-size:13px;font-weight:700;color:#ffd60a;margin-bottom:4px;">10/8 ⚡ · new weight</div>
+    <div style="font-size:11px;color:#5a8a00;line-height:1.6;">"Exceptional lift!" · Weight jump was too conservative. Add increment again. <em>Two increments in a row.</em></div>
+  </div>
+
+</div>
+
+</body>
+</html>

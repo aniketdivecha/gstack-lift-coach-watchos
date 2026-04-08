@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>WristCoach — watchOS Wireframe</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a1a; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; color: #fff; padding: 40px; }
+  h1 { font-size: 18px; font-weight: 600; color: #888; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; }
+  .subtitle { font-size: 13px; color: #555; margin-bottom: 40px; }
+  .screens { display: flex; gap: 40px; flex-wrap: wrap; align-items: flex-start; }
+  .screen-group { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .screen-label { font-size: 12px; color: #666; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  /* Apple Watch Series 9 proportions: 45mm = 396x484 logical px, we'll use 198x242 (50%) */
+  .watch {
+    width: 198px;
+    height: 242px;
+    background: #000;
+    border-radius: 60px;
+    border: 2px solid #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 16px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px #222, 0 8px 32px rgba(0,0,0,0.8);
+  }
+
+  /* ── SCREEN 1: Muscle Group Picker ── */
+  .s1-title { font-size: 11px; color: #888; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 10px; align-self: flex-start; }
+  .muscle-list { width: 100%; display: flex; flex-direction: column; gap: 6px; }
+  .muscle-row { 
+    display: flex; align-items: center; justify-content: space-between;
+    background: #1a1a1a; border-radius: 10px; padding: 7px 10px;
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    border: 1.5px solid transparent;
+  }
+  .muscle-row.selected { background: #1c2f1c; border-color: #30d158; color: #30d158; }
+  .muscle-row .dot { width: 6px; height: 6px; border-radius: 50%; background: #333; }
+  .muscle-row.selected .dot { background: #30d158; }
+  .s1-cta { 
+    margin-top: 10px; width: 100%; background: #30d158; border-radius: 12px;
+    padding: 8px; text-align: center; font-size: 12px; font-weight: 600;
+    color: #000; letter-spacing: 0.02em;
+  }
+
+  /* ── SCREEN 2: Active Reps ── */
+  .s2-exercise { font-size: 10px; color: #888; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2px; }
+  .s2-weight { font-size: 13px; color: #fff; font-weight: 500; margin-bottom: 12px; }
+  .s2-rep-ring {
+    position: relative; width: 100px; height: 100px; margin-bottom: 10px;
+  }
+  .s2-rep-ring svg { position: absolute; top: 0; left: 0; transform: rotate(-90deg); }
+  .s2-rep-center {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .s2-rep-num { font-size: 38px; font-weight: 700; line-height: 1; color: #fff; }
+  .s2-rep-of { font-size: 10px; color: #666; margin-top: 2px; }
+  .s2-motivation { 
+    font-size: 11px; color: #ff9f0a; font-weight: 600; text-align: center;
+    background: rgba(255,159,10,0.1); border-radius: 8px; padding: 5px 8px;
+    width: 100%;
+  }
+
+  /* ── SCREEN 3: Rest / HR Timer ── */
+  .s3-label { font-size: 10px; color: #888; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+  .s3-hr-val { font-size: 42px; font-weight: 700; color: #ff375f; line-height: 1; }
+  .s3-hr-unit { font-size: 12px; color: #ff375f; margin-bottom: 14px; }
+  .s3-progress-bar { 
+    width: 100%; height: 4px; background: #222; border-radius: 2px; margin-bottom: 10px;
+  }
+  .s3-progress-fill {
+    width: 60%; height: 100%; background: linear-gradient(90deg, #ff375f, #ff9f0a);
+    border-radius: 2px;
+  }
+  .s3-status { font-size: 12px; color: #888; text-align: center; }
+  .s3-status span { color: #fff; }
+  .s3-ready {
+    margin-top: 8px; background: #1c2f1c; border: 1.5px solid #30d158;
+    border-radius: 12px; padding: 8px 14px;
+    font-size: 12px; color: #30d158; font-weight: 600;
+  }
+
+  /* ── SCREEN 4: Calibration ── */
+  .s4-top { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; align-self: flex-start; }
+  .s4-exercise { font-size: 14px; font-weight: 600; margin-bottom: 14px; }
+  .s4-instruction { font-size: 11px; color: #aaa; text-align: center; line-height: 1.5; margin-bottom: 14px; }
+  .s4-instruction span { color: #fff; font-weight: 600; }
+  .s4-weight-row { 
+    display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
+    width: 100%;
+  }
+  .s4-weight-btn {
+    width: 32px; height: 32px; border-radius: 50%; background: #222;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; color: #fff; flex-shrink: 0;
+  }
+  .s4-weight-val { flex: 1; text-align: center; font-size: 20px; font-weight: 700; }
+  .s4-weight-unit { font-size: 10px; color: #666; }
+  .s4-start { 
+    background: #0a84ff; border-radius: 12px; padding: 8px; text-align: center;
+    font-size: 12px; font-weight: 600; color: #fff; width: 100%;
+  }
+
+  /* Notes */
+  .notes { margin-top: 48px; max-width: 800px; }
+  .notes h2 { font-size: 14px; color: #888; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 16px; }
+  .note { 
+    background: #111; border-left: 3px solid #333; padding: 12px 16px;
+    margin-bottom: 10px; border-radius: 0 8px 8px 0;
+    font-size: 13px; color: #aaa; line-height: 1.6;
+  }
+  .note strong { color: #fff; }
+</style>
+</head>
+<body>
+
+<h1>WristCoach — watchOS Wireframe</h1>
+<p class="subtitle">Personal trainer on your wrist · Rough wireframe, not final design</p>
+
+<div class="screens">
+
+  <!-- Screen 1: Muscle Group Picker -->
+  <div class="screen-group">
+    <div class="watch">
+      <div class="s1-title">Today's session</div>
+      <div class="muscle-list">
+        <div class="muscle-row selected"><span>Chest</span><div class="dot"></div></div>
+        <div class="muscle-row selected"><span>Triceps</span><div class="dot"></div></div>
+        <div class="muscle-row"><span>Back</span><div class="dot"></div></div>
+        <div class="muscle-row"><span>Legs</span><div class="dot"></div></div>
+      </div>
+      <div class="s1-cta">Start →</div>
+    </div>
+    <div class="screen-label">1 · Muscle picker</div>
+  </div>
+
+  <!-- Screen 2: Active Rep Counting -->
+  <div class="screen-group">
+    <div class="watch">
+      <div class="s2-exercise">Bench Press</div>
+      <div class="s2-weight">135 lb · Set 2/3</div>
+      <div class="s2-rep-ring">
+        <svg width="100" height="100" viewBox="0 0 100 100">
+          <!-- Background ring -->
+          <circle cx="50" cy="50" r="44" fill="none" stroke="#222" stroke-width="8"/>
+          <!-- Progress ring: 6/8 = 75% of circumference=276.5 → 207.4 -->
+          <circle cx="50" cy="50" r="44" fill="none" stroke="#0a84ff" stroke-width="8"
+            stroke-dasharray="207.4 276.5" stroke-linecap="round"/>
+        </svg>
+        <div class="s2-rep-center">
+          <div class="s2-rep-num">6</div>
+          <div class="s2-rep-of">of 8</div>
+        </div>
+      </div>
+      <div class="s2-motivation">💪 2 more, push it!</div>
+    </div>
+    <div class="screen-label">2 · Active set</div>
+  </div>
+
+  <!-- Screen 3: Rest / HR Timer -->
+  <div class="screen-group">
+    <div class="watch">
+      <div class="s3-label">Rest · recovering</div>
+      <div class="s3-hr-val">142</div>
+      <div class="s3-hr-unit">BPM ♥</div>
+      <div class="s3-progress-bar">
+        <div class="s3-progress-fill"></div>
+      </div>
+      <div class="s3-status">Target <span>115 BPM</span></div>
+      <div class="s3-ready" style="opacity:0.4;">Ready →</div>
+    </div>
+    <div class="screen-label">3 · Rest timer (HR)</div>
+  </div>
+
+  <!-- Screen 4: Calibration -->
+  <div class="screen-group">
+    <div class="watch">
+      <div class="s4-top">Calibration</div>
+      <div class="s4-exercise">Bicep Curl</div>
+      <div class="s4-instruction">Set weight where <span>rep 7-8</span> feels very hard</div>
+      <div class="s4-weight-row">
+        <div class="s4-weight-btn">−</div>
+        <div>
+          <div class="s4-weight-val">30</div>
+          <div class="s4-weight-unit" style="text-align:center;">lb</div>
+        </div>
+        <div class="s4-weight-btn">+</div>
+      </div>
+      <div class="s4-start">Start 8 reps</div>
+    </div>
+    <div class="screen-label">4 · Calibration</div>
+  </div>
+
+</div>
+
+<div class="notes">
+  <h2>Design notes</h2>
+  <div class="note"><strong>Screen 2 (Active Set) is the hero screen.</strong> Big rep number, ring fills as you go, motivational text triggers when cadence drops. This is what you see at the gym — it needs to be readable in a glance mid-rep.</div>
+  <div class="note"><strong>Screen 3 (HR Rest Timer).</strong> The "Ready →" button is dimmed while HR is above target. It goes full-brightness green when HR drops to recovery threshold. User can also tap early to override.</div>
+  <div class="note"><strong>Screen 1 uses a scroll list</strong> (Digital Crown) — not all muscles fit on one screen. Scroll to find more. Crown = natural navigation on Watch.</div>
+  <div class="note"><strong>No navigation bar.</strong> Every screen is full-bleed. Use swipe-left to go back or Digital Crown to scroll. Keep tap targets ≥44pt.</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>WristCoach v5</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #111; font-family: -apple-system, "SF Pro Display", sans-serif; color: #fff; padding: 40px 40px 60px; }
+
+  h1 { font-size: 15px; font-weight: 600; color: #666; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+  .subtitle { font-size: 12px; color: #444; margin-bottom: 48px; }
+
+  .row { display: flex; gap: 36px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 56px; }
+  .screen-group { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .screen-label { font-size: 11px; color: #555; letter-spacing: 0.06em; text-transform: uppercase; }
+  .screen-sublabel { font-size: 10px; color: #383838; margin-top: 2px; text-align: center; max-width: 198px; }
+
+  .section-rule { width: 100%; border-top: 1px solid #1e1e1e; padding-top: 18px; margin-bottom: 28px; }
+  .section-rule h2 { font-size: 11px; color: #444; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+  .section-rule p  { font-size: 12px; color: #3a3a3a; line-height: 1.6; }
+
+  /* Watch shell */
+  .watch {
+    width: 198px; height: 242px;
+    background: #000;
+    border-radius: 58px;
+    border: 1.5px solid #2a2a2a;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 22px 16px 18px;
+    position: relative; overflow: hidden;
+    box-shadow: 0 0 0 0.5px #1a1a1a, 0 12px 40px rgba(0,0,0,.9), inset 0 0 0 0.5px #333;
+  }
+
+  /* ── Screen 1: Muscle Picker ── */
+  .s1-header { font-size: 10px; color: #666; letter-spacing: 0.08em; text-transform: uppercase; align-self: flex-start; margin-bottom: 8px; }
+  .muscle-list { width: 100%; display: flex; flex-direction: column; gap: 5px; }
+  .mrow { display: flex; align-items: center; justify-content: space-between; background: #111; border-radius: 9px; padding: 7px 10px; font-size: 13px; font-weight: 500; border: 1px solid #1e1e1e; }
+  .mrow.on { background: #0d2010; border-color: #30d158; color: #30d158; }
+  .mrow .chk { width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid #333; flex-shrink: 0; }
+  .mrow.on .chk { background: #30d158; border-color: #30d158; }
+  .s1-start { margin-top: 8px; width: 100%; background: #30d158; border-radius: 11px; padding: 8px; text-align: center; font-size: 12px; font-weight: 700; color: #000; }
+
+  /* ── Screen 2: Exercise Queue ── */
+  .s2-header { font-size: 10px; color: #666; letter-spacing: 0.08em; text-transform: uppercase; align-self: flex-start; margin-bottom: 8px; }
+  .ex-list { width: 100%; display: flex; flex-direction: column; gap: 5px; }
+  .ex-row { display: flex; align-items: center; justify-content: space-between; background: #111; border-radius: 9px; padding: 7px 10px; border: 1px solid #1e1e1e; }
+  .ex-name { font-size: 12px; font-weight: 500; }
+  .ex-meta { font-size: 10px; color: #555; }
+  .ex-cal { font-size: 9px; background: #2a1500; color: #ff9f0a; border-radius: 4px; padding: 2px 5px; font-weight: 700; letter-spacing: 0.04em; }
+  .s2-begin { margin-top: 8px; width: 100%; background: #0a84ff; border-radius: 11px; padding: 8px; text-align: center; font-size: 12px; font-weight: 700; color: #fff; }
+
+  /* ── Screen 3: Calibration ── */
+  .s3-top { font-size: 10px; color: #ff9f0a; letter-spacing: 0.08em; text-transform: uppercase; align-self: flex-start; margin-bottom: 2px; }
+  .s3-exname { font-size: 15px; font-weight: 700; align-self: flex-start; margin-bottom: 10px; }
+  .s3-instr { font-size: 10px; color: #888; text-align: center; line-height: 1.5; margin-bottom: 14px; }
+  .s3-instr strong { color: #fff; }
+  .weight-row { display: flex; align-items: center; width: 100%; justify-content: center; margin-bottom: 14px; }
+  .wbtn { width: 34px; height: 34px; border-radius: 50%; background: #1c1c1c; border: 1px solid #333; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #aaa; flex-shrink: 0; }
+  .wval { flex: 1; text-align: center; }
+  .wval .num { font-size: 28px; font-weight: 700; line-height: 1; }
+  .wval .unit { font-size: 10px; color: #555; }
+  .s3-go { width: 100%; background: #30d158; border-radius: 11px; padding: 9px; text-align: center; font-size: 12px; font-weight: 700; color: #000; }
+
+  /* ── Screen 4a: Pre-set GO ── */
+  .s4a-ex  { font-size: 10px; color: #888; letter-spacing: 0.06em; text-transform: uppercase; }
+  .s4a-wt  { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .s4a-set { font-size: 10px; color: #555; margin-bottom: 18px; }
+  .go-btn  {
+    width: 88px; height: 88px; border-radius: 50%; background: #30d158;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 800; color: #000; letter-spacing: 0.04em;
+    box-shadow: 0 0 0 6px rgba(48,209,88,0.15); margin-bottom: 16px;
+  }
+  .s4a-hint { font-size: 10px; color: #444; text-align: center; }
+
+  /* ── Screen 4b: Counting ── */
+  .s4b-ex { font-size: 9px; color: #888; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1px; }
+  .s4b-wt { font-size: 11px; font-weight: 500; color: #aaa; margin-bottom: 8px; }
+  .rep-ring-wrap { position: relative; width: 104px; height: 104px; margin-bottom: 8px; }
+  .rep-ring-wrap svg { position: absolute; top:0; left:0; transform: rotate(-90deg); }
+  .rep-center { position: absolute; top:50%; left:50%; transform: translate(-50%,-50%); text-align: center; }
+  .rep-num { font-size: 42px; font-weight: 800; line-height: 1; }
+  .rep-of  { font-size: 10px; color: #444; margin-top: 1px; }
+  .motivation { font-size: 10px; font-weight: 700; background: rgba(255,159,10,0.1); border-radius: 8px; padding: 5px 10px; width: 100%; text-align: center; }
+  .stop-bar { margin-top: 6px; width: 100%; background: #1c1c1c; border: 1px solid #333; border-radius: 10px; padding: 6px; text-align: center; font-size: 11px; font-weight: 600; color: #ff453a; }
+
+  /* ── Screen 5: Rest ── */
+  .rest-timer { font-size: 11px; font-weight: 700; color: #666; letter-spacing: 0.1em; margin-bottom: 6px; }
+  .rest-timer span { color: #fff; font-size: 13px; }
+  .hr-val  { font-size: 44px; font-weight: 800; line-height: 1; color: #ff375f; }
+  .hr-unit { font-size: 11px; color: #ff375f; opacity: 0.7; margin-bottom: 10px; }
+  .hr-target { font-size: 10px; color: #555; margin-bottom: 8px; }
+  .hr-target span { color: #aaa; }
+  .hr-bar  { width: 100%; height: 4px; background: #1c1c1c; border-radius: 2px; margin-bottom: 12px; overflow: hidden; }
+  .hr-bar-fill { height: 100%; background: linear-gradient(90deg, #ff375f 0%, #ff9f0a 100%); border-radius: 2px; }
+  .ready-btn { width: 100%; border-radius: 11px; padding: 9px; text-align: center; font-size: 12px; font-weight: 700; border: 1.5px solid #333; color: #444; }
+  .ready-btn.active { background: #30d158; border-color: #30d158; color: #000; }
+  .next-preview { font-size: 9px; color: #3a3a3a; margin-top: 6px; }
+
+  /* ── Screen 6: Session Summary ── */
+  .s6-title { font-size: 11px; color: #666; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+  .s6-vol   { font-size: 28px; font-weight: 800; line-height: 1; color: #30d158; }
+  .s6-vol-label { font-size: 10px; color: #444; margin-bottom: 10px; }
+  .s6-rows  { width: 100%; display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+  .s6-row   { display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #666; background: #0d0d0d; border-radius: 7px; padding: 5px 8px; }
+  .s6-row .pr { font-size: 9px; color: #ff9f0a; font-weight: 700; }
+  .s6-done  { width: 100%; background: #1c1c1c; border-radius: 11px; padding: 8px; text-align: center; font-size: 12px; font-weight: 600; color: #aaa; }
+
+  /* ── Over-count extras ── */
+  .done-num  { font-size: 48px; font-weight: 900; line-height: 1; }
+  .congrats-badge { font-size: 10px; font-weight: 700; border-radius: 8px; padding: 5px 10px; width: 100%; text-align: center; margin-bottom: 6px; }
+  .next-box  { width: 100%; border-radius: 11px; padding: 8px 10px; display: flex; flex-direction: column; gap: 2px; margin-bottom: 6px; }
+  .next-lbl  { font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .next-val  { font-size: 15px; font-weight: 800; line-height: 1; }
+  .next-why  { font-size: 9px; opacity: 0.7; }
+  .rest-cta  { width: 100%; border-radius: 11px; padding: 7px; text-align: center; font-size: 11px; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<h1>WristCoach — watchOS</h1>
+<p class="subtitle">v5 · v2 base + over-count states from v4</p>
+
+<!-- ═══ ROW 1: Setup flow ═══ -->
+<div class="row">
+
+  <!-- Screen 1: Muscle Picker -->
+  <div class="screen-group">
+    <div class="watch">
+      <div class="s1-header">Today's session</div>
+      <div class="muscle-list">
+        <div class="mrow on"><span>Chest</span><div class="chk"></div></div>
+        <div class="mrow on"><span>Triceps</span><div class="chk"></div></div>
+        <div class="mrow"><span>Back</span><div class="chk"></div></div>
+        <div class="mrow"><span>Legs</span><div class="chk"></div></div>
+      </div>
+      <div class="s1-start">Start →</div>
+    </div>
+    <div class="screen-label">1 · Muscle picker</div>
+    <div class="screen-sublabel">Crown to scroll · tap to toggle</div>
+  </div>
+
+  <!-- Screen 2: Exercise Queue -->
+  <div class="screen-group">
+    <div class="watch">
+      <div class="s2-header">Exercises</div>
+      <div class="ex-list">
+        <div class="ex-row">
+          <div><div class="ex-name">Bench Press</div><div class="ex-meta">135 lb · last session</div></div>
+        </div>
+        <div class="ex-row">
+          <div><div class="ex-name">Chest Fly</div><div class="ex-meta">50 lb · last session</div></div>
+        </div>
+        <div class="ex-row">
+          <div><div class="ex-name">Tricep Pushdown</div></div>
+          <div class="ex-cal">CAL</div>
+        </div>
+        <div class="ex-row">
+          <div><div class="ex-name">Skull Crusher</div><div class="ex-meta">40 lb · last session</div></div>
+        </div>
+      </div>
+      <div class="s2-begin">Begin workout</div>
+    </div>
+    <div class="screen-label">2 · Exercise queue</div>
+    <div class="screen-sublabel">CAL = needs calibration first</div>
+  </div>
+
+  <!-- Screen 3: Calibration -->
+  <div class="screen-group">
+    <div class="watch">
+      <div class="s3-top">Calibration</div>
+      <div class="s3-exname">Tricep Pushdown</div>
+      <div class="s3-instr">Set weight where <strong>rep 7–8 is very hard.</strong> Last 1–2 should be a real struggle.</div>
+      <div class="weight-row">
+        <div class="wbtn">−</div>
+        <div class="wval"><div class="num">40</div><div class="unit">lb</div></div>
+        <div class="wbtn">+</div>
+      </div>
+      <div class="s3-go">Start 8 reps</div>
+    </div>
+    <div class="screen-label">3 · Calibration</div>
+    <div class="screen-sublabel">Crown / +− to dial weight</div>
+  </div>
+
+</div>
+
+<!-- ═══ ROW 2: Active set — normal ═══ -->
+<div class="section-rule">
+  <h2>Active set — normal flow</h2>
+  <p>GO starts counting. Blue ring fills toward target. STOP ends the set.</p>
+</div>
+<div class="row">
+
+  <!-- 4a: Pre-set GO -->
+  <div class="screen-group">
+    <div class="watch" style="justify-content:center;">
+      <div class="s4a-ex">Bench Press</div>
+      <div class="s4a-wt">135 lb</div>
+      <div class="s4a-set">Set 1 of 3</div>
+      <div class="go-btn">GO</div>
+      <div class="s4a-hint">Tap when ready to lift</div>
+    </div>
+    <div class="screen-label">4a · Pre-set</div>
+    <div class="screen-sublabel">Tap GO → counting begins</div>
+  </div>
+
+  <!-- 4b: Counting 6/8, fatigue cue -->
+  <div class="screen-group">
+    <div class="watch">
+      <div class="s4b-ex">Bench Press</div>
+      <div class="s4b-wt">135 lb · Set 1/3</div>
+      <div class="rep-ring-wrap">
+        <svg width="104" height="104" viewBox="0 0 104 104">
+          <circle cx="52" cy="52" r="46" fill="none" stroke="#1a1a1a" stroke-width="9"/>
+          <circle cx="52" cy="52" r="46" fill="none" stroke="#0a84ff" stroke-width="9"
+            stroke-dasharray="216.8 289.0" stroke-linecap="round"/>
+        </svg>
+        <div class="rep-center">
+          <div class="rep-num" style="color:#fff;">6</div>
+          <div class="rep-of">of 8</div>
+        </div>
+      </div>
+      <div class="motivation" style="color:#ff9f0a;">💪 2 more, push it!</div>
+      <div class="stop-bar">■ STOP</div>
+    </div>
+    <div class="screen-label">4b · Counting (6/8)</div>
+    <div class="screen-sublabel">Ring fills · STOP to log set</div>
+  </div>
+
+  <!-- 4c: Done, clean 8 -->
+  <div class="screen-group">
+    <div class="watch" style="justify-content:center; gap:8px;">
+      <div style="font-size:10px;color:#666;letter-spacing:0.08em;text-transform:uppercase;">Bench Press</div>
+      <div style="font-size:44px;font-weight:800;color:#30d158;line-height:1;">8</div>
+      <div style="font-size:11px;color:#666;margin-bottom:4px;">reps · 135 lb</div>
+      <div style="font-size:11px;color:#aaa;background:#111;border-radius:8px;padding:6px 10px;width:100%;text-align:center;">"Nice work." 🎯</div>
+      <div style="width:100%;background:#1c1c1c;border:1px solid #30d158;border-radius:11px;padding:8px;text-align:center;font-size:12px;font-weight:700;color:#30d158;">Rest →</div>
+    </div>
+    <div class="screen-label">4c · Set complete (8/8)</div>
+    <div class="screen-sublabel">Auto-advances to rest</div>
+  </div>
+
+</div>
+
+<!-- ═══ ROW 3: Over-count — same weight ═══ -->
+<div class="section-rule">
+  <h2>Over-count · same weight as last session</h2>
+  <p>Trainee beats 8 reps at a familiar weight. Ring turns gold and keeps climbing. STOP is still there — they decide when to end it.</p>
+</div>
+<div class="row">
+
+  <!-- 4b-over: ring full gold, counting 9 -->
+  <div class="screen-group">
+    <div class="watch">
+      <div class="s4b-ex">Bench Press</div>
+      <div class="s4b-wt">135 lb · Set 1/3</div>
+      <div class="rep-ring-wrap">
+        <svg width="104" height="104" viewBox="0 0 104 104">
+          <circle cx="52" cy="52" r="46" fill="none" stroke="#1a1a1a" stroke-width="9"/>
+          <circle cx="52" cy="52" r="46" fill="none" stroke="#ffd60a" stroke-width="9"
+            stroke-dasharray="289.0 289.0" stroke-linecap="round"/>
+          <circle cx="52" cy="52" r="46" fill="none" stroke="#ffd60a" stroke-width="2" opacity="0.2"/>
+        </svg>
+        <div class="rep-center">
+          <div class="rep-num" style="color:#ffd60a;">9</div>
+          <div class="rep-of" style="color:#554400;">keep going</div>
+        </div>
+      </div>
+      <div class="motivation" style="color:#ffd60a;background:rgba(255,214,10,0.1);">🔥 Beyond target! Keep going!</div>
+      <div class="stop-bar">■ STOP</div>
+    </div>
+    <div class="screen-label">4b-over · past 8 (9+)</div>
+    <div class="screen-sublabel">Ring turns gold · STOP still there</div>
+  </div>
+
+  <!-- 4c-over-a: done, 10 reps, same weight -->
+  <div class="screen-group">
+    <div class="watch" style="justify-content:center; gap:5px;">
+      <div style="font-size:10px;color:#666;letter-spacing:0.08em;text-transform:uppercase;">Bench Press</div>
+      <div style="position:relative;display:inline-block;">
+        <div class="done-num" style="color:#ffd60a;">10</div>
+        <div style="position:absolute;top:-4px;right:-16px;font-size:14px;">🔥</div>
+      </div>
+      <div style="font-size:10px;color:#776600;margin-bottom:2px;">reps · 135 lb · +2 bonus</div>
+      <div class="congrats-badge" style="color:#ffd60a;background:rgba(255,214,10,0.1);">"You crushed it!" 🏆</div>
+      <div class="next-box" style="background:#0d1a00;border:1px solid #2a4a00;">
+        <div class="next-lbl" style="color:#4a7a00;">Next session</div>
+        <div class="next-val" style="color:#30d158;">140 lb × 8</div>
+        <div class="next-why" style="color:#3a6a00;">Mastered 135 — going heavier</div>
+      </div>
+      <div class="rest-cta" style="background:#30d158;color:#000;">Rest →</div>
+    </div>
+    <div class="screen-label">4c-over-a · done (same weight)</div>
+    <div class="screen-sublabel">Mastered weight → bumps to 140 lb</div>
+  </div>
+
+</div>
+
+<!-- ═══ ROW 4: Over-count — increased weight ═══ -->
+<div class="section-rule">
+  <h2>Over-count · increased weight from last session</h2>
+  <p>Already stepped up to 140 lb AND beat 8 reps. Double win — weight label shown in green with ↑. Bumps again next session.</p>
+</div>
+<div class="row">
+
+  <!-- 4a: GO with green weight (heavier than last session) -->
+  <div class="screen-group">
+    <div class="watch" style="justify-content:center;">
+      <div class="s4a-ex">Bench Press</div>
+      <div class="s4a-wt" style="color:#30d158;">140 lb ↑</div>
+      <div class="s4a-set">Set 1 of 3</div>
+      <div class="go-btn">GO</div>
+      <div class="s4a-hint">Tap when ready to lift</div>
+    </div>
+    <div class="screen-label">4a · Pre-set (↑ new weight)</div>
+    <div class="screen-sublabel">Green ↑ = heavier than last session</div>
+  </div>
+
+  <!-- 4b-over: gold ring, green weight label, counting 10 -->
+  <div class="screen-group">
+    <div class="watch">
+      <div class="s4b-ex">Bench Press</div>
+      <div class="s4b-wt" style="color:#30d158;">140 lb ↑ · Set 1/3</div>
+      <div class="rep-ring-wrap">
+        <svg width="104" height="104" viewBox="0 0 104 104">
+          <circle cx="52" cy="52" r="46" fill="none" stroke="#1a1a1a" stroke-width="9"/>
+          <circle cx="52" cy="52" r="46" fill="none" stroke="#ffd60a" stroke-width="9"
+            stroke-dasharray="289.0 289.0" stroke-linecap="round"/>
+          <circle cx="52" cy="52" r="46" fill="none" stroke="#ffd60a" stroke-width="2" opacity="0.2"/>
+        </svg>
+        <div class="rep-center">
+          <div class="rep-num" style="color:#ffd60a;">10</div>
+          <div class="rep-of" style="color:#554400;">keep going</div>
+        </div>
+      </div>
+      <div class="motivation" style="color:#ffd60a;background:rgba(255,214,10,0.1);">🔥 New weight, extra reps!</div>
+      <div class="stop-bar">■ STOP</div>
+    </div>
+    <div class="screen-label">4b-over · new weight (10+)</div>
+    <div class="screen-sublabel">Gold ring + green ↑ weight + STOP</div>
+  </div>
+
+  <!-- 4c-over-b: done, 10 reps, new weight, PR -->
+  <div class="screen-group">
+    <div class="watch" style="justify-content:center; gap:5px;">
+      <div style="font-size:10px;color:#666;letter-spacing:0.08em;text-transform:uppercase;">Bench Press</div>
+      <div style="position:relative;display:inline-block;">
+        <div class="done-num" style="color:#ffd60a;">10</div>
+        <div style="position:absolute;top:-4px;right:-16px;font-size:14px;">⚡</div>
+      </div>
+      <div style="font-size:10px;color:#776600;margin-bottom:2px;">reps · 140 lb ↑ · PR!</div>
+      <div class="congrats-badge" style="color:#ffd60a;background:rgba(255,214,10,0.1);">"Exceptional lift!" ⚡</div>
+      <div class="next-box" style="background:#0d1a00;border:1px solid #2a4a00;">
+        <div class="next-lbl" style="color:#4a7a00;">Next session</div>
+        <div class="next-val" style="color:#30d158;">145 lb × 8</div>
+        <div class="next-why" style="color:#3a6a00;">140 lb too easy — going heavier</div>
+      </div>
+      <div class="rest-cta" style="background:#30d158;color:#000;">Rest →</div>
+    </div>
+    <div class="screen-label">4c-over-b · done (new weight)</div>
+    <div class="screen-sublabel">PR badge · bumps again to 145 lb</div>
+  </div>
+
+</div>
+
+<!-- ═══ ROW 5: Rest + Summary ═══ -->
+<div class="section-rule">
+  <h2>Rest + session summary</h2>
+</div>
+<div class="row">
+
+  <!-- 5a: Rest recovering -->
+  <div class="screen-group">
+    <div class="watch" style="gap:0;">
+      <div class="rest-timer">ELAPSED &nbsp;<span>1:24</span></div>
+      <div class="hr-val">138</div>
+      <div class="hr-unit">BPM ♥</div>
+      <div class="hr-target">Target <span>115 BPM</span></div>
+      <div class="hr-bar"><div class="hr-bar-fill" style="width:40%"></div></div>
+      <div class="ready-btn">Ready →</div>
+      <div class="next-preview">Next: Chest Fly · 50 lb</div>
+    </div>
+    <div class="screen-label">5a · Rest (recovering)</div>
+    <div class="screen-sublabel">"Ready →" dimmed · HR still high</div>
+  </div>
+
+  <!-- 5b: Rest recovered -->
+  <div class="screen-group">
+    <div class="watch" style="gap:0;">
+      <div class="rest-timer">ELAPSED &nbsp;<span>2:08</span></div>
+      <div class="hr-val" style="color:#30d158;">112</div>
+      <div class="hr-unit" style="color:#30d158;">BPM ♥</div>
+      <div class="hr-target">Target <span>115 BPM</span> ✓</div>
+      <div class="hr-bar"><div class="hr-bar-fill" style="width:100%;background:#30d158;"></div></div>
+      <div class="ready-btn active">Ready →</div>
+      <div class="next-preview" style="color:#555;">Next: Chest Fly · 50 lb</div>
+    </div>
+    <div class="screen-label">5b · Rest (recovered)</div>
+    <div class="screen-sublabel">HR hit target · button unlocks green</div>
+  </div>
+
+  <!-- Screen 6: Session Summary -->
+  <div class="screen-group">
+    <div class="watch">
+      <div class="s6-title">Session done</div>
+      <div class="s6-vol">4,680</div>
+      <div class="s6-vol-label">lbs total volume</div>
+      <div class="s6-rows">
+        <div class="s6-row"><span>Bench Press</span><span class="pr">PR ↑</span></div>
+        <div class="s6-row"><span>Chest Fly</span><span style="color:#555;font-size:9px;">50 lb × 8</span></div>
+        <div class="s6-row"><span>Tricep Pushdown</span><span style="color:#ff9f0a;font-size:9px;">CAL ✓</span></div>
+        <div class="s6-row"><span>Skull Crusher</span><span style="color:#555;font-size:9px;">40 lb × 8</span></div>
+      </div>
+      <div class="s6-done">Done ✓</div>
+    </div>
+    <div class="screen-label">6 · Session summary</div>
+    <div class="screen-sublabel">PR badge · volume total · Done saves</div>
+  </div>
+
+</div>
+
+</body>
+</html>
