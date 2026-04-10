@@ -83,6 +83,18 @@ from day one — it's the foundation for fatigue detection and the future
 
 ---
 
+## Interaction State Coverage
+
+| Screen | Feature | Loading | Empty | Error | Success | Partial |
+|--------|---------|---------|-------|-------|---------|---------|
+| Muscle Picker | Loading list | — | User sees list of 7 groups, no selection | Network error (impossible — local JSON) | — | Selection disabled until ≥1 group |
+| Exercise Queue | Loading history | — | User sees "Calibrate first" placeholder | SwiftData fetch error | — | First exercise highlighted (current), others gray |
+| Calibration | Weight dialing | Dial snaps to nearest increment | Bodyweight exercise → "Do 8 reps" directly | Calibration stuck 3x → manual entry screen | Checkmark animation | <3 reps attempted, threshold not set |
+| Active Set | Rep detection | First 3 reps show "0" but no audio | N/A (exercise selected) | Motion unavailable → manual +/− buttons, no auto-count | Gold celebration: yellow number, gold ring, strong haptic, emoji badge | 0-2 reps: rep number visible but no fatigue detection |
+| Active Set | Isometric | Timer counts up smoothly | N/A (exercise selected) | Motion unavailable → manual STOP only | "Nice hold" at target | <50% elapsed: no bonus cues |
+| Rest Screen | HR updating | First HR reading | HR unavailable → timer only, no HR UI | HealthKit permission denied → degraded mode UI | "Ready →" turns green | HR still above target, progress bar partial |
+| Session Summary | Loading stats | Spinning indicator | N/A (user did workout) | SwiftData read error | PR badges, "Done" animation | Volume number loading (0 → final) |
+
 ## UX Flow Design
 
 ### Key UX Decision: Go/Stop Bounded Detection
@@ -395,6 +407,17 @@ final class RepDetector {
 **Error handling:**
 - `CMMotionManager.isDeviceMotionAvailable == false` or authorization denied → degrade to manual mode: show large +/− buttons on Screen 4, disable auto-count, log `ExerciseRecord.manualOverride = true`
 - `HKWorkoutSession` start failure → show "Heart rate unavailable. Continue without HR rest timers?" prompt. If accepted, workout continues in degraded mode: rep detection still works, rest screen uses 90s fixed timer, no HR UI.
+
+**Interaction State Coverage:**
+| Screen | Feature | Loading | Empty | Error | Success | Partial |
+|--------|---------|---------|-------|-------|---------|---------|
+| Muscle Picker | List load | — | User sees all 7 groups (no empty fallback) | — | — | Selection disabled until ≥1 group |
+| Exercise Queue | History fetch | — | "Calibrate first" placeholder | SwiftData fetch error | — | First exercise highlighted (green border) |
+| Calibration | Weight dialing | Dial snaps to increment | Bodyweight → "Do 8 reps" directly | 3 retries → manual entry | Checkmark animation | <3 reps: threshold not set |
+| Active Set | Rep detection | First 3 reps show "0" | N/A | Motion unavailable → +/− buttons, "Auto-count OFF" red badge | Gold celebration: yellow number, gold ring, haptic, emoji | 0-2 reps: rep visible, no fatigue cues |
+| Active Set | Isometric | Timer counts up | N/A | Motion unavailable → manual STOP only | "Nice hold" at target | <50% elapsed: no bonus cues |
+| Rest Screen | HR update | First reading | HR unavailable → timer only | Permission denied → degraded mode | "Ready →" turns green | HR above target, progress partial |
+| Session Summary | Stats load | Spinning indicator | N/A | SwiftData read error | PR badges, "Done" haptic | Volume loading (0 → final) |
 
 **Calibration threshold tuning:** after the calibration set completes (before the "Was rep 8 very hard?" confirmation), `detectionThreshold` is updated silently: `newThreshold = 0.8 × median(magnitudes observed at each detected rep during calibration)`.
 
