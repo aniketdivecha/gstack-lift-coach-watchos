@@ -5,7 +5,7 @@ protocol MotionSource {
     func stop()
 }
 
-final class CMMmotionSource: MotionSource {
+final class CMMotionSource: MotionSource {
     private let motionManager = CMMotionManager()
     private var sampleHandler: ((CFAbsoluteTime, SIMD3<Double>) -> Void)?
     private let motionQueue: OperationQueue

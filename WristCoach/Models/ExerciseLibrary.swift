@@ -22,19 +22,6 @@ struct Exercise: Codable, Identifiable {
     struct Increments: Codable {
         let small: Double
         let large: Double
-
-        func forGroup(_ group: String) -> Double {
-            // Large groups: chest, back, legs
-            // Small groups: shoulders, biceps, triceps, core
-            switch group {
-            case "legs":
-                return large
-            case "chest", "back":
-                return large
-            default:
-                return small
-            }
-        }
     }
 }
 

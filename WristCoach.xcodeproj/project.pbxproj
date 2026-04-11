@@ -1,0 +1,376 @@
+// $*$
+// !$*$
+{
+    archiveVersion = 1;
+    classes = {
+    };
+    objectVersion = 54;
+    objects = {
+
+/* Begin PBXBuildFile section */
+        111111111111111111111111 /* WristCoachApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111111111111111111111112; };
+        222222222222222222222222 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222222222222222222222223; };
+        333333333333333333333333 /* MusclePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333333333333333333333334; };
+        444444444444444444444444 /* ExerciseQueueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444444444444444444444445; };
+        555555555555555555555555 /* CalibrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555555555555555555555556; };
+        666666666666666666666666 /* ActiveSetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666666666666666666666667; };
+        777777777777777777777777 /* RestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 777777777777777777777778; };
+        888888888888888888888888 /* SessionSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888888888888888888888889; };
+        999999999999999999999999 /* ExerciseLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99999999999999999999999A; };
+        AAAAAAAAAAAAAAAAAAAAAAAAAA /* ExerciseRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBBBBBBBBBBBBBBBBBBBBBBBB; };
+        BBBBBBBBBBBBBBBBBBBBBBBBBB /* RestRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCCCCCCCCCCCCCCCCCCCCCCCCC; };
+        CCCCCCCCCCCCCCCCCCCCCCCCCC /* ExerciseCalibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDDDDDDDDDDDDDDDDDDDDDDDDDD; };
+        DDDDDDDDDDDDDDDDDDDDDDDDDDDD /* MotionSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEEEEEEEEEEEEEEEEEEEEEEEEEE; };
+        EEEEEEEEEEEEEEEEEEEEEEEEEEEE /* HeartRateSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF; };
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF /* SpeechAnnouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101010101010101010101010; };
+        101010101010101010101010 /* HapticEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1111111111111111111111111111; };
+        1111111111111111111111111111 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1212121212121212121212121212; };
+        1212121212121212121212121212 /* RepDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1313131313131313131313131313; };
+        1313131313131313131313131313 /* ProgressiveOverload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1414141414141414141414141414; };
+        1414141414141414141414141414 /* WorkoutState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1515151515151515151515151515; };
+        1515151515151515151515151515 /* WorkoutStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1616161616161616161616161616; };
+        1616161616161616161616161616 /* WorkoutStateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1717171717171717171717171717; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+        111111111111111111111112 /* WristCoachApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WristCoachApp.swift; sourceTree = "<group>"; };
+        222222222222222222222223 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+        333333333333333333333334 /* MusclePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusclePickerView.swift; sourceTree = "<group>"; };
+        444444444444444444444445 /* ExerciseQueueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseQueueView.swift; sourceTree = "<group>"; };
+        555555555555555555555556 /* CalibrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationView.swift; sourceTree = "<group>"; };
+        666666666666666666666667 /* ActiveSetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveSetView.swift; sourceTree = "<group>"; };
+        777777777777777777777778 /* RestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestView.swift; sourceTree = "<group>"; };
+        888888888888888888888889 /* SessionSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSummaryView.swift; sourceTree = "<group>"; };
+        99999999999999999999999A /* ExerciseLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseLibrary.swift; sourceTree = "<group>"; };
+        BBBBBBBBBBBBBBBBBBBBBBBBBB /* ExerciseRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseRecord.swift; sourceTree = "<group>"; };
+        CCCCCCCCCCCCCCCCCCCCCCCCCC /* RestRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestRecord.swift; sourceTree = "<group>"; };
+        DDDDDDDDDDDDDDDDDDDDDDDDDDDD /* ExerciseCalibration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCalibration.swift; sourceTree = "<group>"; };
+        EEEEEEEEEEEEEEEEEEEEEEEEEEEE /* MotionSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionSource.swift; sourceTree = "<group>"; };
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF /* HeartRateSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateSource.swift; sourceTree = "<group>"; };
+        101010101010101010101010 /* SpeechAnnouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechAnnouncer.swift; sourceTree = "<group>"; };
+        1111111111111111111111111111 /* HapticEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticEngine.swift; sourceTree = "<group>"; };
+        1212121212121212121212121212 /* Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
+        1313131313131313131313131313 /* RepDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepDetector.swift; sourceTree = "<group>"; };
+        1414141414141414141414141414 /* ProgressiveOverload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressiveOverload.swift; sourceTree = "<group>"; };
+        1515151515151515151515151515 /* WorkoutState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutState.swift; sourceTree = "<group>"; };
+        1616161616161616161616161616 /* WorkoutStateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutStateMachine.swift; sourceTree = "<group>"; };
+        1717171717171717171717171717 /* WorkoutStateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutStateExtensions.swift; sourceTree = "<group>"; };
+        181818181818181818181818 /* WristCoach WatchKit App */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.app"; path = "WristCoach.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+        191919191919191919191919 /* WristCoach WatchKit Extension */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.app-extension"; path = "WristCoach.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+        1A1A1A1A1A1A1A1A1A1A1A1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+        1B1B1B1B1B1B1B1B1B1B1B1B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+        202020202020202020202020 = {
+            isa = PBXGroup;
+            children = (
+                111111111111111111111112,
+                202020202020202020202021,
+                202020202020202020202022,
+            );
+            sourceTree = "<group>";
+        };
+        202020202020202020202021 = {
+            isa = PBXGroup;
+            children = (
+                222222222222222222222223,
+            );
+            path = Views;
+            sourceTree = "<group>";
+        };
+        202020202020202020202022 = {
+            isa = PBXGroup;
+            children = (
+                333333333333333333333334,
+                444444444444444444444445,
+                555555555555555555555556,
+                666666666666666666666667,
+                777777777777777777777778,
+                888888888888888888888889,
+            );
+            path = Views;
+            sourceTree = "<group>";
+        };
+        212121212121212121212121 = {
+            isa = PBXGroup;
+            children = (
+                99999999999999999999999A,
+                BBBBBBBBBBBBBBBBBBBBBBBBBB,
+                CCCCCCCCCCCCCCCCCCCCCCCCCC,
+                DDDDDDDDDDDDDDDDDDDDDDDDDDDD,
+            );
+            path = Models;
+            sourceTree = "<group>";
+        };
+        222222222222222222222222 = {
+            isa = PBXGroup;
+            children = (
+                EEEEEEEEEEEEEEEEEEEEEEEEEEEE,
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,
+                101010101010101010101010,
+                1111111111111111111111111111,
+                1212121212121212121212121212,
+            );
+            path = Core/Protocols;
+            sourceTree = "<group>";
+        };
+        232323232323232323232323 = {
+            isa = PBXGroup;
+            children = (
+                1313131313131313131313131313,
+                1414141414141414141414141414,
+            );
+            path = Core;
+            sourceTree = "<group>";
+        };
+        242424242424242424242424 = {
+            isa = PBXGroup;
+            children = (
+                1515151515151515151515151515,
+                1616161616161616161616161616,
+                1717171717171717171717171717,
+            );
+            path = State;
+            sourceTree = "<group>";
+        };
+        252525252525252525252525 = {
+            isa = PBXGroup;
+            children = (
+                181818181818181818181818,
+                191919191919191919191919,
+                1A1A1A1A1A1A1A1A1A1A1A1A,
+                1B1B1B1B1B1B1B1B1B1B1B1B,
+            );
+            path = WristCoach;
+            sourceTree = "<group>";
+        };
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+        262626262626262626262626 = {
+            isa = PBXNativeTarget;
+            buildConfigurationList = 272727272727272727272727;
+            buildPhases = (
+                282828282828282828282828,
+                292929292929292929292929,
+            );
+            buildRules = (
+            );
+            dependencies = (
+                2A2A2A2A2A2A2A2A2A2A2A2A,
+            );
+            name = "WristCoach WatchKit App";
+            productName = "WristCoach";
+            productReference = 181818181818181818181818;
+            productType = "com.apple.product-type.application.watchapp";
+        };
+        2B2B2B2B2B2B2B2B2B2B2B2B = {
+            isa = PBXNativeTarget;
+            buildConfigurationList = 2C2C2C2C2C2C2C2C2C2C2C2C;
+            buildPhases = (
+                2D2D2D2D2D2D2D2D2D2D2D2D,
+                2E2E2E2E2E2E2E2E2E2E2E2E,
+            );
+            buildRules = (
+            );
+            dependencies = (
+                2F2F2F2F2F2F2F2F2F2F2F2F,
+            );
+            name = "WristCoach WatchKit Extension";
+            productName = "WristCoach Extension";
+            productReference = 191919191919191919191919;
+            productType = "com.apple.product-type.app-extension.watchapp";
+        };
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+        303030303030303030303030 = {
+            isa = PBXProject;
+            attributes = {
+                LastUpgradeCheck = 1500;
+                TARGETED_DEVICE_FAMILY = 4;
+            };
+            buildConfigurationList = 313131313131313131313131;
+            compatibilityVersion = "Xcode 15.0";
+            developmentRegion = en;
+            hasScannedForEncodings = 0;
+            knownRegions = (
+                en,
+                Base,
+            );
+            mainGroup = 202020202020202020202020;
+            productRefGroup = 252525252525252525252525;
+            projectDirPath = "";
+            projectRoot = "";
+            targets = (
+                262626262626262626262626,
+                2B2B2B2B2B2B2B2B2B2B2B2B,
+            );
+        };
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+        282828282828282828282828 = {
+            isa = PBXSourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+                111111111111111111111111,
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        292929292929292929292929 = {
+            isa = PBXSourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+                222222222222222222222222,
+                333333333333333333333333,
+                444444444444444444444444,
+                555555555555555555555555,
+                666666666666666666666666,
+                777777777777777777777777,
+                888888888888888888888888,
+                999999999999999999999999,
+                AAAAAAAAAAAAAAAAAAAAAAAAAA,
+                BBBBBBBBBBBBBBBBBBBBBBBBBB,
+                CCCCCCCCCCCCCCCCCCCCCCCCCC,
+                DDDDDDDDDDDDDDDDDDDDDDDDDDDD,
+                EEEEEEEEEEEEEEEEEEEEEEEEEEEE,
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,
+                101010101010101010101010,
+                1111111111111111111111111111,
+                1212121212121212121212121212,
+                1313131313131313131313131313,
+                1414141414141414141414141414,
+                1515151515151515151515151515,
+                1616161616161616161616161616,
+                1717171717171717171717171717,
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        2D2D2D2D2D2D2D2D2D2D2D2D = {
+            isa = PBXSourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+                111111111111111111111111,
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        2E2E2E2E2E2E2E2E2E2E2E2E = {
+            isa = PBXSourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+                222222222222222222222222,
+                333333333333333333333333,
+                444444444444444444444444,
+                555555555555555555555555,
+                666666666666666666666666,
+                777777777777777777777777,
+                888888888888888888888888,
+                999999999999999999999999,
+                AAAAAAAAAAAAAAAAAAAAAAAAAA,
+                BBBBBBBBBBBBBBBBBBBBBBBBBB,
+                CCCCCCCCCCCCCCCCCCCCCCCCCC,
+                DDDDDDDDDDDDDDDDDDDDDDDDDDDD,
+                EEEEEEEEEEEEEEEEEEEEEEEEEEEE,
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,
+                101010101010101010101010,
+                1111111111111111111111111111,
+                1212121212121212121212121212,
+                1313131313131313131313131313,
+                1414141414141414141414141414,
+                1515151515151515151515151515,
+                1616161616161616161616161616,
+                1717171717171717171717171717,
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXContainerItemProxy section */
+        2A2A2A2A2A2A2A2A2A2A2A2A = {
+            isa = PBXContainerItemProxy;
+            containerPortal = 303030303030303030303030;
+            containerPortalType = PBXProject;
+            remoteGlobalIDString = 2B2B2B2B2B2B2B2B2B2B2B2B;
+            remoteInfo = "WristCoach Extension";
+        };
+        2F2F2F2F2F2F2F2F2F2F2F2F = {
+            isa = PBXContainerItemProxy;
+            containerPortal = 303030303030303030303030;
+            containerPortalType = PBXProject;
+            remoteGlobalIDString = 262626262626262626262626;
+            remoteInfo = "WristCoach WatchKit App";
+        };
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXTargetDependency section */
+        2G2G2G2G2G2G2G2G2G2G2G2G = {
+            isa = PBXTargetDependency;
+            target = 262626262626262626262626;
+            targetProxy = 2F2F2F2F2F2F2F2F2F2F2F2F;
+        };
+/* End PBXTargetDependency section */
+
+/* Begin XCConfigurationList section */
+        272727272727272727272727 = {
+            isa = XCConfigurationList;
+            buildConfigurations = (
+                2H2H2H2H2H2H2H2H2H2H2H2H,
+            );
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Debug;
+        };
+        2C2C2C2C2C2C2C2C2C2C2C2C = {
+            isa = XCConfigurationList;
+            buildConfigurations = (
+                2I2I2I2I2I2I2I2I2I2I2I2I,
+            );
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Debug;
+        };
+        313131313131313131313131 = {
+            isa = XCConfigurationList;
+            buildConfigurations = (
+                2J2J2J2J2J2J2J2J2J2J2J2J,
+            );
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Debug;
+        };
+/* End XCConfigurationList section */
+
+/* Begin XCBuildConfiguration section */
+        2H2H2H2H2H2H2H2H2H2H2H2H = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SUPPORTED_PLATFORMS = "watchos";
+                WATCHOS_DEPLOYMENT_TARGET = 9.0;
+            };
+            name = Debug;
+        };
+        2I2I2I2I2I2I2I2I2I2I2I2I = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SUPPORTED_PLATFORMS = "watchos";
+                WATCHOS_DEPLOYMENT_TARGET = 9.0;
+                SWIFT_VERSION = 5.0;
+            };
+            name = Debug;
+        };
+        2J2J2J2J2J2J2J2J2J2J2J2J = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SUPPORTED_PLATFORMS = "watchos";
+                WATCHOS_DEPLOYMENT_TARGET = 9.0;
+            };
+            name = Debug;
+        };
+/* End XCBuildConfiguration section */
+
+        };
+        rootObject = 303030303030303030303030;
+    }
+}
