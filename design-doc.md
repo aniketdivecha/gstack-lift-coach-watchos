@@ -95,6 +95,45 @@ from day one — it's the foundation for fatigue detection and the future
 | Rest Screen | HR updating | First HR reading | HR unavailable → timer only, no HR UI | HealthKit permission denied → degraded mode UI | "Ready →" turns green | HR still above target, progress bar partial |
 | Session Summary | Loading stats | Spinning indicator | N/A (user did workout) | SwiftData read error | PR badges, "Done" animation | Volume number loading (0 → final) |
 
+## User Journey & Emotional Arc
+
+| Screen | Step | User Does | User Feels | Plan Specifies? |
+|--------|------|-----------|------------|-----------------|
+| Screen 1 (Muscle Picker) | 1 | Opens app, sees welcome + muscle list | "Let's do this" | "Welcome back" message with last session summary |
+| Screen 1 (Muscle Picker) | 2 | Selects muscle groups (≥1) | "I know what to do" | Last session auto-selected, green check for familiarity |
+| Screen 2 (Exercise Queue) | 3 | Reviews exercise list | "I've crushed these" | Green border on current exercise, last weight displayed |
+| Screen 2 (Exercise Queue) | 4 | Taps "Begin workout" | "Let's go" | Subtle haptic on tap, smooth transition animation |
+| Screen 4 (Active Set) | 5 | Taps GO button | "Ready to lift" | GO button large green, subtle haptic on press |
+| Screen 4 (Active Set) | 6 | Rep counting (1-6) | "I'm getting stronger" | Audio "1", "2", "3"... visual rep counter |
+| Screen 4 (Active Set) | 7 | Near completion (2-1 left) | "Almost there" | "2 more, push it!" / "Last one, let's go!" audio |
+| Screen 4 (Active Set) | 8 | Set complete | "Nice work" | Rep count complete, audio "[X] reps. Nice work." |
+| Screen 5 (Rest Screen) | 9 | Waiting for HR recovery | "Resting, I'm doing well" | HR visual bar, progress indicator, timer |
+| Screen 5 (Rest Screen) | 10 | Taps "Ready →" | "On to the next" | Bright green button, smooth transition |
+| Screen 6 (Session Summary) | 11 | Reviews summary | "I accomplished something" | Volume display, PR badges, gold celebration haptic |
+
+### Visual Design for Emotional States
+
+| State | Visual Treatment | Audio | Haptic |
+|-------|------------------|-------|--------|
+| **Welcome** | "Welcome back" + last PR badge | None | None |
+| **Workout start** | Green GO button, subtle border glow | None | Light tap |
+| **Rep 1** | Rep counter visible | Audio "1" | None |
+| **Reps 2-6** | Rep counter updates | Audio count | None |
+| **Reps 7-8** | Rep counter + progress | "2 more", "Last one" | None |
+| **Set complete** | Gold ring around number | "[X] reps. Nice work." | Medium success |
+| **Fatigue detected** | Number flashes yellow | "Come on, you can do it!" | None |
+| **Success (PR)** | Gold number + ring + emoji | "[X] reps! Exceptional lift!" | Strong success |
+| **Rest complete** | Ready → button fully green | None | Light tap |
+| **Session done** | Volume number, PR badges | None | Gold celebration haptic |
+
+### Time-Horizon Design (Don Norman, Emotional Design)
+
+| Horizon | What it is | How this app addresses it |
+|---------|------------|--------------------------|
+| **Visceral (0-5 sec)** | First impression | Clean Apple Watch aesthetic, clear button hierarchy |
+| **Behavioral (5 min)** | Usability | Smooth flow, intuitive interactions, responsive feedback |
+| **Reflective (5 years)** | Self-image | Progress tracking, PR badges, data that proves growth |
+
 ## UX Flow Design
 
 ### Key UX Decision: Go/Stop Bounded Detection
@@ -152,10 +191,10 @@ when an uncalibrated exercise is next in the queue — user is not asked to navi
 - **Retry cap:** after 3 consecutive "No, too easy" taps, escalate to a manual weight-entry screen. Persist `ExerciseCalibration` with the last attempted weight, `detectionThreshold` from the latest set, and `manualEntry = true`. Prevents infinite loop.
 
 **Screen 4: Active Set (the hero screen)**
-- **Primary**: Huge rep number / time in center (42pt Söhne Bold, readable mid-rep, Always-On display dim-safe) — white text on dark background for contrast
-- **Secondary**: Large ring progress arc filling as reps count up (or as time elapses for isometric)
-- **Tertiary**: Exercise name (small, top, 12pt), Weight + set number (e.g., "135 lb · Set 2/3" in 14pt)
-- "GO" button (large green) before set starts
+- **Primary**: Rep number / time in center (42pt Söhne Bold, white on dark background) — 42pt to ensure readability mid-rep
+- **Secondary**: Progress ring (24pt stroke, fills clockwise, color: #007AFF) around rep number
+- **Tertiary**: Exercise name (12pt, top-left, gray #8E8E93), Weight + set number (14pt, top-right, white)
+- "GO" button (64pt radius circle, green #34C759, centered bottom, 16pt padding from screen edge)
 - Rep count is wrapped in an `@Observable` class to scope re-renders — only the number and ring view observe it.
 - **Rep-counted mode** (non-isometric):
   - `targetReps` passed in from exercise queue. Remaining = `targetReps - repCount`.
@@ -173,9 +212,9 @@ when an uncalibrated exercise is next in the queue — user is not asked to navi
 - Visual flow: Rep number dominates screen. Ring wraps rep number. Exercise name at top-left, weight info at top-right.
 
 **Screen 5: Rest Screen**
-- **Primary**: Current heart rate (large, red/pink, 56pt Söhne Bold) — live BPM reading from HealthKit
-- **Secondary**: "Ready →" button (large, green) — status indicated by opacity/colored border
-- **Tertiary**: Progress bar (HR drop from peak to target), Elapsed timer (top, 14pt, gray)
+- **Primary**: Heart rate (56pt Söhne Bold, red #FF3B30, center) — live BPM reading from HealthKit
+- **Secondary**: Progress bar (top of HR, 100% width, 16pt height, #E5E5EA track, #34C759 fill)
+- **Tertiary**: "Ready →" button (48pt radius, green #34C759 when ready, gray #8E8E93 when dimmed, bottom 24pt padding), Elapsed timer (top-center, 14pt, gray #8E8E93)
 - **Target recovery HR**: 115 BPM default (see HR adaptation spec below)
 - **"Ready →" button**: 
   - Dimmed while HR is above target AND elapsed time < 60s
@@ -189,11 +228,10 @@ when an uncalibrated exercise is next in the queue — user is not asked to navi
 - Visual flow: HR number dominates (red is attention-grabbing). Progress bar provides context. Timer at top for elapsed tracking. Ready button is the clear action.
 
 **Screen 6: Session Summary**
-- **Primary**: Total volume (lbs × reps) in large center text (42pt Söhne Bold)
-- **Secondary**: PR badge (gold star icon) if any new records
-- **Tertiary**: List of exercises completed (small list, 12pt)
-- "Done" → saves to SwiftData
-- Visual flow: Volume number is the celebrate moment. PR badges provide social validation. Exercise list is for reference.
+- **Primary**: Total volume (48pt Söhne Bold, white, center) — lbs × reps displayed as "2,450 lbs"
+- **Secondary**: PR badges (32pt gold star icon, top of volume number if any PRs)
+- **Tertiary**: Exercises list (14pt, centered, gray #8E8E93, below volume), "Done" button (44pt height, bottom 16pt padding, green #34C759)
+- Visual flow: Volume number dominates center screen. PR badges positioned relative to volume. Exercise list in scrollable area below. Done button at bottom.
 
 ---
 
