@@ -1,0 +1,40 @@
+{
+  "source": "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Views/RestView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Resting...",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 50
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld BPM",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 30
+        }
+      },
+      {
+        "comment": "",
+        "key": "Ready →",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 58
+        }
+      },
+      {
+        "comment": "",
+        "key": "Waiting...",
+        "location": {
+          "startingColumn": 46,
+          "startingLine": 58
+        }
+      }
+    ]
+  },
+  "version": 1
+}

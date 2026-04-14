@@ -15,8 +15,8 @@ class RepCountObservable: ObservableObject {
     }
 }
 
-struct ActiveSetView: View {
-    @StateObject var repObservable: RepCountObservable
+final class ActiveSetView: View {
+    @ObservedObject var repObservable: RepCountObservable
     let exercise: Exercise
     let targetReps: Int
     let onRepCountUpdate: (Int, [Double], Bool) -> Void
@@ -38,7 +38,7 @@ struct ActiveSetView: View {
         self.targetReps = targetReps
         self.onRepCountUpdate = onRepCountUpdate
         self.onStop = onStop
-        self._repObservable = StateObject(wrappedValue: RepCountObservable())
+        self.repObservable = RepCountObservable()
         self.motionSource = CMMotionSource()
         self.speechAnnouncer = AVSpeechSynthesizerAnnouncer()
         self.hapticEngine = WatchHapticEngine()
@@ -87,7 +87,7 @@ struct ActiveSetView: View {
             HStack(spacing: 20) {
                 if repObservable.repCount == 0 {
                     Button("GO") {
-                        startRepDetection()
+                        self.startRepDetection()
                     }
                     .padding()
                     .background(Color.green)
@@ -97,7 +97,7 @@ struct ActiveSetView: View {
 
                 if repObservable.repCount > 0 {
                     Button("STOP") {
-                        stopRepDetection()
+                        self.stopRepDetection()
                     }
                     .padding()
                     .background(Color.red)
@@ -108,11 +108,11 @@ struct ActiveSetView: View {
             .padding(.bottom, 16)
         }
         .onAppear {
-            repDetector = RepDetector(threshold: exercise.defaultThreshold)
-            repDetector?.delegate = self
+            self.repDetector = RepDetector(threshold: self.exercise.defaultThreshold)
+            self.repDetector?.delegate = self
         }
         .onDisappear {
-            motionSource.stop()
+            self.motionSource.stop()
         }
     }
 
@@ -152,7 +152,13 @@ struct ActiveSetView: View {
 }
 
 extension ActiveSetView: RepDetectorDelegate {
-    func repCountDidChange(_ repCount: Int) {
+    nonisolated func repCountDidChange(_ repCount: Int) {
+        DispatchQueue.main.async { [weak self] in
+            self?.updateRepCount(repCount)
+        }
+    }
+
+    private func updateRepCount(_ repCount: Int) {
         let remaining = max(0, targetReps - repCount)
         let isFatigued = repObservable.isFatigued
 
@@ -171,13 +177,25 @@ extension ActiveSetView: RepDetectorDelegate {
         )
     }
 
-    func fatigueDetected() {
+    nonisolated func fatigueDetected() {
+        DispatchQueue.main.async { [weak self] in
+            self?.handleFatigueDetected()
+        }
+    }
+
+    private func handleFatigueDetected() {
         speechAnnouncer.say("Come on, you can do it!")
-        hapticEngine.play(.warning)
+        hapticEngine.play(.notification)
         repObservable.isFatigued = true
     }
 
-    func setComplete(_ actualReps: Int, _ repIntervals: [Double], _ struggled: Bool) {
+    nonisolated func setComplete(_ actualReps: Int, _ repIntervals: [Double], _ struggled: Bool) {
+        DispatchQueue.main.async { [weak self] in
+            self?.handleSetComplete(actualReps, repIntervals, struggled)
+        }
+    }
+
+    private func handleSetComplete(_ actualReps: Int, _ repIntervals: [Double], _ struggled: Bool) {
         speechAnnouncer.say("\(actualReps) reps. Nice work.")
         hapticEngine.play(.success)
         onRepCountUpdate(actualReps, repIntervals, struggled)

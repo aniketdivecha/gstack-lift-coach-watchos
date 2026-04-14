@@ -12,5 +12,5 @@ struct WristCoachApp: App {
 }
 
 #Preview {
-    WristCoachApp()
+    ContentView()
 }

@@ -1,3 +1,5 @@
+import CoreFoundation
+
 protocol Clock {
     func now() -> CFAbsoluteTime
 }

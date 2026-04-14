@@ -1,0 +1,40 @@
+{
+  "source": "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Views/ExerciseQueueView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Exercise Queue",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 34
+        }
+      },
+      {
+        "comment": "",
+        "key": "Bodyweight",
+        "location": {
+          "startingColumn": 62,
+          "startingLine": 20
+        }
+      },
+      {
+        "comment": "",
+        "key": "Calibrate",
+        "location": {
+          "startingColumn": 77,
+          "startingLine": 20
+        }
+      },
+      {
+        "comment": "",
+        "key": "Begin workout",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 38
+        }
+      }
+    ]
+  },
+  "version": 1
+}
