@@ -1,5 +1,7 @@
 import AVFoundation
+#if os(iOS)
 import AVAudioSession
+#endif
 
 protocol SpeechAnnouncer {
     func say(_ text: String)
@@ -8,7 +10,6 @@ protocol SpeechAnnouncer {
 
 final class AVSpeechSynthesizerAnnouncer: SpeechAnnouncer {
     private let synthesizer = AVSpeechSynthesizer()
-    private let audioSession = AVAudioSession.sharedInstance()
 
     init() {
         configureAudioSession()
@@ -34,11 +35,14 @@ final class AVSpeechSynthesizerAnnouncer: SpeechAnnouncer {
     }
 
     private func configureAudioSession() {
+        #if os(iOS)
         do {
+            let audioSession = AVAudioSession.sharedInstance()
             try audioSession.setCategory(.playback, mode: .default, options: [.duckOthers, .mixWithOthers])
             try audioSession.setActive(true, options: [.notifyOthersOnDeactivation])
         } catch {
             // Audio session config failed - log and continue
         }
+        #endif
     }
 }

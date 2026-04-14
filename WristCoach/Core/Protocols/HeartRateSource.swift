@@ -8,7 +8,6 @@ protocol HeartRateSource {
 
 final class HealthKitHeartRateSource: HeartRateSource {
     private let healthStore = HKHealthStore()
-    private var workoutSession: HKWorkoutSession?
     private var query: HKAnchoredObjectQuery?
     private let throttleDuration: TimeInterval = 1.0
     private var lastUpdateDate: Date?
@@ -33,7 +32,9 @@ final class HealthKitHeartRateSource: HeartRateSource {
     }
 
     func stop() {
-        query?.end()
+        if let query = query {
+            healthStore.stop(query)
+        }
         query = nil
         bpmContinuation?.finish()
         bpmContinuation = nil
@@ -44,13 +45,12 @@ final class HealthKitHeartRateSource: HeartRateSource {
             return
         }
 
-        let anchor = query?.anchor
         let query = HKAnchoredObjectQuery(
             type: heartRateType,
             predicate: nil,
-            anchor: anchor,
+            anchor: HKQueryAnchor(fromValue: 0),
             limit: HKObjectQueryNoLimit
-        ) { [weak self] _, sampleObjects, newAnchor, error in
+        ) { [weak self] _, sampleObjects, _, newAnchor, error in
             guard let self = self,
                   let samples = sampleObjects as? [HKQuantitySample],
                   error == nil else {
@@ -59,21 +59,6 @@ final class HealthKitHeartRateSource: HeartRateSource {
 
             for sample in samples {
                 self.handleHRUpdate(sample)
-            }
-
-            self.query?.anchor = newAnchor
-            self.query = query
-        }
-
-        query?.updateHandler = { [weak self] query, _, _, error in
-            guard let self = self, error == nil else {
-                return
-            }
-
-            if let samples = query.samples as? [HKQuantitySample] {
-                for sample in samples {
-                    self.handleHRUpdate(sample)
-                }
             }
         }
 
@@ -89,7 +74,8 @@ final class HealthKitHeartRateSource: HeartRateSource {
             return
         }
 
-        let bpm = sample.quantity.doubleValue(for: .count().unit(.minute()))
+        let unit = HKUnit.count().unitDivided(by: HKUnit.minute())
+        let bpm = sample.quantity.doubleValue(for: unit)
         bpmContinuation?.yield(bpm)
     }
 }

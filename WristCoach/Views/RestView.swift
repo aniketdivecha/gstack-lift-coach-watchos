@@ -70,9 +70,11 @@ struct RestView: View {
             startTime = Date()
             heartRateSource?.start()
             Task {
-                for await bpm in heartRateSource?.currentBPM ?? Empty().values {
-                    currentBPM = bpm
-                    checkReady()
+                if let bpmStream = heartRateSource?.currentBPM {
+                    for await bpm in bpmStream {
+                        currentBPM = bpm
+                        checkReady()
+                    }
                 }
             }
         }

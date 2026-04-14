@@ -5,14 +5,13 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     var modelContainer: ModelContainer!
 
     func applicationDidFinishLaunching() {
-        let schema = ModelSchema([
-            ExerciseRecord.self,
-            RestRecord.self,
-            ExerciseCalibration.self
-        ])
-
-        let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-        modelContainer = try! ModelContainer(for: schema, configurations: [configuration])
+        do {
+            modelContainer = try ModelContainer(
+                for: ExerciseRecord.self, RestRecord.self, ExerciseCalibration.self
+            )
+        } catch {
+            fatalError("Could not initialize ModelContainer: \(error)")
+        }
     }
 
     func applicationDidBecomeActive() {

@@ -1,5 +1,6 @@
 import SwiftData
 import Foundation
+import HealthKit
 
 class WorkoutStateMachine: ObservableObject {
     @Published var state: WorkoutState = .idle
@@ -135,14 +136,15 @@ class WorkoutStateMachine: ObservableObject {
         modelContext.insert(record)
 
         // Move to next exercise or summary
-        guard case .exerciseQueue(let exercises, let currentIndex) = state,
-              currentIndex + 1 < exercises.count else {
+        guard case .exerciseQueue(let exercises, let currentExerciseIndex) = state,
+              currentExerciseIndex + 1 < exercises.count else {
+            guard case .exerciseQueue(let exercises, _) = state else { return }
             let records = fetchRecords(for: exercises)
             state = .sessionSummary(exercises: exercises, records: records)
             return
         }
 
-        beginExercise(exerciseIndex: currentIndex + 1)
+        beginExercise(exerciseIndex: currentExerciseIndex + 1)
     }
 
     func skipRest() {
@@ -161,14 +163,15 @@ class WorkoutStateMachine: ObservableObject {
         modelContext.insert(record)
 
         // Move to next exercise or summary
-        guard case .exerciseQueue(let exercises, let currentIndex) = state,
-              currentIndex + 1 < exercises.count else {
+        guard case .exerciseQueue(let exercises, let currentExerciseIndex) = state,
+              currentExerciseIndex + 1 < exercises.count else {
+            guard case .exerciseQueue(let exercises, _) = state else { return }
             let records = fetchRecords(for: exercises)
             state = .sessionSummary(exercises: exercises, records: records)
             return
         }
 
-        beginExercise(exerciseIndex: currentIndex + 1)
+        beginExercise(exerciseIndex: currentExerciseIndex + 1)
     }
 
     // MARK: - Helpers
