@@ -157,6 +157,17 @@ struct V5ScreenshotScreen: View {
                 CalibrationView(exercise: exercise, currentWeight: exercise.defaultStartingWeight, onComplete: { _ in }, onManualEntry: {})
             case "preset":
                 V5PresetScreen(exercise: exercise, weightRaised: false)
+            case "active-preset":
+                ActiveSetView(exercise: exercise, targetReps: 8, manualMode: false, onStop: { _ in })
+            case "active-manual-over":
+                ActiveSetView(
+                    exercise: exercise,
+                    targetReps: 8,
+                    manualMode: true,
+                    initialRepCount: 9,
+                    initialCountingStarted: true,
+                    onStop: { _ in }
+                )
             case "counting":
                 V5CountingScreen(exercise: exercise, reps: 6, targetReps: 8, weightRaised: false)
             case "complete":

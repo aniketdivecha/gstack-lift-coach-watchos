@@ -11,6 +11,9 @@ struct ActiveSetView: View, @unchecked Sendable {
         exercise: Exercise,
         targetReps: Int,
         manualMode: Bool = false,
+        initialRepCount: Int = 0,
+        initialCountingStarted: Bool = false,
+        initialFatigued: Bool = false,
         onStop: @escaping (SetResult) -> Void
     ) {
         self.exercise = exercise
@@ -21,149 +24,169 @@ struct ActiveSetView: View, @unchecked Sendable {
             wrappedValue: SetSessionController(
                 exercise: exercise,
                 targetReps: targetReps,
-                manualMode: manualMode
+                manualMode: manualMode,
+                initialRepCount: initialRepCount,
+                initialCountingStarted: initialCountingStarted,
+                initialFatigued: initialFatigued
             )
         )
     }
 
     var body: some View {
-        VStack(spacing: 6) {
-            Text(exercise.name)
-                .font(.system(size: 9, weight: .semibold))
-                .foregroundColor(Color(white: 0.53))
-                .tracking(0.8)
-                .textCase(.uppercase)
-                .lineLimit(1)
-
-            if !setController.isCountingStarted {
-                Text(weightLabel)
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundColor(.white)
-
-                Text("Set 1 of 3")
-                    .font(.system(size: 10))
-                    .foregroundColor(Color(white: 0.33))
-
-                Spacer(minLength: 8)
-
-                Button(action: setController.start) {
-                    Text("GO")
-                        .font(.system(size: 22, weight: .heavy))
-                        .tracking(0.8)
-                }
-                .frame(width: 88, height: 88)
-                .background(Circle().fill(Color(red: 0.18, green: 0.82, blue: 0.33)))
-                .foregroundColor(.black)
-                .shadow(color: Color(red: 0.18, green: 0.82, blue: 0.33).opacity(0.18), radius: 0, x: 0, y: 0)
-                .overlay(
-                    Circle()
-                        .stroke(Color(red: 0.18, green: 0.82, blue: 0.33).opacity(0.18), lineWidth: 12)
-                )
-                .buttonStyle(.plain)
-
-                Spacer(minLength: 8)
-
-                Text("Tap when ready to lift")
-                    .font(.system(size: 10))
-                    .foregroundColor(Color(white: 0.27))
+        Group {
+            if setController.isCountingStarted {
+                countingBody
             } else {
-                Text(manualMode ? "Manual reps · Set 1/3" : "\(weightLabel) · Set 1/3")
-                    .font(.system(size: 10.5, weight: .medium))
-                    .foregroundColor(isOverTarget ? Color(red: 0.18, green: 0.82, blue: 0.33) : Color(white: 0.67))
-                    .lineLimit(1)
-
-                Spacer(minLength: 2)
-
-                ZStack {
-                    Circle()
-                        .stroke(Color(white: 0.1), lineWidth: 9)
-                        .frame(width: 94, height: 94)
-
-                    Circle()
-                        .trim(from: 0, to: ringProgress)
-                        .stroke(ringColor, style: StrokeStyle(lineWidth: 9, lineCap: .round))
-                        .frame(width: 94, height: 94)
-                        .rotationEffect(.degrees(-90))
-
-                    if isOverTarget {
-                        Circle()
-                            .stroke(ringColor.opacity(0.20), lineWidth: 2)
-                            .frame(width: 94, height: 94)
-                    }
-
-                    VStack(spacing: 1) {
-                        Text("\(setController.repCount)")
-                            .font(.system(size: 39, weight: .heavy))
-                            .foregroundColor(isOverTarget ? ringColor : .white)
-                        Text(isOverTarget ? "keep going" : "of \(targetReps)")
-                            .font(.system(size: 10))
-                            .foregroundColor(isOverTarget ? Color(red: 0.34, green: 0.27, blue: 0.0) : Color(white: 0.27))
-                    }
-                }
-
-                Spacer(minLength: 2)
-
-                Text(motivationText)
-                    .font(.system(size: 10, weight: .semibold))
-                    .foregroundColor(isOverTarget ? ringColor : Color(red: 1.0, green: 0.62, blue: 0.04))
-                    .frame(maxWidth: .infinity)
-                    .frame(minHeight: 24)
-                    .padding(.horizontal, 8)
-                    .background((isOverTarget ? ringColor : Color(red: 1.0, green: 0.62, blue: 0.04)).opacity(0.10))
-                    .cornerRadius(8)
-                    .lineLimit(1)
-
-                if manualMode {
-                    HStack(spacing: 8) {
-                        Button(action: setController.decrementManualRep) {
-                            Text("-")
-                                .font(.system(size: 18, weight: .bold))
-                        }
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 32)
-                        .background(Color(white: 0.11))
-                        .cornerRadius(8)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color(white: 0.20), lineWidth: 1)
-                        )
-                        .buttonStyle(.plain)
-
-                        Button(action: setController.incrementManualRep) {
-                            Text("+")
-                                .font(.system(size: 18, weight: .bold))
-                        }
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 32)
-                        .background(Color(white: 0.11))
-                        .cornerRadius(8)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color(white: 0.20), lineWidth: 1)
-                        )
-                        .buttonStyle(.plain)
-                    }
-                }
-
-                Button(action: stopRepDetection) {
-                    Text("■ STOP")
-                        .font(.system(size: 11, weight: .semibold))
-                }
-                .frame(maxWidth: .infinity)
-                .frame(height: 28)
-                .background(Color(white: 0.11))
-                .foregroundColor(Color(red: 1.0, green: 0.27, blue: 0.23))
-                .cornerRadius(8)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color(white: 0.20), lineWidth: 1)
-                )
-                .buttonStyle(.plain)
+                presetBody
             }
         }
         .padding(.horizontal, 16)
-        .padding(.vertical, 8)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .padding(.vertical, 6)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    private var presetBody: some View {
+        VStack(spacing: 5) {
+            Text(exercise.name)
+                .font(.system(size: 10, weight: .semibold))
+                .foregroundColor(Color(white: 0.53))
+                .tracking(0.6)
+                .textCase(.uppercase)
+                .lineLimit(1)
+
+            Text(weightLabel)
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundColor(.white)
+
+            Text("Set 1 of 3")
+                .font(.system(size: 10))
+                .foregroundColor(Color(white: 0.33))
+                .padding(.bottom, 9)
+
+            Button(action: setController.start) {
+                Text("GO")
+                    .font(.system(size: 22, weight: .heavy))
+                    .tracking(0.8)
+            }
+            .frame(width: 86, height: 86)
+            .background(Circle().fill(Color(red: 0.18, green: 0.82, blue: 0.33)))
+            .foregroundColor(.black)
+            .overlay(
+                Circle()
+                    .stroke(Color(red: 0.18, green: 0.82, blue: 0.33).opacity(0.18), lineWidth: 11)
+            )
+            .buttonStyle(.plain)
+            .padding(.bottom, 7)
+
+            Text("Tap when ready to lift")
+                .font(.system(size: 10))
+                .foregroundColor(Color(white: 0.27))
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+    }
+
+    private var countingBody: some View {
+        VStack(spacing: manualMode ? 4 : 6) {
+            Text(manualMode ? "Manual · Set 1/3" : "\(weightLabel) · Set 1/3")
+                .font(.system(size: manualMode ? 10 : 10.5, weight: .medium))
+                .foregroundColor(isOverTarget ? Color(red: 0.18, green: 0.82, blue: 0.33) : Color(white: 0.67))
+                .lineLimit(1)
+                .frame(maxWidth: .infinity, alignment: manualMode ? .leading : .center)
+
+            ZStack {
+                Circle()
+                    .stroke(Color(white: 0.1), lineWidth: 8)
+                    .frame(width: ringSize, height: ringSize)
+
+                Circle()
+                    .trim(from: 0, to: ringProgress)
+                    .stroke(ringColor, style: StrokeStyle(lineWidth: 8, lineCap: .round))
+                    .frame(width: ringSize, height: ringSize)
+                    .rotationEffect(.degrees(-90))
+
+                if isOverTarget {
+                    Circle()
+                        .stroke(ringColor.opacity(0.20), lineWidth: 2)
+                        .frame(width: ringSize, height: ringSize)
+                }
+
+                VStack(spacing: 1) {
+                    Text("\(setController.repCount)")
+                        .font(.system(size: manualMode ? 32 : 38, weight: .heavy))
+                        .foregroundColor(isOverTarget ? ringColor : .white)
+                    Text(isOverTarget ? "keep going" : "of \(targetReps)")
+                        .font(.system(size: 10))
+                        .foregroundColor(isOverTarget ? Color(red: 0.34, green: 0.27, blue: 0.0) : Color(white: 0.27))
+                }
+            }
+
+            Text(motivationText)
+                .font(.system(size: 10, weight: .semibold))
+                .foregroundColor(isOverTarget ? ringColor : Color(red: 1.0, green: 0.62, blue: 0.04))
+                .frame(maxWidth: .infinity)
+                .frame(height: 22)
+                .padding(.horizontal, 8)
+                .background((isOverTarget ? ringColor : Color(red: 1.0, green: 0.62, blue: 0.04)).opacity(0.10))
+                .cornerRadius(8)
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
+
+            if manualMode {
+                manualControls
+            }
+
+            Button(action: stopRepDetection) {
+                Text("■ STOP")
+                    .font(.system(size: 11, weight: .semibold))
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 24)
+            .background(Color(white: 0.11))
+            .foregroundColor(Color(red: 1.0, green: 0.27, blue: 0.23))
+            .cornerRadius(8)
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color(white: 0.20), lineWidth: 1)
+            )
+            .buttonStyle(.plain)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+    }
+
+    private var manualControls: some View {
+        HStack(spacing: 8) {
+            Button(action: setController.decrementManualRep) {
+                Text("-")
+                    .font(.system(size: 18, weight: .bold))
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 25)
+            .background(Color(white: 0.11))
+            .cornerRadius(8)
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color(white: 0.20), lineWidth: 1)
+            )
+            .buttonStyle(.plain)
+
+            Button(action: setController.incrementManualRep) {
+                Text("+")
+                    .font(.system(size: 18, weight: .bold))
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 25)
+            .background(Color(white: 0.11))
+            .cornerRadius(8)
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color(white: 0.20), lineWidth: 1)
+            )
+            .buttonStyle(.plain)
+        }
+    }
+
+    private var ringSize: CGFloat {
+        manualMode ? 74 : 92
     }
 
     private var weightLabel: String {

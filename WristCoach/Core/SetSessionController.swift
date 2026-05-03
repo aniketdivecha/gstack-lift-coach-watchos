@@ -29,7 +29,10 @@ final class SetSessionController: ObservableObject {
         manualMode: Bool,
         motionSource: MotionSource = CMMotionSource(),
         speechAnnouncer: SpeechAnnouncer = AVSpeechSynthesizerAnnouncer(),
-        hapticEngine: HapticEngine = WatchHapticEngine()
+        hapticEngine: HapticEngine = WatchHapticEngine(),
+        initialRepCount: Int = 0,
+        initialCountingStarted: Bool = false,
+        initialFatigued: Bool = false
     ) {
         self.exercise = exercise
         self.targetReps = targetReps
@@ -42,6 +45,9 @@ final class SetSessionController: ObservableObject {
         self.delegate.controller = nil
         self.repDetector.delegate = delegate
         self.delegate.controller = self
+        self.repCount = initialRepCount
+        self.isCountingStarted = initialCountingStarted
+        self.isFatigued = initialFatigued
     }
 
     var remainingReps: Int {

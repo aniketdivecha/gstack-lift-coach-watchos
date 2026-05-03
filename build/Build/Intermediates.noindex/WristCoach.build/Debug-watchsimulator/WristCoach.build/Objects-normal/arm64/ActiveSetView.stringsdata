@@ -6,88 +6,88 @@
         "comment": "",
         "key": "Set 1 of 3",
         "location": {
-          "startingColumn": 22,
-          "startingLine": 43
+          "startingColumn": 18,
+          "startingLine": 61
         }
       },
       {
         "comment": "",
         "key": "Tap when ready to lift",
         "location": {
-          "startingColumn": 22,
-          "startingLine": 66
-        }
-      },
-      {
-        "comment": "",
-        "key": "Manual reps · Set 1/3",
-        "location": {
-          "startingColumn": 35,
-          "startingLine": 70
-        }
-      },
-      {
-        "comment": "",
-        "key": "%@ · Set 1/3",
-        "location": {
-          "startingColumn": 62,
-          "startingLine": 70
+          "startingColumn": 18,
+          "startingLine": 81
         }
       },
       {
         "comment": "",
         "key": "GO",
         "location": {
-          "startingColumn": 26,
-          "startingLine": 50
+          "startingColumn": 22,
+          "startingLine": 67
+        }
+      },
+      {
+        "comment": "",
+        "key": "Manual · Set 1/3",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 90
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ · Set 1/3",
+        "location": {
+          "startingColumn": 53,
+          "startingLine": 90
         }
       },
       {
         "comment": "",
         "key": "%lld",
         "location": {
-          "startingColumn": 30,
-          "startingLine": 95
+          "startingColumn": 26,
+          "startingLine": 114
         }
       },
       {
         "comment": "",
         "key": "keep going",
         "location": {
-          "startingColumn": 45,
-          "startingLine": 98
+          "startingColumn": 41,
+          "startingLine": 117
         }
       },
       {
         "comment": "",
         "key": "of %lld",
         "location": {
-          "startingColumn": 60,
-          "startingLine": 98
-        }
-      },
-      {
-        "comment": "",
-        "key": "-",
-        "location": {
-          "startingColumn": 34,
-          "startingLine": 119
-        }
-      },
-      {
-        "comment": "",
-        "key": "+",
-        "location": {
-          "startingColumn": 34,
-          "startingLine": 133
+          "startingColumn": 56,
+          "startingLine": 117
         }
       },
       {
         "comment": "",
         "key": "■ STOP",
         "location": {
-          "startingColumn": 26,
-          "startingLine": 149
+          "startingColumn": 22,
+          "startingLine": 139
+        }
+      },
+      {
+        "comment": "",
+        "key": "-",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 159
+        }
+      },
+      {
+        "comment": "",
+        "key": "+",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 173
         }
       },
       {
@@ -95,7 +95,7 @@
         "key": "%lld",
         "location": {
           "startingColumn": 18,
-          "startingLine": 220
+          "startingLine": 243
         }
       },
       {
@@ -103,7 +103,7 @@
         "key": "\"%@\"",
         "location": {
           "startingColumn": 18,
-          "startingLine": 231
+          "startingLine": 254
         }
       },
       {
@@ -111,7 +111,7 @@
         "key": "Next session",
         "location": {
           "startingColumn": 26,
-          "startingLine": 243
+          "startingLine": 266
         }
       },
       {
@@ -119,7 +119,7 @@
         "key": "%lld lb × %lld",
         "location": {
           "startingColumn": 26,
-          "startingLine": 248
+          "startingLine": 271
         }
       },
       {
@@ -127,7 +127,7 @@
         "key": "Rest →",
         "location": {
           "startingColumn": 22,
-          "startingLine": 268
+          "startingLine": 291
         }
       }
     ]
