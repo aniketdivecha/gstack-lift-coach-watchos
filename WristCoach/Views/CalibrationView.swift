@@ -15,10 +15,10 @@ struct CalibrationView: View {
     }
 
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 6) {
             // Header
             Text("Calibration")
-                .font(.system(size: 10, weight: .semibold))
+                .font(.system(size: 9.5, weight: .semibold))
                 .foregroundColor(Color(red: 1.0, green: 0.62, blue: 0.04))
                 .tracking(0.8)
                 .textCase(.uppercase)
@@ -26,27 +26,27 @@ struct CalibrationView: View {
 
             // Exercise name
             Text(exercise.name)
-                .font(.system(size: 15, weight: .bold))
+                .font(.system(size: 14.5, weight: .bold))
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .lineLimit(1)
 
             // Instructions
             Text("Set weight where **rep 7–8 is very hard.** Last 1–2 should be a real struggle.")
-                .font(.system(size: 9.5))
+                .font(.system(size: 9))
                 .foregroundColor(Color(white: 0.53))
                 .multilineTextAlignment(.center)
-                .lineSpacing(1.5)
+                .lineSpacing(0.5)
                 .lineLimit(3)
                 .fixedSize(horizontal: false, vertical: true)
 
-            Spacer().frame(height: 4)
+            Spacer().frame(height: 2)
 
             if exercise.isBodyweight {
                 Button("Start 8 reps") {
                     onComplete(0)
                 }
                 .frame(maxWidth: .infinity)
-                .frame(height: 32)
+                .frame(height: 28)
                 .background(Color(red: 0.18, green: 0.82, blue: 0.33))
                 .foregroundColor(.black)
                 .font(.system(size: 12, weight: .bold))
@@ -60,10 +60,10 @@ struct CalibrationView: View {
                         currentWeight = max(currentWeight - weightIncrement(), exercise.minimumWeight)
                     }) {
                         Text("−")
-                            .font(.system(size: 20, weight: .semibold))
+                            .font(.system(size: 18, weight: .semibold))
                             .foregroundColor(Color(white: 0.67))
                     }
-                    .frame(width: 34, height: 34)
+                    .frame(width: 30, height: 30)
                     .background(Circle().fill(Color(white: 0.11)))
                     .overlay(Circle().stroke(Color(white: 0.20), lineWidth: 1))
                     .buttonStyle(.plain)
@@ -73,7 +73,7 @@ struct CalibrationView: View {
                     // Weight value
                     VStack(spacing: 1) {
                         Text("\(Int(currentWeight))")
-                            .font(.system(size: 28, weight: .bold))
+                            .font(.system(size: 26, weight: .bold))
                             .lineSpacing(-4)
                         Text("lb")
                             .font(.system(size: 10))
@@ -87,24 +87,24 @@ struct CalibrationView: View {
                         currentWeight = currentWeight + weightIncrement()
                     }) {
                         Text("+")
-                            .font(.system(size: 20, weight: .semibold))
+                            .font(.system(size: 18, weight: .semibold))
                             .foregroundColor(Color(white: 0.67))
                     }
-                    .frame(width: 34, height: 34)
+                    .frame(width: 30, height: 30)
                     .background(Circle().fill(Color(white: 0.11)))
                     .overlay(Circle().stroke(Color(white: 0.20), lineWidth: 1))
                     .buttonStyle(.plain)
                 }
-                .frame(height: 34)
+                .frame(height: 30)
 
-                Spacer().frame(height: 4)
+                Spacer().frame(height: 2)
 
                 // Start button
                 Button("Start 8 reps") {
                     onComplete(currentWeight)
                 }
                 .frame(maxWidth: .infinity)
-                .frame(height: 32)
+                .frame(height: 28)
                 .background(Color(red: 0.18, green: 0.82, blue: 0.33))
                 .foregroundColor(.black)
                 .font(.system(size: 12, weight: .bold))
@@ -115,8 +115,8 @@ struct CalibrationView: View {
             Spacer()
         }
         .padding(.horizontal, 16)
-        .padding(.top, 14)
-        .padding(.bottom, 12)
+        .padding(.top, 8)
+        .padding(.bottom, 8)
     }
 
     private func weightIncrement() -> Double {

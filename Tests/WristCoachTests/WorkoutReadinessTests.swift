@@ -7,6 +7,23 @@ struct WorkoutReadinessTests {
         #expect(WorkoutReadiness.checking.canEnterActiveSet == false)
     }
 
+    @Test("optimistic entry lets the selected exercise show GO immediately")
+    func optimisticEntryCanEnterActiveSet() {
+        let readiness = WorkoutReadiness.optimisticEntry(motionAvailable: true)
+
+        #expect(readiness.canEnterActiveSet == true)
+        #expect(readiness.usesManualRepMode == false)
+        #expect(readiness.degradedHR == true)
+    }
+
+    @Test("optimistic entry falls back to manual reps when motion is unavailable")
+    func optimisticEntryUsesManualRepsWithoutMotion() {
+        let readiness = WorkoutReadiness.optimisticEntry(motionAvailable: false)
+
+        #expect(readiness.canEnterActiveSet == true)
+        #expect(readiness.usesManualRepMode == true)
+    }
+
     @Test("ready state can enter active set")
     func readyCanEnterActiveSet() {
         let readiness = WorkoutReadiness(
