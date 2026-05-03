@@ -3,7 +3,6 @@ import Foundation
 protocol RepDetectorDelegate: AnyObject {
     func repCountDidChange(_ repCount: Int)
     func fatigueDetected()
-    func setComplete(_ actualReps: Int, _ repIntervals: [Double], _ struggled: Bool)
 }
 
 class RepDetector {
@@ -12,8 +11,8 @@ class RepDetector {
     private let bufferSize: Int = 30
     private let centerIdx: Int = 15
 
-    private var sampleBuffer: [(t: CFAbsoluteTime, mag: Double)] = []
-    private var lastRepTime: CFAbsoluteTime = 0
+    private var sampleBuffer: [(t: TimeInterval, mag: Double)] = []
+    private var lastRepTime: TimeInterval = 0
     private(set) var repCount: Int = 0
     private(set) var repIntervals: [Double] = []
     private(set) var baselineIOI: Double? = nil
@@ -25,7 +24,7 @@ class RepDetector {
         self.threshold = threshold
     }
 
-    func processSample(t: CFAbsoluteTime, userAcceleration: SIMD3<Double>) {
+    func processSample(t: TimeInterval, userAcceleration: SIMD3<Double>) {
         let mag = sqrt(userAcceleration.x * userAcceleration.x
                      + userAcceleration.y * userAcceleration.y
                      + userAcceleration.z * userAcceleration.z)
@@ -66,12 +65,6 @@ class RepDetector {
 
         lastRepTime = centerSample.t
         delegate?.repCountDidChange(repCount)
-
-        // Check for set completion
-        if repIntervals.count >= 2 && repIntervals.count >= repIntervals.count - 2 {
-            let struggled = lastTwoFatigued.0 && lastTwoFatigued.1
-            delegate?.setComplete(repCount, repIntervals, struggled)
-        }
     }
 
     func reset() {

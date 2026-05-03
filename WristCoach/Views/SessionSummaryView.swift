@@ -3,79 +3,101 @@ import SwiftUI
 struct SessionSummaryView: View {
     let exercises: [Exercise]
     let records: [ExerciseRecord]
+    let displayVolumeOverride: Double?
     let onDone: () -> Void
 
-    private var totalVolume: Double {
-        records.reduce(0) { $0 + Double($1.actualReps) * $1.targetWeight }
+    init(exercises: [Exercise], records: [ExerciseRecord], displayVolumeOverride: Double? = nil, onDone: @escaping () -> Void) {
+        self.exercises = exercises
+        self.records = records
+        self.displayVolumeOverride = displayVolumeOverride
+        self.onDone = onDone
     }
 
-    private var newPRs: [ExerciseRecord] {
-        records.filter { record in
-            // Check if this is a new PR for this exercise
-            let previousRecords = records.filter { $0.exerciseId == record.exerciseId }
-            guard let prevRecord = previousRecords.sorted(by: { $0.date < $1.date }).first else {
-                return false
-            }
-            return prevRecord.date == record.date
+    private var totalVolume: Double {
+        if let displayVolumeOverride {
+            return displayVolumeOverride
         }
+        return records.reduce(0) { $0 + Double($1.actualReps) * $1.targetWeight }
     }
 
     var body: some View {
-        VStack(spacing: 32) {
-            // Total volume
-            HStack {
-                Text("Total Volume")
-                    .font(.caption)
-                    .foregroundColor(.gray)
-            }
+        VStack(spacing: 3) {
+            Text("Session done")
+                .font(.system(size: 9, weight: .semibold))
+                .foregroundColor(Color(white: 0.40))
+                .tracking(0.8)
+                .textCase(.uppercase)
 
             Text(formatVolume(totalVolume))
-                .font(.system(size: 48, weight: .bold))
-                .foregroundColor(.white)
+                .font(.system(size: 24, weight: .heavy))
+                .foregroundColor(Color(red: 0.18, green: 0.82, blue: 0.33))
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
 
-            // PR badges
-            if !newPRs.isEmpty {
-                HStack(spacing: 16) {
-                    ForEach(newPRs.prefix(3), id: \.exerciseId) { record in
-                        VStack {
-                            Image(systemName: "star.fill")
-                                .foregroundColor(.yellow)
-                            Text(record.actualReps.description)
-                                .font(.caption)
-                        }
+            Text("lbs total volume")
+                .font(.system(size: 8.5))
+                .foregroundColor(Color(white: 0.27))
+                .padding(.bottom, 2)
+
+            VStack(spacing: 3) {
+                ForEach(records.prefix(5), id: \.exerciseId) { record in
+                    HStack(spacing: 8) {
+                        Text(exerciseName(for: record.exerciseId))
+                            .font(.system(size: 8, weight: .medium))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.72)
+                        Spacer(minLength: 4)
+                        Text(resultLabel(for: record))
+                            .font(.system(size: 7.5, weight: record.actualReps > record.targetReps ? .bold : .regular))
+                            .foregroundColor(resultColor(for: record))
+                            .lineLimit(1)
                     }
+                    .padding(.vertical, 3)
+                    .padding(.horizontal, 8)
+                    .frame(height: 21)
+                    .background(Color(white: 0.053))
+                    .cornerRadius(7)
                 }
             }
 
-            // Exercise list
-            List(records.prefix(5)) { record in
-                HStack {
-                    Text(exerciseName(for: record.exerciseId))
-                        .font(.body)
-                    Spacer()
-                    Text("\(record.actualReps) reps @ \(Int(record.targetWeight)) lb")
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                }
+            Button(action: onDone) {
+                Text("Done ✓")
+                    .font(.system(size: 10.5, weight: .semibold))
+                    .frame(maxWidth: .infinity)
             }
-
-            // Done button
-            Button("Done") {
-                onDone()
-            }
-            .padding()
-            .frame(width: 120)
-            .background(Color.green)
-            .foregroundColor(.white)
-            .cornerRadius(22)
+            .frame(height: 25)
+            .background(Color(white: 0.11))
+            .foregroundColor(Color(white: 0.67))
+            .cornerRadius(8)
+            .buttonStyle(.plain)
         }
-        .padding()
-        .navigationTitle("Workout Complete")
+        .padding(.horizontal, 16)
+        .padding(.top, 10)
+        .padding(.bottom, 6)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 
     private func formatVolume(_ volume: Double) -> String {
-        let formatted = volume >= 1000 ? String(format: "%.0f", volume / 1000) + " K" : String(format: "%.0f", volume)
-        return "\(formatted) lbs"
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 0
+        return formatter.string(from: NSNumber(value: volume)) ?? String(format: "%.0f", volume)
+    }
+
+    private func resultLabel(for record: ExerciseRecord) -> String {
+        if record.actualReps > record.targetReps {
+            return "PR ↑"
+        }
+
+        let weight = record.targetWeight > 0 ? "\(Int(record.targetWeight)) lb × " : ""
+        return "\(weight)\(record.actualReps)"
+    }
+
+    private func resultColor(for record: ExerciseRecord) -> Color {
+        if record.actualReps > record.targetReps {
+            return Color(red: 1.0, green: 0.62, blue: 0.04)
+        }
+        return Color(white: 0.33)
     }
 
     private func exerciseName(for exerciseId: String) -> String {

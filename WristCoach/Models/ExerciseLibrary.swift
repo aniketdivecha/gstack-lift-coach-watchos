@@ -52,7 +52,19 @@ struct ExerciseLibrary: Codable {
                   "isIsometric": false,
                   "weightType": "free",
                   "minimumWeight": 2.5,
-                  "defaultStartingWeight": 45.0
+                  "defaultStartingWeight": 135.0
+                },
+                {
+                  "id": "chest_fly",
+                  "name": "Chest Fly",
+                  "muscleGroups": ["chest"],
+                  "defaultThreshold": 0.35,
+                  "increment": {"small": 2.5, "large": 5.0},
+                  "isBodyweight": false,
+                  "isIsometric": false,
+                  "weightType": "machine",
+                  "minimumWeight": 5.0,
+                  "defaultStartingWeight": 50.0
                 },
                 {
                   "id": "incline_press",
@@ -184,7 +196,19 @@ struct ExerciseLibrary: Codable {
                   "isIsometric": false,
                   "weightType": "cable",
                   "minimumWeight": 5.0,
-                  "defaultStartingWeight": 30.0
+                  "defaultStartingWeight": 40.0
+                },
+                {
+                  "id": "skull_crusher",
+                  "name": "Skull Crusher",
+                  "muscleGroups": ["triceps"],
+                  "defaultThreshold": 0.35,
+                  "increment": {"small": 2.5, "large": 5.0},
+                  "isBodyweight": false,
+                  "isIsometric": false,
+                  "weightType": "free",
+                  "minimumWeight": 5.0,
+                  "defaultStartingWeight": 40.0
                 },
                 {
                   "id": "dip",

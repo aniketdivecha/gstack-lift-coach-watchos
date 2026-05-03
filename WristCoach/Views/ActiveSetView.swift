@@ -1,207 +1,315 @@
 import SwiftUI
-import CoreMotion
 
-class RepCountObservable: ObservableObject {
-    @Published var repCount: Int = 0
-    @Published var remaining: Int = 0
-    @Published var isFatigued: Bool = false
-    @Published var repIntervals: [Double] = []
-
-    func update(repCount: Int, remaining: Int, isFatigued: Bool, repIntervals: [Double]) {
-        self.repCount = repCount
-        self.remaining = remaining
-        self.isFatigued = isFatigued
-        self.repIntervals = repIntervals
-    }
-}
-
-final class ActiveSetView: View {
-    @ObservedObject var repObservable: RepCountObservable
+struct ActiveSetView: View, @unchecked Sendable {
+    @StateObject private var setController: SetSessionController
     let exercise: Exercise
     let targetReps: Int
-    let onRepCountUpdate: (Int, [Double], Bool) -> Void
-    let onStop: () -> Void
-
-    private let motionSource: MotionSource
-    private let speechAnnouncer: SpeechAnnouncer
-    private let hapticEngine: HapticEngine
-    private let clock: Clock
-    private var repDetector: RepDetector?
+    let manualMode: Bool
+    let onStop: (SetResult) -> Void
 
     init(
         exercise: Exercise,
         targetReps: Int,
-        onRepCountUpdate: @escaping (Int, [Double], Bool) -> Void,
-        onStop: @escaping () -> Void
+        manualMode: Bool = false,
+        onStop: @escaping (SetResult) -> Void
     ) {
         self.exercise = exercise
         self.targetReps = targetReps
-        self.onRepCountUpdate = onRepCountUpdate
         self.onStop = onStop
-        self.repObservable = RepCountObservable()
-        self.motionSource = CMMotionSource()
-        self.speechAnnouncer = AVSpeechSynthesizerAnnouncer()
-        self.hapticEngine = WatchHapticEngine()
-        self.clock = MonotonicClock()
-    }
-
-    var body: some View {
-        VStack(spacing: 0) {
-            // Top info
-            HStack {
-                Text(exercise.name)
-                    .font(.caption)
-                    .foregroundColor(.gray)
-                Spacer()
-                Text("Set \(exercise.isBodyweight ? "Bodyweight" : "Calibrate")")
-                    .font(.caption)
-                    .foregroundColor(.gray)
-            }
-            .padding(.horizontal)
-            .padding(.top, 8)
-
-            // Rep counter
-            ZStack {
-                Circle()
-                    .stroke(Color.blue.opacity(0.3), lineWidth: 24)
-                    .frame(width: 200, height: 200)
-
-                Text("\(repObservable.repCount)")
-                    .font(.system(size: 72, weight: .bold))
-                    .foregroundColor(isFatigued ? Color.yellow : Color.white)
-
-                Circle()
-                    .stroke(Color.blue, lineWidth: 24)
-                    .frame(width: 200, height: 200)
-                    .opacity(max(0, min(1, Double(repObservable.repCount) / Double(targetReps))))
-            }
-            .padding()
-
-            // Progress text
-            Text(remainingText())
-                .font(.headline)
-                .foregroundColor(.gray)
-                .padding(.bottom)
-
-            // GO/STOP buttons
-            HStack(spacing: 20) {
-                if repObservable.repCount == 0 {
-                    Button("GO") {
-                        self.startRepDetection()
-                    }
-                    .padding()
-                    .background(Color.green)
-                    .foregroundColor(.white)
-                    .cornerRadius(32)
-                }
-
-                if repObservable.repCount > 0 {
-                    Button("STOP") {
-                        self.stopRepDetection()
-                    }
-                    .padding()
-                    .background(Color.red)
-                    .foregroundColor(.white)
-                    .cornerRadius(32)
-                }
-            }
-            .padding(.bottom, 16)
-        }
-        .onAppear {
-            self.repDetector = RepDetector(threshold: self.exercise.defaultThreshold)
-            self.repDetector?.delegate = self
-        }
-        .onDisappear {
-            self.motionSource.stop()
-        }
-    }
-
-    private func remainingText() -> String {
-        let remaining = targetReps - repObservable.repCount
-        switch remaining {
-        case 2:
-            return "2 more, push it!"
-        case 1:
-            return "Last one, let's go!"
-        case 0:
-            return "Nice work!"
-        default:
-            return "\(remaining) reps remaining"
-        }
-    }
-
-    private func startRepDetection() {
-        motionSource.start { [weak self] t, acceleration in
-            guard let self = self, let detector = self.repDetector else { return }
-            detector.processSample(t: t, userAcceleration: acceleration)
-        }
-        speechAnnouncer.say("Go")
-        hapticEngine.play(.start)
-    }
-
-    private func stopRepDetection() {
-        motionSource.stop()
-        speechAnnouncer.say("Stop")
-        hapticEngine.play(.stop)
-        onStop()
-    }
-
-    private var isFatigued: Bool {
-        repObservable.isFatigued
-    }
-}
-
-extension ActiveSetView: RepDetectorDelegate {
-    nonisolated func repCountDidChange(_ repCount: Int) {
-        DispatchQueue.main.async { [weak self] in
-            self?.updateRepCount(repCount)
-        }
-    }
-
-    private func updateRepCount(_ repCount: Int) {
-        let remaining = max(0, targetReps - repCount)
-        let isFatigued = repObservable.isFatigued
-
-        speechAnnouncer.say(repCount == 0 ? "" : "\(repCount)")
-        if repCount == targetReps - 2 {
-            speechAnnouncer.say("2 more, push it!")
-        } else if repCount == targetReps - 1 {
-            speechAnnouncer.say("Last one, let's go!")
-        }
-
-        repObservable.update(
-            repCount: repCount,
-            remaining: remaining,
-            isFatigued: isFatigued,
-            repIntervals: repDetector?.repIntervals ?? []
+        self.manualMode = manualMode
+        _setController = StateObject(
+            wrappedValue: SetSessionController(
+                exercise: exercise,
+                targetReps: targetReps,
+                manualMode: manualMode
+            )
         )
     }
 
-    nonisolated func fatigueDetected() {
-        DispatchQueue.main.async { [weak self] in
-            self?.handleFatigueDetected()
+    var body: some View {
+        VStack(spacing: 8) {
+            Text(exercise.name)
+                .font(.system(size: 9, weight: .semibold))
+                .foregroundColor(Color(white: 0.53))
+                .tracking(0.8)
+                .textCase(.uppercase)
+                .lineLimit(1)
+
+            if !setController.isCountingStarted {
+                Text(weightLabel)
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundColor(.white)
+
+                Text("Set 1 of 3")
+                    .font(.system(size: 10))
+                    .foregroundColor(Color(white: 0.33))
+
+                Spacer(minLength: 8)
+
+                Button(action: setController.start) {
+                    Text("GO")
+                        .font(.system(size: 22, weight: .heavy))
+                        .tracking(0.8)
+                }
+                .frame(width: 88, height: 88)
+                .background(Circle().fill(Color(red: 0.18, green: 0.82, blue: 0.33)))
+                .foregroundColor(.black)
+                .shadow(color: Color(red: 0.18, green: 0.82, blue: 0.33).opacity(0.18), radius: 0, x: 0, y: 0)
+                .overlay(
+                    Circle()
+                        .stroke(Color(red: 0.18, green: 0.82, blue: 0.33).opacity(0.18), lineWidth: 12)
+                )
+                .buttonStyle(.plain)
+
+                Spacer(minLength: 8)
+
+                Text("Tap when ready to lift")
+                    .font(.system(size: 10))
+                    .foregroundColor(Color(white: 0.27))
+            } else {
+                Text(manualMode ? "Manual reps · Set 1/3" : "\(weightLabel) · Set 1/3")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundColor(isOverTarget ? Color(red: 0.18, green: 0.82, blue: 0.33) : Color(white: 0.67))
+                    .lineLimit(1)
+
+                Spacer(minLength: 4)
+
+                ZStack {
+                    Circle()
+                        .stroke(Color(white: 0.1), lineWidth: 9)
+                        .frame(width: 104, height: 104)
+
+                    Circle()
+                        .trim(from: 0, to: ringProgress)
+                        .stroke(ringColor, style: StrokeStyle(lineWidth: 9, lineCap: .round))
+                        .frame(width: 104, height: 104)
+                        .rotationEffect(.degrees(-90))
+
+                    if isOverTarget {
+                        Circle()
+                            .stroke(ringColor.opacity(0.20), lineWidth: 2)
+                            .frame(width: 104, height: 104)
+                    }
+
+                    VStack(spacing: 1) {
+                        Text("\(setController.repCount)")
+                            .font(.system(size: 42, weight: .heavy))
+                            .foregroundColor(isOverTarget ? ringColor : .white)
+                        Text(isOverTarget ? "keep going" : "of \(targetReps)")
+                            .font(.system(size: 10))
+                            .foregroundColor(isOverTarget ? Color(red: 0.34, green: 0.27, blue: 0.0) : Color(white: 0.27))
+                    }
+                }
+
+                Spacer(minLength: 4)
+
+                Text(motivationText)
+                    .font(.system(size: 10, weight: .semibold))
+                    .foregroundColor(isOverTarget ? ringColor : Color(red: 1.0, green: 0.62, blue: 0.04))
+                    .frame(maxWidth: .infinity)
+                    .frame(minHeight: 28)
+                    .padding(.horizontal, 8)
+                    .background((isOverTarget ? ringColor : Color(red: 1.0, green: 0.62, blue: 0.04)).opacity(0.10))
+                    .cornerRadius(8)
+                    .lineLimit(1)
+
+                if manualMode {
+                    HStack(spacing: 8) {
+                        Button(action: setController.decrementManualRep) {
+                            Text("-")
+                                .font(.system(size: 18, weight: .bold))
+                        }
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 32)
+                        .background(Color(white: 0.11))
+                        .cornerRadius(8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color(white: 0.20), lineWidth: 1)
+                        )
+                        .buttonStyle(.plain)
+
+                        Button(action: setController.incrementManualRep) {
+                            Text("+")
+                                .font(.system(size: 18, weight: .bold))
+                        }
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 32)
+                        .background(Color(white: 0.11))
+                        .cornerRadius(8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color(white: 0.20), lineWidth: 1)
+                        )
+                        .buttonStyle(.plain)
+                    }
+                }
+
+                Button(action: stopRepDetection) {
+                    Text("■ STOP")
+                        .font(.system(size: 11, weight: .semibold))
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: 32)
+                .background(Color(white: 0.11))
+                .foregroundColor(Color(red: 1.0, green: 0.27, blue: 0.23))
+                .cornerRadius(8)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(Color(white: 0.20), lineWidth: 1)
+                )
+                .buttonStyle(.plain)
+            }
         }
+        .padding(16)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 
-    private func handleFatigueDetected() {
-        speechAnnouncer.say("Come on, you can do it!")
-        hapticEngine.play(.notification)
-        repObservable.isFatigued = true
+    private var weightLabel: String {
+        exercise.isBodyweight ? "Bodyweight" : "\(Int(exercise.defaultStartingWeight)) lb"
     }
 
-    nonisolated func setComplete(_ actualReps: Int, _ repIntervals: [Double], _ struggled: Bool) {
-        DispatchQueue.main.async { [weak self] in
-            self?.handleSetComplete(actualReps, repIntervals, struggled)
+    private var isOverTarget: Bool {
+        setController.repCount > targetReps
+    }
+
+    private var ringProgress: Double {
+        guard targetReps > 0 else { return 0 }
+        return min(1, Double(setController.repCount) / Double(targetReps))
+    }
+
+    private var ringColor: Color {
+        isOverTarget ? Color(red: 1.0, green: 0.84, blue: 0.04) : Color(red: 0.04, green: 0.52, blue: 1.0)
+    }
+
+    private var motivationText: String {
+        if isOverTarget {
+            return "Beyond target. Keep going."
         }
+        if manualMode {
+            return "Manual count. Use +/- if needed."
+        }
+        if setController.isFatigued {
+            return "2 more, push it."
+        }
+        return "\(setController.remainingReps) reps to go"
     }
 
-    private func handleSetComplete(_ actualReps: Int, _ repIntervals: [Double], _ struggled: Bool) {
-        speechAnnouncer.say("\(actualReps) reps. Nice work.")
-        hapticEngine.play(.success)
-        onRepCountUpdate(actualReps, repIntervals, struggled)
+    private func stopRepDetection() {
+        onStop(setController.stop())
+    }
+}
+
+struct SetCompleteView: View {
+    let exercise: Exercise
+    let result: SetResult
+    let overload: OverloadResult
+    let targetReps: Int
+    let onRest: () -> Void
+
+    var body: some View {
+        VStack(spacing: isGold ? 3 : 8) {
+            Text(exercise.name)
+                .font(.system(size: 10, weight: .semibold))
+                .foregroundColor(Color(white: 0.40))
+                .tracking(0.8)
+                .textCase(.uppercase)
+                .lineLimit(1)
+
+            Text("\(result.actualReps)")
+                .font(.system(size: isGold ? 42 : 44, weight: isGold ? .black : .heavy))
+                .foregroundColor(heroColor)
+                .lineLimit(1)
+
+            Text(detailLine)
+                .font(.system(size: isGold ? 9.5 : 11))
+                .foregroundColor(isGold ? Color(red: 0.47, green: 0.40, blue: 0.0) : Color(white: 0.40))
+                .lineLimit(1)
+                .padding(.bottom, isGold ? 0 : 2)
+
+            Text("\"\(overload.message)\"")
+                .font(.system(size: isGold ? 10 : 11, weight: isGold ? .bold : .regular))
+                .foregroundColor(isGold ? heroColor : Color(white: 0.67))
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, isGold ? 4 : 6)
+                .padding(.horizontal, 10)
+                .background((isGold ? heroColor : Color.white).opacity(isGold ? 0.10 : 0.07))
+                .cornerRadius(8)
+                .lineLimit(1)
+
+            if isGold {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Next session")
+                        .font(.system(size: 9, weight: .semibold))
+                        .foregroundColor(Color(red: 0.29, green: 0.48, blue: 0.0))
+                        .tracking(0.6)
+                        .textCase(.uppercase)
+                    Text("\(Int(overload.newWeight)) lb × \(targetReps)")
+                        .font(.system(size: 13, weight: .heavy))
+                        .foregroundColor(Color(red: 0.18, green: 0.82, blue: 0.33))
+                    Text(nextReason)
+                        .font(.system(size: 8.5))
+                        .foregroundColor(Color(red: 0.23, green: 0.42, blue: 0.0))
+                        .lineLimit(1)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.vertical, 5)
+                .padding(.horizontal, 10)
+                .background(Color(red: 0.05, green: 0.10, blue: 0.0))
+                .cornerRadius(11)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 11)
+                        .stroke(Color(red: 0.16, green: 0.29, blue: 0.0), lineWidth: 1)
+                )
+            }
+
+            Button(action: onRest) {
+                Text("Rest →")
+                    .font(.system(size: isGold ? 11 : 12, weight: .bold))
+                    .frame(maxWidth: .infinity)
+            }
+            .frame(height: isGold ? 27 : 34)
+            .background(isGold ? Color(red: 0.18, green: 0.82, blue: 0.33) : Color(white: 0.11))
+            .foregroundColor(isGold ? .black : Color(red: 0.18, green: 0.82, blue: 0.33))
+            .cornerRadius(10)
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(isGold ? Color.clear : Color(red: 0.18, green: 0.82, blue: 0.33), lineWidth: 1)
+            )
+            .buttonStyle(.plain)
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, isGold ? 8 : 16)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+    }
+
+    private var isGold: Bool {
+        if case .gold = overload.celebrationLevel {
+            return true
+        }
+        return false
+    }
+
+    private var heroColor: Color {
+        isGold ? Color(red: 1.0, green: 0.84, blue: 0.04) : Color(red: 0.18, green: 0.82, blue: 0.33)
+    }
+
+    private var detailLine: String {
+        let weight = exercise.isBodyweight ? "bodyweight" : "\(Int(exercise.defaultStartingWeight)) lb"
+        if result.actualReps > targetReps {
+            return "reps · \(weight) · +\(result.actualReps - targetReps) bonus"
+        }
+        return "reps · \(weight)"
+    }
+
+    private var nextReason: String {
+        if exercise.defaultStartingWeight > 135 {
+            return "\(Int(exercise.defaultStartingWeight)) lb too easy"
+        }
+        return "Mastered \(Int(exercise.defaultStartingWeight))"
     }
 }
 
 #Preview {
-    ActiveSetView(exercise: Exercise(id: "bench_press", name: "Bench Press", muscleGroups: ["chest"], defaultThreshold: 0.4, increment: Exercise.Increments(small: 2.5, large: 5.0), isBodyweight: false, isIsometric: false, weightType: .free, minimumWeight: 2.5, defaultStartingWeight: 45.0), targetReps: 8, onRepCountUpdate: { _, _, _ in }, onStop: {})
+    ActiveSetView(exercise: Exercise(id: "bench_press", name: "Bench Press", muscleGroups: ["chest"], defaultThreshold: 0.4, increment: Exercise.Increments(small: 2.5, large: 5.0), isBodyweight: false, isIsometric: false, weightType: .free, minimumWeight: 2.5, defaultStartingWeight: 45.0), targetReps: 8, onStop: { _ in })
 }

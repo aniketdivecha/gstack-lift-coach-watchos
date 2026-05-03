@@ -15,53 +15,108 @@ struct CalibrationView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            VStack(spacing: 24) {
-                Text("Calibrate: \(exercise.name)")
-                    .font(.title2)
-                    .bold()
-                Text("Find weight where rep 7-8 is very hard")
-                    .font(.body)
-                    .multilineTextAlignment(.center)
+        VStack(spacing: 10) {
+            // Header
+            Text("Calibration")
+                .font(.system(size: 10, weight: .semibold))
+                .foregroundColor(Color(red: 1.0, green: 0.62, blue: 0.04))
+                .tracking(0.8)
+                .textCase(.uppercase)
+                .frame(maxWidth: .infinity, alignment: .leading)
 
-                if exercise.isBodyweight {
-                    VStack(spacing: 16) {
-                        Text("Bodyweight exercise")
-                            .font(.headline)
-                        Text("Do 8 reps now")
-                            .font(.title)
-                            .bold()
-                        Button("Start 8 reps") {
-                            onComplete(0)
-                        }
-                    }
-                } else {
-                    VStack(spacing: 16) {
-                        Text("Weight: \(Int(currentWeight)) lb")
-                            .font(.title)
-                            .bold()
-                        HStack {
-                            Button("-") {
-                                currentWeight = max(currentWeight - weightIncrement(), exercise.minimumWeight)
-                            }
-                            Button("+") {
-                                currentWeight = currentWeight + weightIncrement()
-                            }
-                        }
-                        .buttonStyle(CircularButtonStyle())
-                        Button("Start 8 reps") {
-                            onComplete(currentWeight)
-                        }
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                    }
+            // Exercise name
+            Text(exercise.name)
+                .font(.system(size: 15, weight: .bold))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .lineLimit(1)
+
+            // Instructions
+            Text("Set weight where **rep 7–8 is very hard.** Last 1–2 should be a real struggle.")
+                .font(.system(size: 9.5))
+                .foregroundColor(Color(white: 0.53))
+                .multilineTextAlignment(.center)
+                .lineSpacing(1.5)
+                .lineLimit(3)
+                .fixedSize(horizontal: false, vertical: true)
+
+            Spacer().frame(height: 4)
+
+            if exercise.isBodyweight {
+                Button("Start 8 reps") {
+                    onComplete(0)
                 }
+                .frame(maxWidth: .infinity)
+                .frame(height: 32)
+                .background(Color(red: 0.18, green: 0.82, blue: 0.33))
+                .foregroundColor(.black)
+                .font(.system(size: 12, weight: .bold))
+                .cornerRadius(10)
+                .buttonStyle(.plain)
+            } else {
+                // Weight control row
+                HStack(spacing: 0) {
+                    // Minus button
+                    Button(action: {
+                        currentWeight = max(currentWeight - weightIncrement(), exercise.minimumWeight)
+                    }) {
+                        Text("−")
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundColor(Color(white: 0.67))
+                    }
+                    .frame(width: 34, height: 34)
+                    .background(Circle().fill(Color(white: 0.11)))
+                    .overlay(Circle().stroke(Color(white: 0.20), lineWidth: 1))
+                    .buttonStyle(.plain)
+
+                    Spacer()
+
+                    // Weight value
+                    VStack(spacing: 1) {
+                        Text("\(Int(currentWeight))")
+                            .font(.system(size: 28, weight: .bold))
+                            .lineSpacing(-4)
+                        Text("lb")
+                            .font(.system(size: 10))
+                            .foregroundColor(Color(white: 0.33))
+                    }
+
+                    Spacer()
+
+                    // Plus button
+                    Button(action: {
+                        currentWeight = currentWeight + weightIncrement()
+                    }) {
+                        Text("+")
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundColor(Color(white: 0.67))
+                    }
+                    .frame(width: 34, height: 34)
+                    .background(Circle().fill(Color(white: 0.11)))
+                    .overlay(Circle().stroke(Color(white: 0.20), lineWidth: 1))
+                    .buttonStyle(.plain)
+                }
+                .frame(height: 34)
+
+                Spacer().frame(height: 4)
+
+                // Start button
+                Button("Start 8 reps") {
+                    onComplete(currentWeight)
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: 32)
+                .background(Color(red: 0.18, green: 0.82, blue: 0.33))
+                .foregroundColor(.black)
+                .font(.system(size: 12, weight: .bold))
+                .cornerRadius(10)
+                .buttonStyle(.plain)
             }
-            .padding()
-            .navigationTitle("Calibration")
+
+            Spacer()
         }
+        .padding(.horizontal, 16)
+        .padding(.top, 14)
+        .padding(.bottom, 12)
     }
 
     private func weightIncrement() -> Double {
@@ -80,13 +135,4 @@ struct CalibrationView: View {
 
 #Preview {
     CalibrationView(exercise: Exercise(id: "bench_press", name: "Bench Press", muscleGroups: ["chest"], defaultThreshold: 0.4, increment: Exercise.Increments(small: 2.5, large: 5.0), isBodyweight: false, isIsometric: false, weightType: .free, minimumWeight: 2.5, defaultStartingWeight: 45.0), onComplete: { _ in }, onManualEntry: {})
-}
-
-struct CircularButtonStyle: ButtonStyle {
-    func makeBody(configuration: Self.Configuration) -> some View {
-        configuration.label
-            .padding()
-            .background(Circle().fill(configuration.isPressed ? Color.gray : Color.blue))
-            .foregroundColor(.white)
-    }
 }

@@ -1,0 +1,10 @@
+{
+  "exerciseId": "bench_press",
+  "sampleRateHz": 30,
+  "threshold": 0.4,
+  "targetReps": 8,
+  "baselineNoise": 0.03,
+  "peakMagnitude": 0.85,
+  "durationSeconds": 10.0,
+  "peakTimes": [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.5, 9.0]
+}

@@ -20,6 +20,10 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>WristCoach reads heart rate to guide rest timing during workouts.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>WristCoach saves strength workouts started on Apple Watch.</string>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionAttributes</key>
@@ -32,7 +36,14 @@
 	</dict>
 	<key>WKExtensionDelegateClassName</key>
 	<string>ExtensionDelegate</string>
-	<key>WKRunsIndependentlyOfCompanionApp</key>
+	<key>WKApplication</key>
+	<true/>
+	<key>WKBackgroundModes</key>
+	<array>
+		<string>workout-processing</string>
+		<string>audio</string>
+	</array>
+	<key>WKWatchOnly</key>
 	<true/>
 </dict>
 </plist>

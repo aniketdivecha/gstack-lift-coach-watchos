@@ -4,16 +4,18 @@ enum WorkoutState {
     case idle
     case musclePicker(selected: Set<String>)
     case exerciseQueue(exercises: [Exercise], currentExerciseIndex: Int)
-    case calibration(exercise: Exercise, currentWeight: Double, attemptCount: Int)
-    case activeSet(exercise: Exercise, targetReps: Int, repDetector: RepDetector)
-    case rest(exercise: Exercise, startTime: Date, targetHR: Double)
+    case calibration(exercises: [Exercise], currentExerciseIndex: Int, exercise: Exercise, currentWeight: Double, attemptCount: Int)
+    case workoutReadiness(exercises: [Exercise], currentExerciseIndex: Int, exercise: Exercise, readiness: WorkoutReadiness)
+    case activeSet(exercise: Exercise, targetReps: Int, readiness: WorkoutReadiness)
+    case setComplete(exercises: [Exercise], currentExerciseIndex: Int, exercise: Exercise, result: SetResult, overload: OverloadResult, targetReps: Int, readiness: WorkoutReadiness)
+    case rest(exercises: [Exercise], currentExerciseIndex: Int, exercise: Exercise, startTime: Date, targetHR: Double, degradedHR: Bool)
     case sessionSummary(exercises: [Exercise], records: [ExerciseRecord])
 }
 
 extension WorkoutState {
     var isWorkoutActive: Bool {
         switch self {
-        case .activeSet, .rest:
+        case .workoutReadiness, .activeSet, .setComplete, .rest:
             return true
         default:
             return false
