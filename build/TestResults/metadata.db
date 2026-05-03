@@ -13,17 +13,17 @@
 				<key>bodyweightNoOp</key>
 				<dict>
 					<key>mrnet</key>
-					<real>0.00064206123352050781</real>
+					<real>0.0030238628387451172</real>
 				</dict>
 				<key>usesExerciseProvidedIncrement</key>
 				<dict>
 					<key>mrnet</key>
-					<real>0.00031518936157226562</real>
+					<real>0.0027050971984863281</real>
 				</dict>
 				<key>usesExerciseProvidedMinimumWeight</key>
 				<dict>
 					<key>mrnet</key>
-					<real>0.000579833984375</real>
+					<real>0.0022628307342529297</real>
 				</dict>
 			</dict>
 			<key>RepDetectorTests</key>
@@ -31,7 +31,7 @@
 				<key>fixtureCountsRepsAndReportsFatigue</key>
 				<dict>
 					<key>mrnet</key>
-					<real>0.0021460056304931641</real>
+					<real>0.0037829875946044922</real>
 				</dict>
 			</dict>
 			<key>SetSessionControllerTests</key>
@@ -39,12 +39,12 @@
 				<key>manualModeOwnsFinalSetResult</key>
 				<dict>
 					<key>mrnet</key>
-					<real>0.001255035400390625</real>
+					<real>0.10621213912963867</real>
 				</dict>
 				<key>motionModeStartsMotionSource</key>
 				<dict>
 					<key>mrnet</key>
-					<real>0.0011799335479736328</real>
+					<real>0.10623812675476074</real>
 				</dict>
 			</dict>
 			<key>WorkoutReadinessTests</key>
@@ -52,22 +52,45 @@
 				<key>checkingCannotEnterActiveSet</key>
 				<dict>
 					<key>mrnet</key>
-					<real>0.00034189224243164062</real>
+					<real>0.0028548240661621094</real>
 				</dict>
 				<key>degradedCanEnterWithFallbacks</key>
 				<dict>
 					<key>mrnet</key>
-					<real>0.00033307075500488281</real>
+					<real>0.0028171539306640625</real>
 				</dict>
 				<key>failedWorkoutBlocksActiveSet</key>
 				<dict>
 					<key>mrnet</key>
-					<real>0.00057005882263183594</real>
+					<real>0.0029339790344238281</real>
+				</dict>
+				<key>optimisticEntryCanEnterActiveSet</key>
+				<dict>
+					<key>mrnet</key>
+					<real>0.0030100345611572266</real>
+				</dict>
+				<key>optimisticEntryUsesManualRepsWithoutMotion</key>
+				<dict>
+					<key>mrnet</key>
+					<real>0.0029749870300292969</real>
 				</dict>
 				<key>readyCanEnterActiveSet</key>
 				<dict>
 					<key>mrnet</key>
-					<real>0.00027704238891601562</real>
+					<real>0.0028932094573974609</real>
+				</dict>
+			</dict>
+			<key>WorkoutStateMachineTests</key>
+			<dict>
+				<key>completedCalibrationOpensActiveSet</key>
+				<dict>
+					<key>mrnet</key>
+					<real>0.11046004295349121</real>
+				</dict>
+				<key>everyLibraryExerciseCompletesExpectedFlow</key>
+				<dict>
+					<key>mrnet</key>
+					<real>0.10922884941101074</real>
 				</dict>
 			</dict>
 		</dict>

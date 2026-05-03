@@ -6,7 +6,7 @@
 	<integer>12</integer>
 	<key>logs</key>
 	<dict>
-		<key>2B7D480A-28F7-4836-869F-7CDD5BBACA8A</key>
+		<key>0469CA20-9EA3-4819-A8BA-B43CDFB4916E</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,7 +15,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>2B7D480A-28F7-4836-869F-7CDD5BBACA8A.xcactivitylog</string>
+			<string>0469CA20-9EA3-4819-A8BA-B43CDFB4916E.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -40,13 +40,55 @@
 			<key>signature</key>
 			<string>Testing project WristCoach with scheme WristCoach</string>
 			<key>timeStartedRecording</key>
-			<real>799465117.41494</real>
+			<real>799526884.66312206</real>
 			<key>timeStoppedRecording</key>
-			<real>799465118.48868096</real>
+			<real>799526886.52552903</real>
 			<key>title</key>
 			<string>Testing project WristCoach with scheme WristCoach</string>
 			<key>uniqueIdentifier</key>
-			<string>2B7D480A-28F7-4836-869F-7CDD5BBACA8A</string>
+			<string>0469CA20-9EA3-4819-A8BA-B43CDFB4916E</string>
+		</dict>
+		<key>5E05DBED-D96E-4063-A157-4AC52BE60E20</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>5E05DBED-D96E-4063-A157-4AC52BE60E20.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>WristCoach project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>WristCoach</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Testing project WristCoach with scheme WristCoach</string>
+			<key>timeStartedRecording</key>
+			<real>799527289.68687499</real>
+			<key>timeStoppedRecording</key>
+			<real>799527291.29924703</real>
+			<key>title</key>
+			<string>Testing project WristCoach with scheme WristCoach</string>
+			<key>uniqueIdentifier</key>
+			<string>5E05DBED-D96E-4063-A157-4AC52BE60E20</string>
 		</dict>
 	</dict>
 </dict>

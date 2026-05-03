@@ -40,6 +40,15 @@ struct WorkoutReadiness: Equatable {
         motion: .checking
     )
 
+    static func optimisticEntry(motionAvailable: Bool) -> WorkoutReadiness {
+        WorkoutReadiness(
+            healthKit: .degraded("Timer-only rest"),
+            workoutSession: .degraded("Starting session"),
+            audio: .degraded("Audio warming"),
+            motion: motionAvailable ? .ready("Auto-count ready") : .degraded("Manual reps")
+        )
+    }
+
     var canEnterActiveSet: Bool {
         healthKit.canContinue
             && workoutSession.canContinue

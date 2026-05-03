@@ -7,7 +7,7 @@
         "key": "Set 1 of 3",
         "location": {
           "startingColumn": 18,
-          "startingLine": 244
+          "startingLine": 280
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "GO",
         "location": {
           "startingColumn": 18,
-          "startingLine": 249
+          "startingLine": 285
         }
       },
       {
@@ -23,23 +23,7 @@
         "key": "Tap when ready to lift",
         "location": {
           "startingColumn": 18,
-          "startingLine": 258
-        }
-      },
-      {
-        "comment": "",
-        "key": "%lld lb ↑",
-        "location": {
-          "startingColumn": 33,
-          "startingLine": 241
-        }
-      },
-      {
-        "comment": "",
-        "key": "%lld lb",
-        "location": {
-          "startingColumn": 83,
-          "startingLine": 241
+          "startingLine": 294
         }
       },
       {
@@ -47,7 +31,7 @@
         "key": "■ STOP",
         "location": {
           "startingColumn": 18,
-          "startingLine": 323
+          "startingLine": 366
         }
       },
       {
@@ -55,7 +39,7 @@
         "key": "%lld",
         "location": {
           "startingColumn": 26,
-          "startingLine": 303
+          "startingLine": 346
         }
       },
       {
@@ -63,7 +47,7 @@
         "key": "keep going",
         "location": {
           "startingColumn": 39,
-          "startingLine": 306
+          "startingLine": 349
         }
       },
       {
@@ -71,7 +55,7 @@
         "key": "of %lld",
         "location": {
           "startingColumn": 54,
-          "startingLine": 306
+          "startingLine": 349
         }
       },
       {
@@ -79,7 +63,7 @@
         "key": "%lld",
         "location": {
           "startingColumn": 18,
-          "startingLine": 369
+          "startingLine": 415
         }
       },
       {
@@ -87,7 +71,7 @@
         "key": "BPM ♥",
         "location": {
           "startingColumn": 18,
-          "startingLine": 372
+          "startingLine": 418
         }
       },
       {
@@ -95,7 +79,7 @@
         "key": "Ready →",
         "location": {
           "startingColumn": 18,
-          "startingLine": 400
+          "startingLine": 446
         }
       },
       {
@@ -103,7 +87,7 @@
         "key": "Next: Chest Fly · 50 lb",
         "location": {
           "startingColumn": 18,
-          "startingLine": 408
+          "startingLine": 454
         }
       },
       {
@@ -111,7 +95,7 @@
         "key": "ELAPSED",
         "location": {
           "startingColumn": 22,
-          "startingLine": 358
+          "startingLine": 404
         }
       },
       {
@@ -119,7 +103,7 @@
         "key": "Target ",
         "location": {
           "startingColumn": 22,
-          "startingLine": 377
+          "startingLine": 423
         }
       },
       {
@@ -127,7 +111,7 @@
         "key": "115 BPM",
         "location": {
           "startingColumn": 22,
-          "startingLine": 380
+          "startingLine": 426
         }
       },
       {
@@ -135,7 +119,7 @@
         "key": " ✓",
         "location": {
           "startingColumn": 26,
-          "startingLine": 384
+          "startingLine": 430
         }
       }
     ]

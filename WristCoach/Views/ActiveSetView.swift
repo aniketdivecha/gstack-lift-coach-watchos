@@ -27,7 +27,7 @@ struct ActiveSetView: View, @unchecked Sendable {
     }
 
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 6) {
             Text(exercise.name)
                 .font(.system(size: 9, weight: .semibold))
                 .foregroundColor(Color(white: 0.53))
@@ -68,32 +68,32 @@ struct ActiveSetView: View, @unchecked Sendable {
                     .foregroundColor(Color(white: 0.27))
             } else {
                 Text(manualMode ? "Manual reps · Set 1/3" : "\(weightLabel) · Set 1/3")
-                    .font(.system(size: 11, weight: .medium))
+                    .font(.system(size: 10.5, weight: .medium))
                     .foregroundColor(isOverTarget ? Color(red: 0.18, green: 0.82, blue: 0.33) : Color(white: 0.67))
                     .lineLimit(1)
 
-                Spacer(minLength: 4)
+                Spacer(minLength: 2)
 
                 ZStack {
                     Circle()
                         .stroke(Color(white: 0.1), lineWidth: 9)
-                        .frame(width: 104, height: 104)
+                        .frame(width: 94, height: 94)
 
                     Circle()
                         .trim(from: 0, to: ringProgress)
                         .stroke(ringColor, style: StrokeStyle(lineWidth: 9, lineCap: .round))
-                        .frame(width: 104, height: 104)
+                        .frame(width: 94, height: 94)
                         .rotationEffect(.degrees(-90))
 
                     if isOverTarget {
                         Circle()
                             .stroke(ringColor.opacity(0.20), lineWidth: 2)
-                            .frame(width: 104, height: 104)
+                            .frame(width: 94, height: 94)
                     }
 
                     VStack(spacing: 1) {
                         Text("\(setController.repCount)")
-                            .font(.system(size: 42, weight: .heavy))
+                            .font(.system(size: 39, weight: .heavy))
                             .foregroundColor(isOverTarget ? ringColor : .white)
                         Text(isOverTarget ? "keep going" : "of \(targetReps)")
                             .font(.system(size: 10))
@@ -101,13 +101,13 @@ struct ActiveSetView: View, @unchecked Sendable {
                     }
                 }
 
-                Spacer(minLength: 4)
+                Spacer(minLength: 2)
 
                 Text(motivationText)
                     .font(.system(size: 10, weight: .semibold))
                     .foregroundColor(isOverTarget ? ringColor : Color(red: 1.0, green: 0.62, blue: 0.04))
                     .frame(maxWidth: .infinity)
-                    .frame(minHeight: 28)
+                    .frame(minHeight: 24)
                     .padding(.horizontal, 8)
                     .background((isOverTarget ? ringColor : Color(red: 1.0, green: 0.62, blue: 0.04)).opacity(0.10))
                     .cornerRadius(8)
@@ -150,7 +150,7 @@ struct ActiveSetView: View, @unchecked Sendable {
                         .font(.system(size: 11, weight: .semibold))
                 }
                 .frame(maxWidth: .infinity)
-                .frame(height: 32)
+                .frame(height: 28)
                 .background(Color(white: 0.11))
                 .foregroundColor(Color(red: 1.0, green: 0.27, blue: 0.23))
                 .cornerRadius(8)
@@ -161,7 +161,8 @@ struct ActiveSetView: View, @unchecked Sendable {
                 .buttonStyle(.plain)
             }
         }
-        .padding(16)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 
@@ -190,7 +191,7 @@ struct ActiveSetView: View, @unchecked Sendable {
             return "Manual count. Use +/- if needed."
         }
         if setController.isFatigued {
-            return "2 more, push it."
+            return "💪 2 more, push it!"
         }
         return "\(setController.remainingReps) reps to go"
     }

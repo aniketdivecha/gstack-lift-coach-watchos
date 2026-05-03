@@ -136,6 +136,11 @@ struct ContentView: View {
 
 struct V5ScreenshotScreen: View {
     let screen: String
+    private var exercise: Exercise { Self.selectedExercise() }
+    private var raisedExercise: Exercise {
+        let increase = exercise.increment.large == 0 ? 0 : exercise.increment.large
+        return exercise.withStartingWeight(exercise.defaultStartingWeight + increase)
+    }
 
     var body: some View {
         Group {
@@ -149,38 +154,38 @@ struct V5ScreenshotScreen: View {
             case "queue":
                 ExerciseQueueView(exercises: Self.queueExercises, onBegin: {}, onSelectExercise: { _ in })
             case "calibration":
-                CalibrationView(exercise: Self.tricepPushdown, currentWeight: 40, onComplete: { _ in }, onManualEntry: {})
+                CalibrationView(exercise: exercise, currentWeight: exercise.defaultStartingWeight, onComplete: { _ in }, onManualEntry: {})
             case "preset":
-                V5PresetScreen(exercise: Self.benchPress(weight: 135), weightRaised: false)
+                V5PresetScreen(exercise: exercise, weightRaised: false)
             case "counting":
-                V5CountingScreen(exercise: Self.benchPress(weight: 135), reps: 6, targetReps: 8, weightRaised: false)
+                V5CountingScreen(exercise: exercise, reps: 6, targetReps: 8, weightRaised: false)
             case "complete":
                 SetCompleteView(
-                    exercise: Self.benchPress(weight: 135),
+                    exercise: exercise,
                     result: SetResult(actualReps: 8, repIntervals: [], struggled: true, manualOverride: false),
-                    overload: OverloadResult(newWeight: 135, message: "Nice work.", celebrationLevel: .standard),
+                    overload: OverloadResult(newWeight: exercise.defaultStartingWeight, message: "Nice work.", celebrationLevel: .standard),
                     targetReps: 8,
                     onRest: {}
                 )
             case "over-count":
-                V5CountingScreen(exercise: Self.benchPress(weight: 135), reps: 9, targetReps: 8, weightRaised: false)
+                V5CountingScreen(exercise: exercise, reps: 9, targetReps: 8, weightRaised: false)
             case "complete-over":
                 SetCompleteView(
-                    exercise: Self.benchPress(weight: 135),
+                    exercise: exercise,
                     result: SetResult(actualReps: 10, repIntervals: [], struggled: false, manualOverride: false),
-                    overload: OverloadResult(newWeight: 140, message: "You crushed it!", celebrationLevel: .gold),
+                    overload: OverloadResult(newWeight: raisedExercise.defaultStartingWeight, message: "You crushed it!", celebrationLevel: .gold),
                     targetReps: 8,
                     onRest: {}
                 )
             case "preset-up":
-                V5PresetScreen(exercise: Self.benchPress(weight: 140), weightRaised: true)
+                V5PresetScreen(exercise: raisedExercise, weightRaised: exercise.increment.large > 0)
             case "counting-up":
-                V5CountingScreen(exercise: Self.benchPress(weight: 140), reps: 10, targetReps: 8, weightRaised: true)
+                V5CountingScreen(exercise: raisedExercise, reps: 10, targetReps: 8, weightRaised: exercise.increment.large > 0)
             case "complete-up":
                 SetCompleteView(
-                    exercise: Self.benchPress(weight: 140),
+                    exercise: raisedExercise,
                     result: SetResult(actualReps: 10, repIntervals: [], struggled: false, manualOverride: false),
-                    overload: OverloadResult(newWeight: 145, message: "Exceptional lift!", celebrationLevel: .gold),
+                    overload: OverloadResult(newWeight: raisedExercise.defaultStartingWeight + raisedExercise.increment.large, message: "Exceptional lift!", celebrationLevel: .gold),
                     targetReps: 8,
                     onRest: {}
                 )
@@ -217,6 +222,20 @@ struct V5ScreenshotScreen: View {
         Exercise(id: "bench_press", name: "Bench Press", muscleGroups: ["chest", "triceps"], defaultThreshold: 0.4, increment: Exercise.Increments(small: 2.5, large: 5), isBodyweight: false, isIsometric: false, weightType: .free, minimumWeight: 2.5, defaultStartingWeight: weight)
     }
 
+    static func selectedExercise() -> Exercise {
+        let exerciseID = ProcessInfo.processInfo.environment["WRISTCOACH_V5_EXERCISE_ID"]
+        let exercise = ExerciseLibrary.load()
+            .groups
+            .flatMap(\.exercises)
+            .first { $0.id == exerciseID } ?? benchPress(weight: 135)
+
+        guard let weightValue = ProcessInfo.processInfo.environment["WRISTCOACH_V5_WEIGHT"],
+              let weight = Double(weightValue) else {
+            return exercise
+        }
+        return exercise.withStartingWeight(weight)
+    }
+
     static var summaryRecords: [ExerciseRecord] {
         [
             ExerciseRecord(exerciseId: "bench_press", targetWeight: 140, targetReps: 8, actualReps: 10),
@@ -224,6 +243,23 @@ struct V5ScreenshotScreen: View {
             ExerciseRecord(exerciseId: "tricep_pushdown", targetWeight: 40, targetReps: 8, actualReps: 8),
             ExerciseRecord(exerciseId: "skull_crusher", targetWeight: 40, targetReps: 8, actualReps: 8)
         ]
+    }
+}
+
+private extension Exercise {
+    func withStartingWeight(_ weight: Double) -> Exercise {
+        Exercise(
+            id: id,
+            name: name,
+            muscleGroups: muscleGroups,
+            defaultThreshold: defaultThreshold,
+            increment: increment,
+            isBodyweight: isBodyweight,
+            isIsometric: isIsometric,
+            weightType: weightType,
+            minimumWeight: minimumWeight,
+            defaultStartingWeight: weight
+        )
     }
 }
 
@@ -238,7 +274,7 @@ struct V5PresetScreen: View {
                 .foregroundColor(Color(white: 0.53))
                 .tracking(0.6)
                 .textCase(.uppercase)
-            Text(weightRaised ? "\(Int(exercise.defaultStartingWeight)) lb ↑" : "\(Int(exercise.defaultStartingWeight)) lb")
+            Text(weightLabel)
                 .font(.system(size: 13, weight: .semibold))
                 .foregroundColor(weightRaised ? Color(red: 0.18, green: 0.82, blue: 0.33) : .white)
             Text("Set 1 of 3")
@@ -263,6 +299,13 @@ struct V5PresetScreen: View {
         .padding(.vertical, 12)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
+
+    private var weightLabel: String {
+        if exercise.isBodyweight {
+            return "Bodyweight"
+        }
+        return weightRaised ? "\(Int(exercise.defaultStartingWeight)) lb ↑" : "\(Int(exercise.defaultStartingWeight)) lb"
+    }
 }
 
 struct V5CountingScreen: View {
@@ -275,7 +318,7 @@ struct V5CountingScreen: View {
     private var ringColor: Color { overTarget ? Color(red: 1.0, green: 0.84, blue: 0.04) : Color(red: 0.04, green: 0.52, blue: 1.0) }
 
     var body: some View {
-        VStack(spacing: 4) {
+        VStack(spacing: 3) {
             Text(exercise.name)
                 .font(.system(size: 9, weight: .semibold))
                 .foregroundColor(Color(white: 0.53))
@@ -288,33 +331,33 @@ struct V5CountingScreen: View {
             ZStack {
                 Circle()
                     .stroke(Color(white: 0.10), lineWidth: 9)
-                    .frame(width: 96, height: 96)
+                    .frame(width: 92, height: 92)
                 Circle()
                     .trim(from: 0, to: min(1, Double(reps) / Double(targetReps)))
                     .stroke(ringColor, style: StrokeStyle(lineWidth: 9, lineCap: .round))
-                    .frame(width: 96, height: 96)
+                    .frame(width: 92, height: 92)
                     .rotationEffect(.degrees(-90))
                 if overTarget {
                     Circle()
                         .stroke(ringColor.opacity(0.20), lineWidth: 2)
-                        .frame(width: 96, height: 96)
+                        .frame(width: 92, height: 92)
                 }
                 VStack(spacing: 1) {
                     Text("\(reps)")
-                        .font(.system(size: 40, weight: .heavy))
+                        .font(.system(size: 38, weight: .heavy))
                         .foregroundColor(overTarget ? ringColor : .white)
                     Text(overTarget ? "keep going" : "of \(targetReps)")
                         .font(.system(size: 10))
                         .foregroundColor(overTarget ? Color(red: 0.34, green: 0.27, blue: 0.0) : Color(white: 0.27))
                 }
             }
-            .padding(.vertical, 2)
+            .padding(.vertical, 1)
 
             Text(motivation)
                 .font(.system(size: 10, weight: .bold))
                 .foregroundColor(overTarget ? ringColor : Color(red: 1.0, green: 0.62, blue: 0.04))
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 5)
+                .padding(.vertical, 4)
                 .padding(.horizontal, 8)
                 .background((overTarget ? ringColor : Color(red: 1.0, green: 0.62, blue: 0.04)).opacity(0.10))
                 .cornerRadius(8)
@@ -324,18 +367,21 @@ struct V5CountingScreen: View {
                 .font(.system(size: 11, weight: .semibold))
                 .foregroundColor(Color(red: 1.0, green: 0.27, blue: 0.23))
                 .frame(maxWidth: .infinity)
-                .frame(height: 28)
+                .frame(height: 26)
                 .background(Color(white: 0.11))
                 .cornerRadius(10)
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(white: 0.20), lineWidth: 1))
         }
         .padding(.horizontal, 16)
-        .padding(.vertical, 10)
+        .padding(.vertical, 8)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
 
     private var weightLabel: String {
         let marker = weightRaised ? " ↑" : ""
+        if exercise.isBodyweight {
+            return "Bodyweight\(marker) · Set 1/3"
+        }
         return "\(Int(exercise.defaultStartingWeight)) lb\(marker) · Set 1/3"
     }
 
@@ -343,7 +389,7 @@ struct V5CountingScreen: View {
         if overTarget {
             return weightRaised ? "New weight, extra reps!" : "Beyond target. Keep going."
         }
-        return "2 more, push it!"
+        return "💪 2 more, push it!"
     }
 }
 

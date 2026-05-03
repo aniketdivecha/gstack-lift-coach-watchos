@@ -1,0 +1,76 @@
+{
+  "buildCommand" : {
+    "command" : "build",
+    "skipDependencies" : false,
+    "style" : "buildAndRun"
+  },
+  "configuredTargets" : [
+    {
+      "guid" : "070f8ddff96b03060b8327467c9fea3d9993cd3c5b92a21747e86fb9fc3ab60e"
+    },
+    {
+      "guid" : "070f8ddff96b03060b8327467c9fea3dcdba630161f353bf1f65ab749b147061"
+    }
+  ],
+  "containerPath" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach.xcodeproj",
+  "continueBuildingAfterErrors" : false,
+  "dependencyScope" : "workspace",
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "activeArchitecture" : "arm64",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : false,
+      "hostTargetedPlatform" : null,
+      "platform" : "watchsimulator",
+      "sdk" : "watchsimulator26.4",
+      "sdkVariant" : "watchsimulator",
+      "supportedArchitectures" : [
+        "arm64"
+      ],
+      "targetArchitecture" : "arm64"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex",
+      "buildProductsPath" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Products",
+      "derivedDataPath" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build",
+      "indexDataStoreFolderPath" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Index.noindex/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Index.noindex/PrecompiledHeaders",
+      "pchPath" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/PrecompiledHeaders"
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "commandLine" : {
+        "table" : {
+          "CODE_SIGNING_ALLOWED" : "NO",
+          "SDKROOT" : "watchsimulator26.4"
+        }
+      },
+      "synthesized" : {
+        "table" : {
+          "ASSETCATALOG_FILTER_FOR_DEVICE_MODEL" : "Watch7,13",
+          "ASSETCATALOG_FILTER_FOR_DEVICE_OS_VERSION" : "26.4",
+          "ASSETCATALOG_FILTER_FOR_THINNING_DEVICE_CONFIGURATION" : "Watch7,13",
+          "BUILD_ACTIVE_RESOURCES_ONLY" : "YES",
+          "CLANG_COVERAGE_MAPPING" : "YES",
+          "CLANG_PROFILE_DATA_DIRECTORY" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/ProfileData",
+          "ENABLE_PREVIEWS" : "NO",
+          "ENABLE_XOJIT_PREVIEWS" : "YES",
+          "ONLY_ACTIVE_ARCH" : "YES",
+          "TARGET_DEVICE_IDENTIFIER" : "415D9D23-9879-4F0A-AB19-DF9018CEF262",
+          "TARGET_DEVICE_MODEL" : "Watch7,13",
+          "TARGET_DEVICE_OS_VERSION" : "26.4",
+          "TARGET_DEVICE_PLATFORM_NAME" : "watchsimulator"
+        }
+      }
+    }
+  },
+  "schemeCommand" : "test",
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}

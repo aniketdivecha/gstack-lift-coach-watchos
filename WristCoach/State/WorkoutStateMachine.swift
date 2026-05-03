@@ -14,6 +14,7 @@ class WorkoutStateMachine: ObservableObject {
     private var currentExercises: [Exercise] = []
     private var currentExerciseIndex: Int = 0
     private var currentReadiness: WorkoutReadiness = .checking
+    private var readinessRequestID = UUID()
     private static let defaultSelectedGroups: Set<String> = ["chest", "triceps"]
 
     init(
@@ -269,26 +270,34 @@ class WorkoutStateMachine: ObservableObject {
     private func beginReadiness(exercises: [Exercise], exerciseIndex: Int, exercise: Exercise) {
         currentExercises = exercises
         currentExerciseIndex = exerciseIndex
-        currentReadiness = .checking
-        state = .workoutReadiness(
-            exercises: exercises,
-            currentExerciseIndex: exerciseIndex,
-            exercise: exercise,
-            readiness: .checking
-        )
+        let requestID = UUID()
+        readinessRequestID = requestID
+        let motionSource = CMMotionSource()
+        let entryReadiness = WorkoutReadiness.optimisticEntry(motionAvailable: motionSource.isAvailable)
+        currentReadiness = entryReadiness
+        state = .activeSet(exercise: exercise, targetReps: 8, readiness: entryReadiness)
 
         Task {
             let readiness = await workoutSessionController.prepareForWorkout(
                 speechAnnouncer: speechAnnouncer,
-                motionSource: CMMotionSource()
+                motionSource: motionSource
             )
+            guard readinessRequestID == requestID else { return }
+
             currentReadiness = readiness
-            state = .workoutReadiness(
-                exercises: exercises,
-                currentExerciseIndex: exerciseIndex,
-                exercise: exercise,
-                readiness: readiness
-            )
+            if case .activeSet(let activeExercise, let targetReps, _) = state,
+               activeExercise.id == exercise.id {
+                if readiness.canEnterActiveSet {
+                    state = .activeSet(exercise: activeExercise, targetReps: targetReps, readiness: readiness)
+                } else {
+                    state = .workoutReadiness(
+                        exercises: exercises,
+                        currentExerciseIndex: exerciseIndex,
+                        exercise: exercise,
+                        readiness: readiness
+                    )
+                }
+            }
         }
     }
 

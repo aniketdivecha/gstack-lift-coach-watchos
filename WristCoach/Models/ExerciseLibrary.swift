@@ -276,7 +276,7 @@ struct ExerciseLibrary: Codable {
                   "muscleGroups": ["core"],
                   "defaultThreshold": 0.35,
                   "increment": {"small": 2.5, "large": 5.0},
-                  "isBodyweight": false,
+                  "isBodyweight": true,
                   "isIsometric": false,
                   "weightType": "bodyweight",
                   "minimumWeight": 0,
