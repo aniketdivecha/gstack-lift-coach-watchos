@@ -1,7 +1,8 @@
 import CoreMotion
 
 protocol MotionSource {
-    func start(onSample: @escaping (CFAbsoluteTime, SIMD3<Double>) -> Void)
+    var isAvailable: Bool { get }
+    func start(onSample: @escaping (TimeInterval, SIMD3<Double>) -> Void)
     func stop()
 }
 
@@ -20,7 +21,11 @@ final class CMMotionSource: MotionSource {
         }()
     }
 
-    func start(onSample: @escaping (CFAbsoluteTime, SIMD3<Double>) -> Void) {
+    var isAvailable: Bool {
+        motionManager.isDeviceMotionAvailable
+    }
+
+    func start(onSample: @escaping (TimeInterval, SIMD3<Double>) -> Void) {
         guard motionManager.isDeviceMotionAvailable else {
             return
         }
@@ -35,7 +40,7 @@ final class CMMotionSource: MotionSource {
                 return
             }
 
-            let t = CFAbsoluteTimeGetCurrent()
+            let t = ProcessInfo.processInfo.systemUptime
             handler(t, SIMD3<Double>(
                 m.userAcceleration.x,
                 m.userAcceleration.y,

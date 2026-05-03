@@ -1,7 +1,4 @@
 import AVFoundation
-#if os(iOS)
-import AVAudioSession
-#endif
 
 protocol SpeechAnnouncer {
     func say(_ text: String)
@@ -35,7 +32,7 @@ final class AVSpeechSynthesizerAnnouncer: SpeechAnnouncer {
     }
 
     private func configureAudioSession() {
-        #if os(iOS)
+        #if os(iOS) || os(watchOS)
         do {
             let audioSession = AVAudioSession.sharedInstance()
             try audioSession.setCategory(.playback, mode: .default, options: [.duckOthers, .mixWithOthers])

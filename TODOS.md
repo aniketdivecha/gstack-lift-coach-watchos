@@ -2,6 +2,32 @@
 
 Deferred items from /plan-eng-review 2026-04-10. Each item has context for future-you.
 
+## v1 — Foundation Follow-ups
+
+### Investigate legacy Series 4 support path
+- **What:** Check whether a separate legacy build path can support Apple Watch Series 4-era hardware.
+- **Why:** The current Xcode project targets watchOS 26.4, and watchOS 26 starts at Apple Watch Series 6. The design doc now treats Series 6+ as the v1 hardware floor.
+- **Pros:** Keeps the original Series 4+ ambition available without blocking the foundation slice.
+- **Cons:** Likely requires an older deployment target, API compatibility checks, and real device testing.
+- **Context:** Accepted in /plan-eng-review on 2026-04-30 after verifying the project build setting is `WATCHOS_DEPLOYMENT_TARGET = 26.4`. Do not change the deployment target casually; treat this as a separate compatibility investigation.
+- **Depends on:** Foundation slice passing on current watchOS target first.
+
+### Design AirPods-required fallback if watch speaker audio fails
+- **What:** Define the UX and implementation fallback if `AVSpeechSynthesizer` cannot reliably route coaching cues through the Watch speaker during an active workout session.
+- **Why:** Audio coaching is part of the core hands-mostly-free promise. If the speaker path fails, the user needs to know before lifting.
+- **Pros:** Prevents silent coaching failure and gives a clear path for the Weekend 1 audio spike result.
+- **Cons:** Adds a small user-facing requirement and may need AirPods/status detection UI.
+- **Context:** Accepted in /plan-eng-review on 2026-04-30. The foundation slice must include an on-device audio spike during `HKWorkoutSession`; this TODO is only for the fallback if that spike fails.
+- **Depends on:** Weekend 1 audio spike result.
+
+### Expand recorded motion fixtures beyond bench press
+- **What:** Record and add motion fixtures for the remaining v1 exercises after the bench press fixture proves the replay pipeline.
+- **Why:** One fixture proves the harness. Multiple fixtures prove the rep detector generalizes beyond the first lift.
+- **Pros:** Protects rep counting from regressing as thresholds and exercise coverage expand.
+- **Cons:** Requires real workout recordings; Codex can wire the harness, but cannot produce trustworthy sensor data without human recordings.
+- **Context:** Accepted in /plan-eng-review on 2026-04-30. Keep Weekend 1 scoped to `bench_press_8_reps.json`; expand only after the foundation gate passes.
+- **Depends on:** Swift Testing target, `RecordedMotionSource`, and bench press fixture accuracy gate.
+
 ## v2 — Algorithm & Data
 
 ### Fatigue fingerprint (per-user HR recovery curves)

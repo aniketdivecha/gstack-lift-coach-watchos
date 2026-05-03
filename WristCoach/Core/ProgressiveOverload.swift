@@ -7,7 +7,8 @@ struct OverloadInput {
     let targetReps: Int
     let struggled: Bool
     let overCount: Bool
-    let muscleGroup: String
+    let increment: Double
+    let minimumWeight: Double
     let weightType: Exercise.WeightType
 }
 
@@ -25,7 +26,15 @@ enum CelebrationLevel {
 
 struct ProgressiveOverload {
     static func compute(input: OverloadInput) -> OverloadResult {
-        let increment = incrementFor(muscleGroup: input.muscleGroup)
+        if input.weightType == .bodyweight {
+            return OverloadResult(
+                newWeight: input.currentWeight,
+                message: input.actualReps >= input.targetReps ? "Nice work." : "Good effort.",
+                celebrationLevel: input.actualReps > input.targetReps ? .gold : .standard
+            )
+        }
+
+        let increment = input.increment
 
         // ── CASE 1: hit target, struggled ──────────────────────────────
         if input.actualReps >= input.targetReps && input.struggled {
@@ -65,7 +74,7 @@ struct ProgressiveOverload {
 
         // ── CASE 5: under-count (didn't reach target) ──────────────────
         if input.actualReps < input.targetReps - 2 {
-            let newWeight = max(input.currentWeight - increment, minimumWeight(for: input.weightType))
+            let newWeight = max(input.currentWeight - increment, input.minimumWeight)
             return OverloadResult(
                 newWeight: newWeight,
                 message: "Good effort. Adjusting.",
@@ -81,23 +90,4 @@ struct ProgressiveOverload {
         )
     }
 
-    private static func incrementFor(muscleGroup: String) -> Double {
-        // legs = 10 lb, chest/back = 5 lb, others = 2.5 lb
-        switch muscleGroup {
-        case "legs":
-            return 10.0
-        case "chest", "back":
-            return 5.0
-        default:
-            return 2.5
-        }
-    }
-
-    private static func minimumWeight(for weightType: Exercise.WeightType) -> Double {
-        switch weightType {
-        case .free: return 2.5
-        case .machine, .cable: return 5.0
-        case .bodyweight: return 0.0
-        }
-    }
 }

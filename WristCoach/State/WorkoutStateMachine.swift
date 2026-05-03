@@ -2,30 +2,43 @@ import SwiftData
 import Foundation
 import HealthKit
 
+@MainActor
 class WorkoutStateMachine: ObservableObject {
-    @Published var state: WorkoutState = .idle
+    @Published var state: WorkoutState = .musclePicker(selected: WorkoutStateMachine.defaultSelectedGroups)
 
     private let modelContext: ModelContext
     private let exerciseLibrary = ExerciseLibrary.load()
     private let clock: Clock
-    private var workoutSession: HKWorkoutSession?
-    private var workoutBuilder: HKWorkoutBuilder?
+    private let workoutSessionController: WorkoutSessionController
+    private let speechAnnouncer: SpeechAnnouncer
+    private var currentExercises: [Exercise] = []
+    private var currentExerciseIndex: Int = 0
+    private var currentReadiness: WorkoutReadiness = .checking
+    private static let defaultSelectedGroups: Set<String> = ["chest", "triceps"]
 
-    init(modelContext: ModelContext, clock: Clock = MonotonicClock()) {
+    init(
+        modelContext: ModelContext,
+        clock: Clock = MonotonicClock(),
+        workoutSessionController: WorkoutSessionController = HealthKitWorkoutSessionController(),
+        speechAnnouncer: SpeechAnnouncer = AVSpeechSynthesizerAnnouncer()
+    ) {
         self.modelContext = modelContext
         self.clock = clock
+        self.workoutSessionController = workoutSessionController
+        self.speechAnnouncer = speechAnnouncer
     }
 
     // MARK: - State Transitions
 
     func selectMuscleGroup(_ group: String) {
-        guard case .idle = state else { return }
-
         var selected: Set<String> = []
-        if case .idle = state {
-            // Start fresh
-        } else if case .musclePicker(let currentSelected) = state {
+
+        if case .musclePicker(let currentSelected) = state {
             selected = currentSelected
+        } else if case .idle = state {
+            selected = []
+        } else {
+            return
         }
 
         if selected.contains(group) {
@@ -44,84 +57,123 @@ class WorkoutStateMachine: ObservableObject {
         }
 
         let exercises = generateExerciseQueue(for: selected)
+        currentExercises = exercises
+        currentExerciseIndex = 0
         state = .exerciseQueue(exercises: exercises, currentExerciseIndex: 0)
     }
 
     func beginExercise(exerciseIndex: Int) {
-        guard case .exerciseQueue(var exercises, var currentIndex) = state,
+        guard case .exerciseQueue(let exercises, _) = state,
               exerciseIndex < exercises.count else {
             return
         }
 
-        currentIndex = exerciseIndex
         let exercise = exercises[exerciseIndex]
+        currentExerciseIndex = exerciseIndex
 
         // Check if calibration needed
         let calibration = findCalibration(for: exercise.id)
         if calibration == nil && !exercise.isBodyweight {
-            state = .calibration(exercise: exercise, currentWeight: exercise.defaultStartingWeight, attemptCount: 0)
+            state = .calibration(exercises: exercises, currentExerciseIndex: exerciseIndex, exercise: exercise, currentWeight: exercise.defaultStartingWeight, attemptCount: 0)
             return
         }
 
-        // Start workout session
-        startWorkoutSession()
-
-        let targetReps = 8 // Fixed for v1
-        let threshold = calibration?.detectionThreshold ?? exercise.defaultThreshold
-        let detector = RepDetector(threshold: threshold)
-
-        state = .activeSet(exercise: exercise, targetReps: targetReps, repDetector: detector)
+        beginReadiness(exercises: exercises, exerciseIndex: exerciseIndex, exercise: exercise)
     }
 
-    func startActiveSet() {
-        guard case .activeSet(let exercise, let targetReps, var repDetector) = state else {
+    func completeCalibration(exercise: Exercise, weight: Double, manualEntry: Bool) {
+        guard case .calibration(let exercises, let exerciseIndex, _, _, _) = state else {
             return
         }
 
-        // Signal start
-        repDetector.reset()
-        state = .activeSet(exercise: exercise, targetReps: targetReps, repDetector: repDetector)
+        let calibration = ExerciseCalibration(
+            exerciseId: exercise.id,
+            calibratedWeight: weight,
+            detectionThreshold: exercise.defaultThreshold,
+            manualEntry: manualEntry
+        )
+        modelContext.insert(calibration)
+        beginReadiness(exercises: exercises, exerciseIndex: exerciseIndex, exercise: exercise)
     }
 
-    func stopActiveSet() {
-        guard case .activeSet(let exercise, let targetReps, let repDetector) = state else {
+    func retryReadiness() {
+        guard case .workoutReadiness(let exercises, let exerciseIndex, let exercise, _) = state else {
             return
         }
 
-        let actualReps = repDetector.repCount
-        let repIntervals = repDetector.repIntervals
-        let struggled = repDetector.lastTwoFatigued.0 && repDetector.lastTwoFatigued.1
+        beginReadiness(exercises: exercises, exerciseIndex: exerciseIndex, exercise: exercise)
+    }
 
-        // Save exercise record
+    func continueFromReadiness() {
+        guard case .workoutReadiness(_, _, let exercise, let readiness) = state,
+              readiness.canEnterActiveSet else {
+            return
+        }
+
+        currentReadiness = readiness
+        state = .activeSet(exercise: exercise, targetReps: 8, readiness: readiness)
+    }
+
+    func stopActiveSet(_ result: SetResult) {
+        guard case .activeSet(let exercise, let targetReps, let readiness) = state else {
+            return
+        }
+
         let record = ExerciseRecord(
             exerciseId: exercise.id,
             targetWeight: exercise.defaultStartingWeight,
             targetReps: targetReps,
-            actualReps: actualReps,
-            repIntervals: repIntervals,
-            struggled: struggled
+            actualReps: result.actualReps,
+            repIntervals: result.repIntervals,
+            struggled: result.struggled,
+            manualOverride: result.manualOverride,
+            degradedHR: readiness.degradedHR
         )
         modelContext.insert(record)
 
-        // Calculate new weight
         let lastWeight = getLastWeight(for: exercise.id)
-        let overloadResult = ProgressiveOverload.compute(input: OverloadInput(
+        let overload = ProgressiveOverload.compute(input: OverloadInput(
             currentWeight: exercise.defaultStartingWeight,
             lastSessionWeight: lastWeight,
-            actualReps: actualReps,
+            actualReps: result.actualReps,
             targetReps: targetReps,
-            struggled: struggled,
-            overCount: actualReps > targetReps,
-            muscleGroup: exercise.muscleGroups.first ?? "",
+            struggled: result.struggled,
+            overCount: result.actualReps > targetReps,
+            increment: exercise.increment.large,
+            minimumWeight: exercise.minimumWeight,
             weightType: exercise.weightType
         ))
 
-        // Move to rest
-        state = .rest(exercise: exercise, startTime: Date(), targetHR: 115)
+        state = .setComplete(
+            exercises: currentExercises,
+            currentExerciseIndex: currentExerciseIndex,
+            exercise: exercise,
+            result: result,
+            overload: overload,
+            targetReps: targetReps,
+            readiness: readiness
+        )
+    }
+
+    func continueToRest() {
+        guard case .setComplete(let exercises, let exerciseIndex, let exercise, _, _, _, let readiness) = state else {
+            return
+        }
+
+        currentExercises = exercises
+        currentExerciseIndex = exerciseIndex
+        state = .rest(
+            exercises: exercises,
+            currentExerciseIndex: exerciseIndex,
+            exercise: exercise,
+            startTime: Date(),
+            targetHR: 115,
+            degradedHR: readiness.degradedHR
+        )
     }
 
     func finishRest() {
-        guard case .rest(let exercise, let startTime, _) = state else {
+        guard case .rest(let exercises, let idx, let exercise, let startTime, _, _) = state else {
             return
         }
 
@@ -136,19 +188,18 @@ class WorkoutStateMachine: ObservableObject {
         modelContext.insert(record)
 
         // Move to next exercise or summary
-        guard case .exerciseQueue(let exercises, let currentExerciseIndex) = state,
-              currentExerciseIndex + 1 < exercises.count else {
-            guard case .exerciseQueue(let exercises, _) = state else { return }
+        if idx + 1 < exercises.count {
+            currentExercises = exercises
+            currentExerciseIndex = idx
+            beginExercise(exerciseIndex: idx + 1)
+        } else {
             let records = fetchRecords(for: exercises)
             state = .sessionSummary(exercises: exercises, records: records)
-            return
         }
-
-        beginExercise(exerciseIndex: currentExerciseIndex + 1)
     }
 
     func skipRest() {
-        guard case .rest(let exercise, let startTime, _) = state else {
+        guard case .rest(let exercises, let idx, let exercise, let startTime, _, _) = state else {
             return
         }
 
@@ -163,15 +214,32 @@ class WorkoutStateMachine: ObservableObject {
         modelContext.insert(record)
 
         // Move to next exercise or summary
-        guard case .exerciseQueue(let exercises, let currentExerciseIndex) = state,
-              currentExerciseIndex + 1 < exercises.count else {
-            guard case .exerciseQueue(let exercises, _) = state else { return }
+        if idx + 1 < exercises.count {
+            currentExercises = exercises
+            currentExerciseIndex = idx
+            beginExercise(exerciseIndex: idx + 1)
+        } else {
             let records = fetchRecords(for: exercises)
             state = .sessionSummary(exercises: exercises, records: records)
-            return
         }
+    }
 
-        beginExercise(exerciseIndex: currentExerciseIndex + 1)
+    func reset() {
+        Task {
+            await workoutSessionController.endWorkout()
+        }
+        currentExercises = []
+        currentExerciseIndex = 0
+        currentReadiness = .checking
+        state = .musclePicker(selected: Self.defaultSelectedGroups)
+    }
+
+    func nextExercise(after exercise: Exercise) -> Exercise? {
+        guard let index = currentExercises.firstIndex(where: { $0.id == exercise.id }),
+              currentExercises.indices.contains(index + 1) else {
+            return nil
+        }
+        return currentExercises[index + 1]
     }
 
     // MARK: - Helpers
@@ -179,11 +247,14 @@ class WorkoutStateMachine: ObservableObject {
     private func generateExerciseQueue(for selectedGroups: Set<String>) -> [Exercise] {
         var exercises: [Exercise] = []
 
-        for group in selectedGroups {
+        var seenExerciseIds: Set<String> = []
+
+        for group in selectedGroups.sorted() {
             if let muscleGroup = exerciseLibrary.groups.first(where: { $0.id == group }) {
-                // Pick most recent exercise or first in list
-                let exercise = muscleGroup.exercises.first ?? ExerciseLibrary.load().groups.first(where: { $0.id == group })?.exercises.first ?? Exercise(id: "", name: "", muscleGroups: [], defaultThreshold: 0, increment: Exercise.Increments(small: 0, large: 0), isBodyweight: false, isIsometric: false, weightType: .free, minimumWeight: 0, defaultStartingWeight: 0)
-                exercises.append(exercise)
+                for exercise in muscleGroup.exercises where !seenExerciseIds.contains(exercise.id) {
+                    exercises.append(exercise)
+                    seenExerciseIds.insert(exercise.id)
+                }
             }
         }
 
@@ -193,6 +264,32 @@ class WorkoutStateMachine: ObservableObject {
         }
 
         return exercises
+    }
+
+    private func beginReadiness(exercises: [Exercise], exerciseIndex: Int, exercise: Exercise) {
+        currentExercises = exercises
+        currentExerciseIndex = exerciseIndex
+        currentReadiness = .checking
+        state = .workoutReadiness(
+            exercises: exercises,
+            currentExerciseIndex: exerciseIndex,
+            exercise: exercise,
+            readiness: .checking
+        )
+
+        Task {
+            let readiness = await workoutSessionController.prepareForWorkout(
+                speechAnnouncer: speechAnnouncer,
+                motionSource: CMMotionSource()
+            )
+            currentReadiness = readiness
+            state = .workoutReadiness(
+                exercises: exercises,
+                currentExerciseIndex: exerciseIndex,
+                exercise: exercise,
+                readiness: readiness
+            )
+        }
     }
 
     private func findCalibration(for exerciseId: String) -> ExerciseCalibration? {
@@ -232,7 +329,4 @@ class WorkoutStateMachine: ObservableObject {
         }
     }
 
-    private func startWorkoutSession() {
-        // HKWorkoutSession lifecycle handled by WatchKit app delegate
-    }
 }

@@ -6,7 +6,7 @@ protocol HeartRateSource {
     func stop()
 }
 
-final class HealthKitHeartRateSource: HeartRateSource {
+final class HealthKitHeartRateSource: HeartRateSource, @unchecked Sendable {
     private let healthStore = HKHealthStore()
     private var query: HKAnchoredObjectQuery?
     private let throttleDuration: TimeInterval = 1.0
@@ -68,12 +68,12 @@ final class HealthKitHeartRateSource: HeartRateSource {
 
     private func handleHRUpdate(_ sample: HKQuantitySample) {
         let now = Date()
-        guard let lastUpdateDate = lastUpdateDate,
-              now.timeIntervalSince(lastUpdateDate) < throttleDuration else {
-            self.lastUpdateDate = now
+        if let lastUpdateDate,
+           now.timeIntervalSince(lastUpdateDate) < throttleDuration {
             return
         }
 
+        lastUpdateDate = now
         let unit = HKUnit.count().unitDivided(by: HKUnit.minute())
         let bpm = sample.quantity.doubleValue(for: unit)
         bpmContinuation?.yield(bpm)
