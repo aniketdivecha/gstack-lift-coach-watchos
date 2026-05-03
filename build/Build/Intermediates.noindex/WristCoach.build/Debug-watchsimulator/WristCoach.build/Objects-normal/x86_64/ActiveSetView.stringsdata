@@ -1,0 +1,112 @@
+{
+  "source": "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Views/ActiveSetView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "%lld lb",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 39
+        }
+      },
+      {
+        "comment": "",
+        "key": "Set 1 of 3",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 42
+        }
+      },
+      {
+        "comment": "",
+        "key": "Tap when ready to lift",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 59
+        }
+      },
+      {
+        "comment": "",
+        "key": "Manual reps · Set 1/3",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 64
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld lb · Set 1/3",
+        "location": {
+          "startingColumn": 62,
+          "startingLine": 64
+        }
+      },
+      {
+        "comment": "",
+        "key": "Push it",
+        "location": {
+          "startingColumn": 49,
+          "startingLine": 94
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld reps to go",
+        "location": {
+          "startingColumn": 61,
+          "startingLine": 94
+        }
+      },
+      {
+        "comment": "",
+        "key": "GO",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 50
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 83
+        }
+      },
+      {
+        "comment": "",
+        "key": "of %lld",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 85
+        }
+      },
+      {
+        "comment": "",
+        "key": "-",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 105
+        }
+      },
+      {
+        "comment": "",
+        "key": "+",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 114
+        }
+      },
+      {
+        "comment": "",
+        "key": "■ STOP",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 125
+        }
+      }
+    ]
+  },
+  "version": 1
+}

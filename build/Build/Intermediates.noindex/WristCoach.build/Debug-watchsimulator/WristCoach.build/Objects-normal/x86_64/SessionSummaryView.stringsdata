@@ -1,0 +1,40 @@
+{
+  "source": "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Views/SessionSummaryView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Session done",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 14
+        }
+      },
+      {
+        "comment": "",
+        "key": "lbs total volume",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 23
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld reps",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 35
+        }
+      },
+      {
+        "comment": "",
+        "key": "Done ✓",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 50
+        }
+      }
+    ]
+  },
+  "version": 1
+}

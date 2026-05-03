@@ -1,0 +1,80 @@
+{
+  "source": "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Views/RestView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "TIMER ONLY",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 45
+        }
+      },
+      {
+        "comment": "",
+        "key": "BPM ♥",
+        "location": {
+          "startingColumn": 46,
+          "startingLine": 45
+        }
+      },
+      {
+        "comment": "",
+        "key": "ELAPSED",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 31
+        }
+      },
+      {
+        "comment": "",
+        "key": " ✓",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 59
+        }
+      },
+      {
+        "comment": "",
+        "key": "No HR ",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 52
+        }
+      },
+      {
+        "comment": "",
+        "key": "Target ",
+        "location": {
+          "startingColumn": 46,
+          "startingLine": 52
+        }
+      },
+      {
+        "comment": "",
+        "key": "90s rest",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 55
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld BPM",
+        "location": {
+          "startingColumn": 48,
+          "startingLine": 55
+        }
+      },
+      {
+        "comment": "",
+        "key": "Ready →",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 81
+        }
+      }
+    ]
+  },
+  "version": 1
+}

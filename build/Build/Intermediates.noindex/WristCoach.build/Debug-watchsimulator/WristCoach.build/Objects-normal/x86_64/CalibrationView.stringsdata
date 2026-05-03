@@ -1,0 +1,72 @@
+{
+  "source": "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Views/CalibrationView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Calibration",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 20
+        }
+      },
+      {
+        "comment": "",
+        "key": "Set weight where **rep 7–8 is very hard.** Last 1–2 should be a real struggle.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 32
+        }
+      },
+      {
+        "comment": "",
+        "key": "Start 8 reps",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 41
+        }
+      },
+      {
+        "comment": "",
+        "key": "Start 8 reps",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 96
+        }
+      },
+      {
+        "comment": "",
+        "key": "−",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 57
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 69
+        }
+      },
+      {
+        "comment": "",
+        "key": "lb",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 72
+        }
+      },
+      {
+        "comment": "",
+        "key": "+",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 83
+        }
+      }
+    ]
+  },
+  "version": 1
+}

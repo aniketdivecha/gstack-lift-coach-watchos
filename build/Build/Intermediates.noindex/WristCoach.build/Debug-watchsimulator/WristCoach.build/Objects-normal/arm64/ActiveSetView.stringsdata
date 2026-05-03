@@ -1,0 +1,136 @@
+{
+  "source": "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Views/ActiveSetView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Set 1 of 3",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 43
+        }
+      },
+      {
+        "comment": "",
+        "key": "Tap when ready to lift",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 66
+        }
+      },
+      {
+        "comment": "",
+        "key": "Manual reps · Set 1/3",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 70
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ · Set 1/3",
+        "location": {
+          "startingColumn": 62,
+          "startingLine": 70
+        }
+      },
+      {
+        "comment": "",
+        "key": "GO",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 50
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 95
+        }
+      },
+      {
+        "comment": "",
+        "key": "keep going",
+        "location": {
+          "startingColumn": 45,
+          "startingLine": 98
+        }
+      },
+      {
+        "comment": "",
+        "key": "of %lld",
+        "location": {
+          "startingColumn": 60,
+          "startingLine": 98
+        }
+      },
+      {
+        "comment": "",
+        "key": "-",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 119
+        }
+      },
+      {
+        "comment": "",
+        "key": "+",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 133
+        }
+      },
+      {
+        "comment": "",
+        "key": "■ STOP",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 149
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 219
+        }
+      },
+      {
+        "comment": "",
+        "key": "\"%@\"",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 230
+        }
+      },
+      {
+        "comment": "",
+        "key": "Next session",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 242
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld lb × %lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 247
+        }
+      },
+      {
+        "comment": "",
+        "key": "Rest →",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 267
+        }
+      }
+    ]
+  },
+  "version": 1
+}

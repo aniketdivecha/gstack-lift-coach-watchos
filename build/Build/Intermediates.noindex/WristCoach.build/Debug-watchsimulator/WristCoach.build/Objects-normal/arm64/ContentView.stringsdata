@@ -1,0 +1,144 @@
+{
+  "source": "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Views/ContentView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Set 1 of 3",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 244
+        }
+      },
+      {
+        "comment": "",
+        "key": "GO",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 249
+        }
+      },
+      {
+        "comment": "",
+        "key": "Tap when ready to lift",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 258
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld lb ↑",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 241
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld lb",
+        "location": {
+          "startingColumn": 83,
+          "startingLine": 241
+        }
+      },
+      {
+        "comment": "",
+        "key": "■ STOP",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 323
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 303
+        }
+      },
+      {
+        "comment": "",
+        "key": "keep going",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 306
+        }
+      },
+      {
+        "comment": "",
+        "key": "of %lld",
+        "location": {
+          "startingColumn": 54,
+          "startingLine": 306
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 369
+        }
+      },
+      {
+        "comment": "",
+        "key": "BPM ♥",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 372
+        }
+      },
+      {
+        "comment": "",
+        "key": "Ready →",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 400
+        }
+      },
+      {
+        "comment": "",
+        "key": "Next: Chest Fly · 50 lb",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 408
+        }
+      },
+      {
+        "comment": "",
+        "key": "ELAPSED",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 358
+        }
+      },
+      {
+        "comment": "",
+        "key": "Target ",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 377
+        }
+      },
+      {
+        "comment": "",
+        "key": "115 BPM",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 380
+        }
+      },
+      {
+        "comment": "",
+        "key": " ✓",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 384
+        }
+      }
+    ]
+  },
+  "version": 1
+}

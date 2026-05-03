@@ -1,0 +1,24 @@
+{
+  "source": "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Views/MusclePickerView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Today's session",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 21
+        }
+      },
+      {
+        "comment": "",
+        "key": "Start →",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 59
+        }
+      }
+    ]
+  },
+  "version": 1
+}

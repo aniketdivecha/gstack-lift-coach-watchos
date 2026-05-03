@@ -1,0 +1,149 @@
+{
+  "" : {
+    "diagnostics" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/WristCoachTests-primary.dia",
+    "emit-module-dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/WristCoachTests-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/WristCoachTests-primary-emit-module.dia",
+    "pch" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/WristCoachTests-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/WristCoachTests-primary.swiftdeps"
+  },
+  "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/Tests/WristCoachTests/FixtureSupport.swift" : {
+    "const-values" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/FixtureSupport.swiftconstvalues",
+    "dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/FixtureSupport.d",
+    "diagnostics" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/FixtureSupport.dia",
+    "index-unit-output-path" : "/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/FixtureSupport.o",
+    "llvm-bc" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/FixtureSupport.bc",
+    "object" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/FixtureSupport.o",
+    "swift-dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/FixtureSupport.swiftdeps",
+    "swiftmodule" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/FixtureSupport~partial.swiftmodule"
+  },
+  "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/Tests/WristCoachTests/ProgressiveOverloadTests.swift" : {
+    "const-values" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ProgressiveOverloadTests.swiftconstvalues",
+    "dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ProgressiveOverloadTests.d",
+    "diagnostics" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ProgressiveOverloadTests.dia",
+    "index-unit-output-path" : "/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ProgressiveOverloadTests.o",
+    "llvm-bc" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ProgressiveOverloadTests.bc",
+    "object" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ProgressiveOverloadTests.o",
+    "swift-dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ProgressiveOverloadTests.swiftdeps",
+    "swiftmodule" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ProgressiveOverloadTests~partial.swiftmodule"
+  },
+  "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/Tests/WristCoachTests/RepDetectorTests.swift" : {
+    "const-values" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/RepDetectorTests.swiftconstvalues",
+    "dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/RepDetectorTests.d",
+    "diagnostics" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/RepDetectorTests.dia",
+    "index-unit-output-path" : "/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/RepDetectorTests.o",
+    "llvm-bc" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/RepDetectorTests.bc",
+    "object" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/RepDetectorTests.o",
+    "swift-dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/RepDetectorTests.swiftdeps",
+    "swiftmodule" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/RepDetectorTests~partial.swiftmodule"
+  },
+  "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/Tests/WristCoachTests/SetSessionControllerTests.swift" : {
+    "const-values" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SetSessionControllerTests.swiftconstvalues",
+    "dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SetSessionControllerTests.d",
+    "diagnostics" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SetSessionControllerTests.dia",
+    "index-unit-output-path" : "/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SetSessionControllerTests.o",
+    "llvm-bc" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SetSessionControllerTests.bc",
+    "object" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SetSessionControllerTests.o",
+    "swift-dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SetSessionControllerTests.swiftdeps",
+    "swiftmodule" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SetSessionControllerTests~partial.swiftmodule"
+  },
+  "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/Tests/WristCoachTests/WorkoutReadinessTests.swift" : {
+    "const-values" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/WorkoutReadinessTests.swiftconstvalues",
+    "dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/WorkoutReadinessTests.d",
+    "diagnostics" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/WorkoutReadinessTests.dia",
+    "index-unit-output-path" : "/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/WorkoutReadinessTests.o",
+    "llvm-bc" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/WorkoutReadinessTests.bc",
+    "object" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/WorkoutReadinessTests.o",
+    "swift-dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/WorkoutReadinessTests.swiftdeps",
+    "swiftmodule" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/WorkoutReadinessTests~partial.swiftmodule"
+  },
+  "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Core/ProgressiveOverload.swift" : {
+    "const-values" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ProgressiveOverload.swiftconstvalues",
+    "dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ProgressiveOverload.d",
+    "diagnostics" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ProgressiveOverload.dia",
+    "index-unit-output-path" : "/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ProgressiveOverload.o",
+    "llvm-bc" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ProgressiveOverload.bc",
+    "object" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ProgressiveOverload.o",
+    "swift-dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ProgressiveOverload.swiftdeps",
+    "swiftmodule" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ProgressiveOverload~partial.swiftmodule"
+  },
+  "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Core/Protocols/Clock.swift" : {
+    "const-values" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/Clock.swiftconstvalues",
+    "dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/Clock.d",
+    "diagnostics" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/Clock.dia",
+    "index-unit-output-path" : "/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/Clock.o",
+    "llvm-bc" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/Clock.bc",
+    "object" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/Clock.o",
+    "swift-dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/Clock.swiftdeps",
+    "swiftmodule" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/Clock~partial.swiftmodule"
+  },
+  "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Core/Protocols/HapticEngine.swift" : {
+    "const-values" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/HapticEngine.swiftconstvalues",
+    "dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/HapticEngine.d",
+    "diagnostics" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/HapticEngine.dia",
+    "index-unit-output-path" : "/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/HapticEngine.o",
+    "llvm-bc" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/HapticEngine.bc",
+    "object" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/HapticEngine.o",
+    "swift-dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/HapticEngine.swiftdeps",
+    "swiftmodule" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/HapticEngine~partial.swiftmodule"
+  },
+  "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Core/Protocols/MotionSource.swift" : {
+    "const-values" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/MotionSource.swiftconstvalues",
+    "dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/MotionSource.d",
+    "diagnostics" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/MotionSource.dia",
+    "index-unit-output-path" : "/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/MotionSource.o",
+    "llvm-bc" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/MotionSource.bc",
+    "object" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/MotionSource.o",
+    "swift-dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/MotionSource.swiftdeps",
+    "swiftmodule" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/MotionSource~partial.swiftmodule"
+  },
+  "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Core/Protocols/SpeechAnnouncer.swift" : {
+    "const-values" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SpeechAnnouncer.swiftconstvalues",
+    "dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SpeechAnnouncer.d",
+    "diagnostics" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SpeechAnnouncer.dia",
+    "index-unit-output-path" : "/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SpeechAnnouncer.o",
+    "llvm-bc" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SpeechAnnouncer.bc",
+    "object" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SpeechAnnouncer.o",
+    "swift-dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SpeechAnnouncer.swiftdeps",
+    "swiftmodule" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SpeechAnnouncer~partial.swiftmodule"
+  },
+  "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Core/RepDetector.swift" : {
+    "const-values" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/RepDetector.swiftconstvalues",
+    "dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/RepDetector.d",
+    "diagnostics" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/RepDetector.dia",
+    "index-unit-output-path" : "/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/RepDetector.o",
+    "llvm-bc" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/RepDetector.bc",
+    "object" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/RepDetector.o",
+    "swift-dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/RepDetector.swiftdeps",
+    "swiftmodule" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/RepDetector~partial.swiftmodule"
+  },
+  "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Core/SetSessionController.swift" : {
+    "const-values" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SetSessionController.swiftconstvalues",
+    "dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SetSessionController.d",
+    "diagnostics" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SetSessionController.dia",
+    "index-unit-output-path" : "/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SetSessionController.o",
+    "llvm-bc" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SetSessionController.bc",
+    "object" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SetSessionController.o",
+    "swift-dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SetSessionController.swiftdeps",
+    "swiftmodule" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/SetSessionController~partial.swiftmodule"
+  },
+  "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Core/WorkoutSessionController.swift" : {
+    "const-values" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/WorkoutSessionController.swiftconstvalues",
+    "dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/WorkoutSessionController.d",
+    "diagnostics" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/WorkoutSessionController.dia",
+    "index-unit-output-path" : "/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/WorkoutSessionController.o",
+    "llvm-bc" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/WorkoutSessionController.bc",
+    "object" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/WorkoutSessionController.o",
+    "swift-dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/WorkoutSessionController.swiftdeps",
+    "swiftmodule" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/WorkoutSessionController~partial.swiftmodule"
+  },
+  "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Models/ExerciseLibrary.swift" : {
+    "const-values" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ExerciseLibrary.swiftconstvalues",
+    "dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ExerciseLibrary.d",
+    "diagnostics" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ExerciseLibrary.dia",
+    "index-unit-output-path" : "/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ExerciseLibrary.o",
+    "llvm-bc" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ExerciseLibrary.bc",
+    "object" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ExerciseLibrary.o",
+    "swift-dependencies" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ExerciseLibrary.swiftdeps",
+    "swiftmodule" : "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/build/Build/Intermediates.noindex/WristCoach.build/Debug-watchsimulator/WristCoachTests.build/Objects-normal/arm64/ExerciseLibrary~partial.swiftmodule"
+  }
+}

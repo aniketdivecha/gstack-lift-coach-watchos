@@ -1,0 +1,4 @@
+Target dependency graph (2 targets)
+Target 'WristCoachTests' in project 'WristCoach'
+➜ Explicit dependency on target 'WristCoach' in project 'WristCoach'
+Target 'WristCoach' in project 'WristCoach' (no dependencies)

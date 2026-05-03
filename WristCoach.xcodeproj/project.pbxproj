@@ -26,6 +26,7 @@
 		10000000000000000000000D /* WristCoach/Core/Protocols/MotionSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5113E635195941DCB87C6FE5 /* WristCoach/Core/Protocols/MotionSource.swift */; };
 		10000000000000000000000E /* WristCoach/Core/Protocols/SpeechAnnouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C29E3932A5A48908035B131 /* WristCoach/Core/Protocols/SpeechAnnouncer.swift */; };
 		10000000000000000000000F /* WristCoach/Models/ExerciseLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D312D89497D3460680F81CE9 /* WristCoach/Models/ExerciseLibrary.swift */; };
+		10A551E6F50C4C8C9EEB1201 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10A551E5F50C4C8C9EEB1201 /* Assets.xcassets */; };
 		1628CEF937434744815F9100 /* WristCoach/Core/Protocols/HapticEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC2F7C6BC9B499BBDBAA758 /* WristCoach/Core/Protocols/HapticEngine.swift */; };
 		1E08EC0438D24F9DB97E88A3 /* WristCoach/Core/Protocols/HeartRateSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C124F61862846628B22AB19 /* WristCoach/Core/Protocols/HeartRateSource.swift */; };
 		1FC905ADF7C9471B8F243A36 /* WristCoach/Core/Protocols/Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E92550A254DBCA14E55E7 /* WristCoach/Core/Protocols/Clock.swift */; };
@@ -80,6 +81,7 @@
 		100000000000000000000105 /* WorkoutReadinessTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests/WristCoachTests/WorkoutReadinessTests.swift; sourceTree = SOURCE_ROOT; };
 		100000000000000000000106 /* bench_press_8_reps.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Tests/Fixtures/bench_press_8_reps.json; sourceTree = SOURCE_ROOT; };
 		100000000000000000000107 /* WristCoachTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WristCoachTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		10A551E5F50C4C8C9EEB1201 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = WristCoach/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		14DC52ACA5BC4AE48B2C8A89 /* WristCoach/Views/SessionSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WristCoach/Views/SessionSummaryView.swift; sourceTree = SOURCE_ROOT; };
 		1C29E3932A5A48908035B131 /* WristCoach/Core/Protocols/SpeechAnnouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WristCoach/Core/Protocols/SpeechAnnouncer.swift; sourceTree = SOURCE_ROOT; };
 		20F355F41D1B4B77B21F7B01 /* WristCoach/Core/WorkoutSessionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WristCoach/Core/WorkoutSessionController.swift; sourceTree = SOURCE_ROOT; };
@@ -139,6 +141,7 @@
 				5AB4DDFB74CB4D7A8E6578B9 /* WristCoach/Views/RestView.swift */,
 				14DC52ACA5BC4AE48B2C8A89 /* WristCoach/Views/SessionSummaryView.swift */,
 				F6D828A91F644AA9B46E5941 /* WristCoach/Views/WorkoutReadinessView.swift */,
+				10A551E5F50C4C8C9EEB1201 /* Assets.xcassets */,
 				854EBAB8F5244D3E8BD5C512 /* WristCoach/Info.plist */,
 				F8BE08C3715D4C2CA1B5D349 /* WristCoach/WristCoach.entitlements */,
 			);
@@ -200,6 +203,7 @@
 			buildConfigurationList = 8D88722959EB402188887D59 /* Build configuration list for PBXNativeTarget "WristCoach" */;
 			buildPhases = (
 				57A5A68E7E5A445FA0356586 /* Sources */,
+				10A551E7F50C4C8C9EEB1201 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -257,6 +261,14 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		10A551E7F50C4C8C9EEB1201 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				10A551E6F50C4C8C9EEB1201 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		100000000000000000000050 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;

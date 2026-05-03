@@ -1,0 +1,48 @@
+{
+  "source": "/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Views/WorkoutReadinessView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "%@, %@",
+        "location": {
+          "startingColumn": 29,
+          "startingLine": 101
+        }
+      },
+      {
+        "comment": "",
+        "key": "Use manual reps",
+        "location": {
+          "startingColumn": 56,
+          "startingLine": 29
+        }
+      },
+      {
+        "comment": "",
+        "key": "Enter set",
+        "location": {
+          "startingColumn": 76,
+          "startingLine": 29
+        }
+      },
+      {
+        "comment": "",
+        "key": "Retry checks",
+        "location": {
+          "startingColumn": 49,
+          "startingLine": 40
+        }
+      },
+      {
+        "comment": "",
+        "key": "Checking watch",
+        "location": {
+          "startingColumn": 66,
+          "startingLine": 40
+        }
+      }
+    ]
+  },
+  "version": 1
+}

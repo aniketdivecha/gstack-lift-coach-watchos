@@ -1,0 +1,14 @@
+/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Core/ProgressiveOverload.swift
+/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Core/RepDetector.swift
+/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Core/SetSessionController.swift
+/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Core/WorkoutSessionController.swift
+/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Core/Protocols/Clock.swift
+/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Core/Protocols/HapticEngine.swift
+/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Core/Protocols/MotionSource.swift
+/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Core/Protocols/SpeechAnnouncer.swift
+/Users/aniketdivecha/Development/gstack-lift-coach-watchos/WristCoach/Models/ExerciseLibrary.swift
+/Users/aniketdivecha/Development/gstack-lift-coach-watchos/Tests/WristCoachTests/FixtureSupport.swift
+/Users/aniketdivecha/Development/gstack-lift-coach-watchos/Tests/WristCoachTests/RepDetectorTests.swift
+/Users/aniketdivecha/Development/gstack-lift-coach-watchos/Tests/WristCoachTests/SetSessionControllerTests.swift
+/Users/aniketdivecha/Development/gstack-lift-coach-watchos/Tests/WristCoachTests/ProgressiveOverloadTests.swift
+/Users/aniketdivecha/Development/gstack-lift-coach-watchos/Tests/WristCoachTests/WorkoutReadinessTests.swift
