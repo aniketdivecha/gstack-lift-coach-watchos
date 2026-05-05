@@ -113,6 +113,9 @@ struct ContentView: View {
                     nextExercise: stateMachine.nextExercise(after: exercise),
                     targetHR: targetHR,
                     degradedHR: degradedHR,
+                    onRepeat: {
+                        stateMachine.repeatExerciseAfterRest()
+                    },
                     onNext: {
                         stateMachine.finishRest()
                     }
@@ -147,7 +150,7 @@ struct V5ScreenshotScreen: View {
             switch screen {
             case "picker":
                 MusclePickerView(
-                    selectedGroups: ["chest", "triceps"],
+                    selectedGroups: ["chest", "tricep"],
                     onSelectGroup: { _ in },
                     onStartWorkout: {}
                 )
@@ -204,11 +207,13 @@ struct V5ScreenshotScreen: View {
                 V5RestScreen(elapsed: "1:24", bpm: 138, ready: false)
             case "rest-ready":
                 V5RestScreen(elapsed: "2:08", bpm: 112, ready: true)
+            case "rest-choice-mock":
+                V5RestChoiceMockScreen(elapsed: "0:13", nextExercise: "Incline Press", nextWeight: 40)
             case "summary":
                 SessionSummaryView(exercises: Self.queueExercises, records: Self.summaryRecords, displayVolumeOverride: 4680, onDone: {})
             default:
                 MusclePickerView(
-                    selectedGroups: ["chest", "triceps"],
+                    selectedGroups: ["chest", "tricep"],
                     onSelectGroup: { _ in },
                     onStartWorkout: {}
                 )
@@ -218,19 +223,19 @@ struct V5ScreenshotScreen: View {
 
     static var queueExercises: [Exercise] {
         [
-            benchPress(weight: 135),
-            Exercise(id: "chest_fly", name: "Chest Fly", muscleGroups: ["chest"], defaultThreshold: 0.35, increment: Exercise.Increments(small: 2.5, large: 5), isBodyweight: false, isIsometric: false, weightType: .machine, minimumWeight: 5, defaultStartingWeight: 50),
+            benchPress(weight: 50),
+            Exercise(id: "chest_fly", name: "Chest Fly", muscleGroups: ["chest", "tricep"], defaultThreshold: 0.4, increment: Exercise.Increments(small: 10, large: 10), isBodyweight: false, isIsometric: false, weightType: .machine, minimumWeight: 10, defaultStartingWeight: 80),
             tricepPushdown,
-            Exercise(id: "skull_crusher", name: "Skull Crusher", muscleGroups: ["triceps"], defaultThreshold: 0.35, increment: Exercise.Increments(small: 2.5, large: 5), isBodyweight: false, isIsometric: false, weightType: .free, minimumWeight: 5, defaultStartingWeight: 40)
+            Exercise(id: "skull_crusher", name: "Skull Crusher", muscleGroups: ["tricep"], defaultThreshold: 0.4, increment: Exercise.Increments(small: 5, large: 5), isBodyweight: false, isIsometric: false, weightType: .free, minimumWeight: 5, defaultStartingWeight: 40)
         ]
     }
 
     static var tricepPushdown: Exercise {
-        Exercise(id: "tricep_pushdown", name: "Tricep Pushdown", muscleGroups: ["triceps"], defaultThreshold: 0.35, increment: Exercise.Increments(small: 2.5, large: 5), isBodyweight: false, isIsometric: false, weightType: .cable, minimumWeight: 5, defaultStartingWeight: 40)
+        Exercise(id: "tricep_cable_pushdown", name: "Tricep Cable Pushdown", muscleGroups: ["tricep"], defaultThreshold: 0.4, increment: Exercise.Increments(small: 5, large: 5), isBodyweight: false, isIsometric: false, weightType: .cable, minimumWeight: 5, defaultStartingWeight: 40)
     }
 
     static func benchPress(weight: Double) -> Exercise {
-        Exercise(id: "bench_press", name: "Bench Press", muscleGroups: ["chest", "triceps"], defaultThreshold: 0.4, increment: Exercise.Increments(small: 2.5, large: 5), isBodyweight: false, isIsometric: false, weightType: .free, minimumWeight: 2.5, defaultStartingWeight: weight)
+        Exercise(id: "bench_press", name: "Bench Press", muscleGroups: ["chest", "tricep"], defaultThreshold: 0.4, increment: Exercise.Increments(small: 10, large: 10), isBodyweight: false, isIsometric: false, weightType: .machine, minimumWeight: 10, defaultStartingWeight: weight)
     }
 
     static func selectedExercise() -> Exercise {
@@ -250,8 +255,8 @@ struct V5ScreenshotScreen: View {
     static var summaryRecords: [ExerciseRecord] {
         [
             ExerciseRecord(exerciseId: "bench_press", targetWeight: 140, targetReps: 8, actualReps: 10),
-            ExerciseRecord(exerciseId: "chest_fly", targetWeight: 50, targetReps: 8, actualReps: 8),
-            ExerciseRecord(exerciseId: "tricep_pushdown", targetWeight: 40, targetReps: 8, actualReps: 8),
+            ExerciseRecord(exerciseId: "chest_fly", targetWeight: 80, targetReps: 8, actualReps: 8),
+            ExerciseRecord(exerciseId: "tricep_cable_pushdown", targetWeight: 40, targetReps: 8, actualReps: 8),
             ExerciseRecord(exerciseId: "skull_crusher", targetWeight: 40, targetReps: 8, actualReps: 8)
         ]
     }
@@ -417,9 +422,6 @@ struct V5RestScreen: View {
                     .foregroundColor(Color(white: 0.40))
                     .tracking(1.0)
                 Spacer()
-                Text(elapsed)
-                    .font(.system(size: 13, weight: .bold))
-                    .foregroundColor(.white)
             }
             .padding(.bottom, 6)
 
@@ -474,5 +476,84 @@ struct V5RestScreen: View {
 
     private var metricColor: Color {
         ready ? Color(red: 0.18, green: 0.82, blue: 0.33) : Color(red: 1.0, green: 0.22, blue: 0.37)
+    }
+}
+
+struct V5RestChoiceMockScreen: View {
+    let elapsed: String
+    let nextExercise: String
+    let nextWeight: Int
+
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Text("ELAPSED")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundColor(Color(white: 0.40))
+                    .tracking(1.0)
+                Spacer()
+            }
+            .padding(.bottom, 18)
+
+            Text(elapsed)
+                .font(.system(size: 56, weight: .heavy))
+                .foregroundColor(Color(red: 1.0, green: 0.22, blue: 0.37))
+                .minimumScaleFactor(0.85)
+
+            Text("TIMER ONLY")
+                .font(.system(size: 11))
+                .foregroundColor(Color(red: 1.0, green: 0.22, blue: 0.37).opacity(0.75))
+                .padding(.top, 7)
+                .padding(.bottom, 13)
+
+            Text("No HR 90s rest")
+                .font(.system(size: 10))
+                .foregroundColor(Color(white: 0.52))
+                .padding(.bottom, 10)
+
+            GeometryReader { proxy in
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(Color(white: 0.11))
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(Color(red: 1.0, green: 0.22, blue: 0.37))
+                        .frame(width: proxy.size.width * 0.15)
+                }
+            }
+            .frame(height: 4)
+            .padding(.bottom, 14)
+
+            HStack(spacing: 8) {
+                Text("Repeat")
+                    .font(.system(size: 10, weight: .bold))
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 32)
+                    .background(Color(white: 0.11))
+                    .foregroundColor(Color(red: 0.18, green: 0.82, blue: 0.33))
+                    .cornerRadius(9)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 9)
+                            .stroke(Color(red: 0.18, green: 0.82, blue: 0.33), lineWidth: 1.5)
+                    )
+
+                Text("Next →")
+                    .font(.system(size: 10, weight: .bold))
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 32)
+                    .background(Color(red: 0.18, green: 0.82, blue: 0.33))
+                    .foregroundColor(.black)
+                    .cornerRadius(9)
+            }
+
+            Text("Next: \(nextExercise) · \(nextWeight) lb")
+                .font(.system(size: 9))
+                .foregroundColor(Color(white: 0.33))
+                .padding(.top, 8)
+                .lineLimit(1)
+                .minimumScaleFactor(0.78)
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
 }

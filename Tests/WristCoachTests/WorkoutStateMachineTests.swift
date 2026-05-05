@@ -86,6 +86,76 @@ struct WorkoutStateMachineTests {
         }
     }
 
+    @Test("ready after rest advances to the next exercise")
+    func readyAfterRestAdvancesToNextExercise() throws {
+        let stateMachine = try makeStateMachine(selectedGroup: "chest")
+
+        stateMachine.startWorkout()
+        guard case .exerciseQueue(let exercises, _) = stateMachine.state,
+              exercises.count >= 2 else {
+            Issue.record("Expected chest queue to contain multiple exercises")
+            return
+        }
+
+        stateMachine.beginExercise(exerciseIndex: 0)
+        guard case .calibration(_, _, let firstExercise, _, _) = stateMachine.state else {
+            Issue.record("Expected first chest exercise to calibrate")
+            return
+        }
+
+        stateMachine.completeCalibration(
+            exercise: firstExercise,
+            weight: firstExercise.defaultStartingWeight,
+            manualEntry: false
+        )
+        stateMachine.stopActiveSet(SetResult(actualReps: 8, repIntervals: [], struggled: false, manualOverride: false))
+        stateMachine.continueToRest()
+        stateMachine.finishRest()
+
+        guard case .calibration(_, let exerciseIndex, let nextExercise, _, _) = stateMachine.state else {
+            Issue.record("Expected Ready to advance from rest into the next exercise")
+            return
+        }
+
+        #expect(exerciseIndex == 1)
+        #expect(nextExercise.id == exercises[1].id)
+    }
+
+    @Test("repeat after rest starts the same exercise again")
+    func repeatAfterRestStartsSameExercise() throws {
+        let stateMachine = try makeStateMachine(selectedGroup: "chest")
+
+        stateMachine.startWorkout()
+        guard case .exerciseQueue(let exercises, _) = stateMachine.state,
+              let firstExercise = exercises.first else {
+            Issue.record("Expected chest queue to contain exercises")
+            return
+        }
+
+        stateMachine.beginExercise(exerciseIndex: 0)
+        guard case .calibration(_, _, let calibrationExercise, _, _) = stateMachine.state else {
+            Issue.record("Expected first chest exercise to calibrate")
+            return
+        }
+
+        stateMachine.completeCalibration(
+            exercise: calibrationExercise,
+            weight: calibrationExercise.defaultStartingWeight,
+            manualEntry: false
+        )
+        stateMachine.stopActiveSet(SetResult(actualReps: 8, repIntervals: [], struggled: false, manualOverride: false))
+        stateMachine.continueToRest()
+        stateMachine.repeatExerciseAfterRest()
+
+        guard case .activeSet(let repeatedExercise, let targetReps, _) = stateMachine.state else {
+            Issue.record("Expected Repeat to return to the same active exercise")
+            return
+        }
+
+        #expect(repeatedExercise.id == firstExercise.id)
+        #expect(targetReps == 8)
+    }
+
     private func makeStateMachine(selectedGroup: String? = nil) throws -> WorkoutStateMachine {
         let container = try ModelContainer(
             for: ExerciseRecord.self,
