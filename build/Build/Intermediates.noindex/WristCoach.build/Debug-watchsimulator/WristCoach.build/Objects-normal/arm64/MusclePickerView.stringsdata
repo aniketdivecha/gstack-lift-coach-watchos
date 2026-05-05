@@ -6,16 +6,16 @@
         "comment": "",
         "key": "Today's session",
         "location": {
-          "startingColumn": 18,
-          "startingLine": 21
+          "startingColumn": 22,
+          "startingLine": 22
         }
       },
       {
         "comment": "",
         "key": "Start →",
         "location": {
-          "startingColumn": 22,
-          "startingLine": 62
+          "startingColumn": 26,
+          "startingLine": 63
         }
       }
     ]

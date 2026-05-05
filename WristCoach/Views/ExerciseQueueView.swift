@@ -14,15 +14,18 @@ struct ExerciseQueueView: View {
                 .textCase(.uppercase)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
-            VStack(spacing: 4) {
-                ForEach(Array(exercises.enumerated()), id: \.offset) { index, exercise in
-                    queueRow(for: exercise)
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            onSelectExercise(index)
-                        }
+            ScrollView {
+                VStack(spacing: 4) {
+                    ForEach(Array(exercises.enumerated()), id: \.offset) { index, exercise in
+                        queueRow(for: exercise)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                onSelectExercise(index)
+                            }
+                    }
                 }
             }
+            .frame(maxHeight: 122)
 
             Text("Begin workout")
                 .font(.system(size: 11, weight: .bold))
@@ -80,12 +83,12 @@ struct ExerciseQueueView: View {
 
     private func metaLabel(for exercise: Exercise) -> String {
         switch exercise.id {
-        case "tricep_pushdown":
+        case "tricep_cable_pushdown":
             return ""
         case "bench_press":
-            return "135 lb · last session"
-        case "chest_fly":
             return "50 lb · last session"
+        case "chest_fly":
+            return "80 lb · last session"
         case "skull_crusher":
             return "40 lb · last session"
         default:
@@ -94,7 +97,7 @@ struct ExerciseQueueView: View {
     }
 
     private func needsCalibrationBadge(_ exercise: Exercise) -> Bool {
-        exercise.id == "tricep_pushdown"
+        exercise.id == "tricep_cable_pushdown"
     }
 }
 

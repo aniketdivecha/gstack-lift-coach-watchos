@@ -15,7 +15,7 @@
         "key": "Begin workout",
         "location": {
           "startingColumn": 18,
-          "startingLine": 27
+          "startingLine": 30
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "CAL",
         "location": {
           "startingColumn": 22,
-          "startingLine": 60
+          "startingLine": 63
         }
       }
     ]

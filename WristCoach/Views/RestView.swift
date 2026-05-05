@@ -5,6 +5,7 @@ struct RestView: View {
     let nextExercise: Exercise?
     let targetHR: Double
     let degradedHR: Bool
+    let onRepeat: () -> Void
     let onNext: () -> Void
 
     @State private var currentBPM: Double = 0
@@ -15,11 +16,19 @@ struct RestView: View {
     private let heartRateSource: HeartRateSource?
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
-    init(exercise: Exercise, nextExercise: Exercise? = nil, targetHR: Double = 115, degradedHR: Bool = false, onNext: @escaping () -> Void) {
+    init(
+        exercise: Exercise,
+        nextExercise: Exercise? = nil,
+        targetHR: Double = 115,
+        degradedHR: Bool = false,
+        onRepeat: @escaping () -> Void = {},
+        onNext: @escaping () -> Void
+    ) {
         self.exercise = exercise
         self.nextExercise = nextExercise
         self.targetHR = targetHR
         self.degradedHR = degradedHR
+        self.onRepeat = onRepeat
         self.onNext = onNext
         self.heartRateSource = degradedHR ? nil : HealthKitHeartRateSource()
     }
@@ -32,9 +41,6 @@ struct RestView: View {
                     .font(.system(size: 11, weight: .bold))
                     .foregroundColor(Color(white: 0.40))
                 Spacer()
-                Text(elapsedTime())
-                    .font(.system(size: 13, weight: .bold))
-                    .foregroundColor(.white)
             }
             .padding(.bottom, 6)
 
@@ -76,21 +82,37 @@ struct RestView: View {
             .frame(height: 4)
             .padding(.bottom, 12)
 
-            // Ready button
-            Button(action: onNext) {
-                Text("Ready →")
-                    .font(.system(size: 10, weight: .bold))
+            HStack(spacing: 8) {
+                Button(action: onRepeat) {
+                    Text("Repeat")
+                        .font(.system(size: 10, weight: .bold))
+                        .frame(maxWidth: .infinity)
+                }
+                .frame(height: 32)
+                .background(Color(white: 0.11))
+                .foregroundColor(Color(red: 0.18, green: 0.82, blue: 0.33))
+                .cornerRadius(9)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 9)
+                        .stroke(Color(red: 0.18, green: 0.82, blue: 0.33), lineWidth: 1.5)
+                )
+                .buttonStyle(.plain)
+
+                Button(action: onNext) {
+                    Text("Next →")
+                        .font(.system(size: 10, weight: .bold))
+                        .frame(maxWidth: .infinity)
+                }
+                .frame(height: 32)
+                .background(isReady ? Color(red: 0.18, green: 0.82, blue: 0.33) : Color(white: 0.11))
+                .foregroundColor(isReady ? .black : Color(white: 0.27))
+                .cornerRadius(9)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 9)
+                        .stroke(isReady ? Color.clear : Color(white: 0.20), lineWidth: 1.5)
+                )
+                .buttonStyle(.plain)
             }
-            .frame(maxWidth: .infinity)
-            .frame(height: 28)
-            .background(isReady ? Color(red: 0.18, green: 0.82, blue: 0.33) : Color(white: 0.11))
-            .foregroundColor(isReady ? .black : Color(white: 0.27))
-            .cornerRadius(8)
-            .overlay(
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(isReady ? Color(red: 0.18, green: 0.82, blue: 0.33) : Color(white: 0.20), lineWidth: 1.5)
-            )
-            .buttonStyle(.plain)
 
             Text(nextPreview)
                 .font(.system(size: 9))

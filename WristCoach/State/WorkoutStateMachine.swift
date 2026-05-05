@@ -15,7 +15,7 @@ class WorkoutStateMachine: ObservableObject {
     private var currentExerciseIndex: Int = 0
     private var currentReadiness: WorkoutReadiness = .checking
     private var readinessRequestID = UUID()
-    private static let defaultSelectedGroups: Set<String> = ["chest", "triceps"]
+    private static let defaultSelectedGroups: Set<String> = ["chest", "tricep"]
 
     init(
         modelContext: ModelContext,
@@ -192,11 +192,31 @@ class WorkoutStateMachine: ObservableObject {
         if idx + 1 < exercises.count {
             currentExercises = exercises
             currentExerciseIndex = idx
-            beginExercise(exerciseIndex: idx + 1)
+            beginExerciseFromQueue(exercises, exerciseIndex: idx + 1)
         } else {
             let records = fetchRecords(for: exercises)
             state = .sessionSummary(exercises: exercises, records: records)
         }
+    }
+
+    func repeatExerciseAfterRest() {
+        guard case .rest(let exercises, let idx, let exercise, let startTime, _, _) = state else {
+            return
+        }
+
+        let restDuration = Date().timeIntervalSince(startTime)
+        let record = RestRecord(
+            exerciseId: exercise.id,
+            restDurationSeconds: restDuration,
+            startHR: 0,
+            endHR: 0,
+            userOverrode: false
+        )
+        modelContext.insert(record)
+
+        currentExercises = exercises
+        currentExerciseIndex = idx
+        beginExerciseFromQueue(exercises, exerciseIndex: idx)
     }
 
     func skipRest() {
@@ -218,7 +238,7 @@ class WorkoutStateMachine: ObservableObject {
         if idx + 1 < exercises.count {
             currentExercises = exercises
             currentExerciseIndex = idx
-            beginExercise(exerciseIndex: idx + 1)
+            beginExerciseFromQueue(exercises, exerciseIndex: idx + 1)
         } else {
             let records = fetchRecords(for: exercises)
             state = .sessionSummary(exercises: exercises, records: records)
@@ -259,11 +279,6 @@ class WorkoutStateMachine: ObservableObject {
             }
         }
 
-        // Cap at 5 exercises
-        if exercises.count > 5 {
-            exercises.removeLast(exercises.count - 5)
-        }
-
         return exercises
     }
 
@@ -299,6 +314,29 @@ class WorkoutStateMachine: ObservableObject {
                 }
             }
         }
+    }
+
+    private func beginExerciseFromQueue(_ exercises: [Exercise], exerciseIndex: Int) {
+        guard exerciseIndex < exercises.count else {
+            return
+        }
+
+        let exercise = exercises[exerciseIndex]
+        currentExerciseIndex = exerciseIndex
+
+        let calibration = findCalibration(for: exercise.id)
+        if calibration == nil && !exercise.isBodyweight {
+            state = .calibration(
+                exercises: exercises,
+                currentExerciseIndex: exerciseIndex,
+                exercise: exercise,
+                currentWeight: exercise.defaultStartingWeight,
+                attemptCount: 0
+            )
+            return
+        }
+
+        beginReadiness(exercises: exercises, exerciseIndex: exerciseIndex, exercise: exercise)
     }
 
     private func findCalibration(for exerciseId: String) -> ExerciseCalibration? {
