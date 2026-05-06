@@ -6,23 +6,31 @@
         "comment": "",
         "key": "Exercises",
         "location": {
-          "startingColumn": 18,
-          "startingLine": 10
+          "startingColumn": 30,
+          "startingLine": 24
+        }
+      },
+      {
+        "comment": "",
+        "key": "Clear",
+        "location": {
+          "startingColumn": 48,
+          "startingLine": 31
+        }
+      },
+      {
+        "comment": "",
+        "key": "All",
+        "location": {
+          "startingColumn": 58,
+          "startingLine": 31
         }
       },
       {
         "comment": "",
         "key": "Begin workout",
         "location": {
-          "startingColumn": 18,
-          "startingLine": 30
-        }
-      },
-      {
-        "comment": "",
-        "key": "CAL",
-        "location": {
-          "startingColumn": 22,
+          "startingColumn": 26,
           "startingLine": 63
         }
       }

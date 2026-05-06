@@ -5,6 +5,7 @@ import Foundation
 class ExerciseRecord {
     var id: String?
     var exerciseId: String
+    var exerciseName: String?
     var date: Date
     var targetWeight: Double
     var targetReps: Int
@@ -17,6 +18,7 @@ class ExerciseRecord {
     init(
         id: String? = nil,
         exerciseId: String,
+        exerciseName: String = "",
         date: Date = Date(),
         targetWeight: Double,
         targetReps: Int,
@@ -28,6 +30,7 @@ class ExerciseRecord {
     ) {
         self.id = id
         self.exerciseId = exerciseId
+        self.exerciseName = exerciseName
         self.date = date
         self.targetWeight = targetWeight
         self.targetReps = targetReps

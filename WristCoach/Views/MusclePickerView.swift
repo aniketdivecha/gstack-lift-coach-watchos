@@ -18,34 +18,34 @@ struct MusclePickerView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 6) {
+            VStack(spacing: 8) {
                 Text("Today's session")
-                    .font(.system(size: 8, weight: .semibold))
+                    .font(.system(size: 10, weight: .semibold))
                     .foregroundColor(Color(white: 0.40))
                     .tracking(0.8)
                     .textCase(.uppercase)
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                VStack(spacing: 5) {
+                VStack(spacing: 7) {
                     ForEach(displayGroups, id: \.id) { group in
                         Button(action: {
                             toggleGroup(group.id)
                         }) {
                             HStack(spacing: 10) {
                                 Text(group.name)
-                                    .font(.system(size: 11, weight: .medium))
+                                    .font(.system(size: 15, weight: .medium))
                                     .lineLimit(1)
                                 Spacer()
                                 Circle()
-                                    .frame(width: 12, height: 12)
+                                    .frame(width: 17, height: 17)
                                     .foregroundColor(selectedGroups.contains(group.id) ? Color(red: 0.18, green: 0.82, blue: 0.33) : .clear)
                                     .overlay(
                                         Circle()
                                             .stroke(selectedGroups.contains(group.id) ? Color(red: 0.18, green: 0.82, blue: 0.33) : Color(white: 0.20), lineWidth: 1.5)
                                     )
                             }
-                            .padding(.vertical, 4)
-                            .padding(.horizontal, 10)
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 12)
                             .background(Color(white: 0.067))
                             .foregroundColor(selectedGroups.contains(group.id) ? Color(red: 0.18, green: 0.82, blue: 0.33) : .white)
                             .cornerRadius(9)
@@ -61,10 +61,10 @@ struct MusclePickerView: View {
 
                 Button(action: onStartWorkout) {
                     Text("Start →")
-                        .font(.system(size: 10, weight: .bold))
+                        .font(.system(size: 12, weight: .bold))
                         .frame(maxWidth: .infinity)
                 }
-                .frame(height: 24)
+                .frame(height: 32)
                 .background(Color(red: 0.18, green: 0.82, blue: 0.33))
                 .foregroundColor(.black)
                 .cornerRadius(10)
@@ -72,8 +72,10 @@ struct MusclePickerView: View {
                 .opacity(selectedGroups.isEmpty ? 0.45 : 1)
                 .buttonStyle(.plain)
             }
-            .padding(16)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 8)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     private var displayGroups: [MuscleGroup] {

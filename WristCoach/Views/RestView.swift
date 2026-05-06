@@ -122,7 +122,9 @@ struct RestView: View {
 
             Spacer()
         }
-        .padding(16)
+        .padding(.horizontal, 8)
+        .padding(.vertical, 8)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .onAppear {
             startTime = Date()
             now = startTime

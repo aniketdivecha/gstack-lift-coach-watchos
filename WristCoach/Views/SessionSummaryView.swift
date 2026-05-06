@@ -43,14 +43,16 @@ struct SessionSummaryView: View {
                 ForEach(records.prefix(5), id: \.exerciseId) { record in
                     HStack(spacing: 8) {
                         Text(exerciseName(for: record.exerciseId))
-                            .font(.system(size: 8, weight: .medium))
+                            .font(.system(size: 8.5, weight: .semibold))
                             .lineLimit(1)
-                            .minimumScaleFactor(0.72)
+                            .truncationMode(.tail)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         Spacer(minLength: 4)
                         Text(resultLabel(for: record))
                             .font(.system(size: 7.5, weight: record.actualReps > record.targetReps ? .bold : .regular))
                             .foregroundColor(resultColor(for: record))
                             .lineLimit(1)
+                            .frame(minWidth: 54, alignment: .trailing)
                     }
                     .padding(.vertical, 3)
                     .padding(.horizontal, 8)
@@ -71,9 +73,8 @@ struct SessionSummaryView: View {
             .cornerRadius(8)
             .buttonStyle(.plain)
         }
-        .padding(.horizontal, 16)
-        .padding(.top, 10)
-        .padding(.bottom, 6)
+        .padding(.horizontal, 8)
+        .padding(.vertical, 8)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 

@@ -6,7 +6,7 @@
 	<integer>12</integer>
 	<key>logs</key>
 	<dict>
-		<key>60AB4832-0206-496E-92A2-0DC5DA7B6E0C</key>
+		<key>0BAD27AB-151B-4344-BBEF-F3ACA08C880F</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,17 +15,17 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>60AB4832-0206-496E-92A2-0DC5DA7B6E0C.xcactivitylog</string>
+			<string>0BAD27AB-151B-4344-BBEF-F3ACA08C880F.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
 			<dict>
 				<key>highLevelStatus</key>
-				<string>S</string>
+				<string>E</string>
 				<key>totalNumberOfAnalyzerIssues</key>
 				<integer>0</integer>
 				<key>totalNumberOfErrors</key>
-				<integer>0</integer>
+				<integer>3</integer>
 				<key>totalNumberOfTestFailures</key>
 				<integer>0</integer>
 				<key>totalNumberOfWarnings</key>
@@ -40,15 +40,15 @@
 			<key>signature</key>
 			<string>Testing project WristCoach with scheme WristCoach</string>
 			<key>timeStartedRecording</key>
-			<real>799633418.44700098</real>
+			<real>799793556.25677001</real>
 			<key>timeStoppedRecording</key>
-			<real>799633421.05221796</real>
+			<real>799793557.15305805</real>
 			<key>title</key>
 			<string>Testing project WristCoach with scheme WristCoach</string>
 			<key>uniqueIdentifier</key>
-			<string>60AB4832-0206-496E-92A2-0DC5DA7B6E0C</string>
+			<string>0BAD27AB-151B-4344-BBEF-F3ACA08C880F</string>
 		</dict>
-		<key>6DD0E11A-5C46-4F60-9D27-D8C7914DBDC8</key>
+		<key>223F3B14-21E6-40DA-9FBB-94CCDD0D5C3A</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -57,7 +57,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>6DD0E11A-5C46-4F60-9D27-D8C7914DBDC8.xcactivitylog</string>
+			<string>223F3B14-21E6-40DA-9FBB-94CCDD0D5C3A.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -82,13 +82,265 @@
 			<key>signature</key>
 			<string>Testing project WristCoach with scheme WristCoach</string>
 			<key>timeStartedRecording</key>
-			<real>799632476.20762599</real>
+			<real>799794019.38509798</real>
 			<key>timeStoppedRecording</key>
-			<real>799632478.03861594</real>
+			<real>799794020.86407197</real>
 			<key>title</key>
 			<string>Testing project WristCoach with scheme WristCoach</string>
 			<key>uniqueIdentifier</key>
-			<string>6DD0E11A-5C46-4F60-9D27-D8C7914DBDC8</string>
+			<string>223F3B14-21E6-40DA-9FBB-94CCDD0D5C3A</string>
+		</dict>
+		<key>364297E1-C964-4DB0-87FB-BE32628EAAC8</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>364297E1-C964-4DB0-87FB-BE32628EAAC8.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>WristCoach project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>WristCoach</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Testing project WristCoach with scheme WristCoach</string>
+			<key>timeStartedRecording</key>
+			<real>799793892.626001</real>
+			<key>timeStoppedRecording</key>
+			<real>799793894.030007</real>
+			<key>title</key>
+			<string>Testing project WristCoach with scheme WristCoach</string>
+			<key>uniqueIdentifier</key>
+			<string>364297E1-C964-4DB0-87FB-BE32628EAAC8</string>
+		</dict>
+		<key>9AA31A3C-B258-4626-99C6-6395D7E7AA5B</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>9AA31A3C-B258-4626-99C6-6395D7E7AA5B.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>WristCoach project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>WristCoach</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Testing project WristCoach with scheme WristCoach</string>
+			<key>timeStartedRecording</key>
+			<real>799793816.57194304</real>
+			<key>timeStoppedRecording</key>
+			<real>799793818.60602796</real>
+			<key>title</key>
+			<string>Testing project WristCoach with scheme WristCoach</string>
+			<key>uniqueIdentifier</key>
+			<string>9AA31A3C-B258-4626-99C6-6395D7E7AA5B</string>
+		</dict>
+		<key>9AF3286E-54D1-43ED-94F7-576199979C42</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>9AF3286E-54D1-43ED-94F7-576199979C42.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>WristCoach project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>WristCoach</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Testing project WristCoach with scheme WristCoach</string>
+			<key>timeStartedRecording</key>
+			<real>799793756.74190497</real>
+			<key>timeStoppedRecording</key>
+			<real>799793758.13307405</real>
+			<key>title</key>
+			<string>Testing project WristCoach with scheme WristCoach</string>
+			<key>uniqueIdentifier</key>
+			<string>9AF3286E-54D1-43ED-94F7-576199979C42</string>
+		</dict>
+		<key>9B556FB9-54D8-4D5B-A3E0-B27A6F9EA14E</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>9B556FB9-54D8-4D5B-A3E0-B27A6F9EA14E.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>WristCoach project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>WristCoach</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Testing project WristCoach with scheme WristCoach</string>
+			<key>timeStartedRecording</key>
+			<real>799793973.91908896</real>
+			<key>timeStoppedRecording</key>
+			<real>799793974.32225001</real>
+			<key>title</key>
+			<string>Testing project WristCoach with scheme WristCoach</string>
+			<key>uniqueIdentifier</key>
+			<string>9B556FB9-54D8-4D5B-A3E0-B27A6F9EA14E</string>
+		</dict>
+		<key>B0BEA7C7-4902-4E78-877B-89AC9610FE84</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>B0BEA7C7-4902-4E78-877B-89AC9610FE84.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>WristCoach project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>WristCoach</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Testing project WristCoach with scheme WristCoach</string>
+			<key>timeStartedRecording</key>
+			<real>799793660.10244298</real>
+			<key>timeStoppedRecording</key>
+			<real>799793661.49843204</real>
+			<key>title</key>
+			<string>Testing project WristCoach with scheme WristCoach</string>
+			<key>uniqueIdentifier</key>
+			<string>B0BEA7C7-4902-4E78-877B-89AC9610FE84</string>
+		</dict>
+		<key>B987E24D-D328-41F2-B9E2-B756D0C10F81</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>B987E24D-D328-41F2-B9E2-B756D0C10F81.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>WristCoach project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>WristCoach</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Testing project WristCoach with scheme WristCoach</string>
+			<key>timeStartedRecording</key>
+			<real>799793583.09072196</real>
+			<key>timeStoppedRecording</key>
+			<real>799793585.00843406</real>
+			<key>title</key>
+			<string>Testing project WristCoach with scheme WristCoach</string>
+			<key>uniqueIdentifier</key>
+			<string>B987E24D-D328-41F2-B9E2-B756D0C10F81</string>
 		</dict>
 	</dict>
 </dict>

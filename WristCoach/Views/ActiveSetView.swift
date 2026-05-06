@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ActiveSetView: View, @unchecked Sendable {
     @StateObject private var setController: SetSessionController
+    @State private var currentWeight: Double
     let exercise: Exercise
     let targetReps: Int
     let manualMode: Bool
@@ -20,6 +21,7 @@ struct ActiveSetView: View, @unchecked Sendable {
         self.targetReps = targetReps
         self.onStop = onStop
         self.manualMode = manualMode
+        _currentWeight = State(initialValue: exercise.defaultStartingWeight)
         _setController = StateObject(
             wrappedValue: SetSessionController(
                 exercise: exercise,
@@ -40,7 +42,7 @@ struct ActiveSetView: View, @unchecked Sendable {
                 presetBody
             }
         }
-        .padding(.horizontal, 16)
+        .padding(.horizontal, 8)
         .padding(.vertical, 6)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
@@ -54,14 +56,7 @@ struct ActiveSetView: View, @unchecked Sendable {
                 .textCase(.uppercase)
                 .lineLimit(1)
 
-            Text(weightLabel)
-                .font(.system(size: 13, weight: .semibold))
-                .foregroundColor(.white)
-
-            Text("Set 1 of 3")
-                .font(.system(size: 10))
-                .foregroundColor(Color(white: 0.33))
-                .padding(.bottom, 9)
+            weightControl
 
             Button(action: setController.start) {
                 Text("GO")
@@ -87,11 +82,13 @@ struct ActiveSetView: View, @unchecked Sendable {
 
     private var countingBody: some View {
         VStack(spacing: manualMode ? 4 : 6) {
-            Text(manualMode ? "Manual · Set 1/3" : "\(weightLabel) · Set 1/3")
-                .font(.system(size: manualMode ? 10 : 10.5, weight: .medium))
-                .foregroundColor(isOverTarget ? Color(red: 0.18, green: 0.82, blue: 0.33) : Color(white: 0.67))
-                .lineLimit(1)
-                .frame(maxWidth: .infinity, alignment: manualMode ? .leading : .center)
+            if !manualMode {
+                Text("\(weightLabel) · Set 1/3")
+                    .font(.system(size: 10.5, weight: .medium))
+                    .foregroundColor(isOverTarget ? Color(red: 0.18, green: 0.82, blue: 0.33) : Color(white: 0.67))
+                    .lineLimit(1)
+                    .frame(maxWidth: .infinity, alignment: .center)
+            }
 
             ZStack {
                 Circle()
@@ -185,12 +182,59 @@ struct ActiveSetView: View, @unchecked Sendable {
         }
     }
 
+    private var weightControl: some View {
+        HStack(spacing: 10) {
+            Button(action: decrementWeight) {
+                Text("-")
+                    .font(.system(size: 13, weight: .bold))
+                    .frame(width: 26, height: 24)
+            }
+            .background(Color(white: 0.11))
+            .foregroundColor(canEditWeight ? Color(red: 0.18, green: 0.82, blue: 0.33) : Color(white: 0.27))
+            .cornerRadius(8)
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(canEditWeight ? Color(white: 0.20) : Color(white: 0.12), lineWidth: 1)
+            )
+            .buttonStyle(.plain)
+            .disabled(!canEditWeight)
+
+            Text(weightLabel)
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundColor(.white)
+                .frame(minWidth: 52)
+
+            Button(action: incrementWeight) {
+                Text("+")
+                    .font(.system(size: 13, weight: .bold))
+                    .frame(width: 26, height: 24)
+            }
+            .background(Color(white: 0.11))
+            .foregroundColor(canEditWeight ? Color(red: 0.18, green: 0.82, blue: 0.33) : Color(white: 0.27))
+            .cornerRadius(8)
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(canEditWeight ? Color(white: 0.20) : Color(white: 0.12), lineWidth: 1)
+            )
+            .buttonStyle(.plain)
+            .disabled(!canEditWeight)
+        }
+    }
+
     private var ringSize: CGFloat {
         manualMode ? 74 : 92
     }
 
     private var weightLabel: String {
-        exercise.isBodyweight ? "Bodyweight" : "\(Int(exercise.defaultStartingWeight)) lb"
+        exercise.isBodyweight ? "Bodyweight" : "\(Int(currentWeight)) lb"
+    }
+
+    private var canEditWeight: Bool {
+        !exercise.isBodyweight && !exercise.isIsometric && setController.isCountingStarted == false
+    }
+
+    private var weightStep: Double {
+        max(exercise.increment.large, 1)
     }
 
     private var isOverTarget: Bool {
@@ -220,7 +264,24 @@ struct ActiveSetView: View, @unchecked Sendable {
     }
 
     private func stopRepDetection() {
-        onStop(setController.stop())
+        let stopped = setController.stop()
+        onStop(SetResult(
+            actualReps: stopped.actualReps,
+            repIntervals: stopped.repIntervals,
+            struggled: stopped.struggled,
+            manualOverride: stopped.manualOverride,
+            targetWeight: exercise.isBodyweight ? nil : currentWeight
+        ))
+    }
+
+    private func incrementWeight() {
+        guard canEditWeight else { return }
+        currentWeight += weightStep
+    }
+
+    private func decrementWeight() {
+        guard canEditWeight else { return }
+        currentWeight = max(exercise.minimumWeight, currentWeight - weightStep)
     }
 }
 
@@ -302,8 +363,8 @@ struct SetCompleteView: View {
             )
             .buttonStyle(.plain)
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, isGold ? 8 : 16)
+        .padding(.horizontal, 8)
+        .padding(.vertical, 8)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
 

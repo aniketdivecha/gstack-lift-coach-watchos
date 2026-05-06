@@ -82,6 +82,17 @@ class WorkoutStateMachine: ObservableObject {
         beginReadiness(exercises: exercises, exerciseIndex: exerciseIndex, exercise: exercise)
     }
 
+    func beginWorkout(with exercises: [Exercise]) {
+        guard case .exerciseQueue = state,
+              exercises.isEmpty == false else {
+            return
+        }
+
+        currentExercises = exercises
+        currentExerciseIndex = 0
+        beginExerciseFromQueue(exercises, exerciseIndex: 0)
+    }
+
     func completeCalibration(exercise: Exercise, weight: Double, manualEntry: Bool) {
         guard case .calibration(let exercises, let exerciseIndex, _, _, _) = state else {
             return
@@ -120,9 +131,11 @@ class WorkoutStateMachine: ObservableObject {
             return
         }
 
+        let targetWeight = result.targetWeight ?? exercise.defaultStartingWeight
         let record = ExerciseRecord(
             exerciseId: exercise.id,
-            targetWeight: exercise.defaultStartingWeight,
+            exerciseName: exercise.name,
+            targetWeight: targetWeight,
             targetReps: targetReps,
             actualReps: result.actualReps,
             repIntervals: result.repIntervals,
@@ -134,7 +147,7 @@ class WorkoutStateMachine: ObservableObject {
 
         let lastWeight = getLastWeight(for: exercise.id)
         let overload = ProgressiveOverload.compute(input: OverloadInput(
-            currentWeight: exercise.defaultStartingWeight,
+            currentWeight: targetWeight,
             lastSessionWeight: lastWeight,
             actualReps: result.actualReps,
             targetReps: targetReps,

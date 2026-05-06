@@ -1,3 +1,4 @@
+import Foundation
 import SwiftData
 import Testing
 
@@ -156,15 +157,112 @@ struct WorkoutStateMachineTests {
         #expect(targetReps == 8)
     }
 
+    @Test("active set uses adjusted weight for overload")
+    func activeSetUsesAdjustedWeightForOverload() throws {
+        let stateMachine = try makeStateMachine(selectedGroup: "chest")
+
+        stateMachine.startWorkout()
+        stateMachine.beginExercise(exerciseIndex: 0)
+        guard case .calibration(_, _, let exercise, _, _) = stateMachine.state else {
+            Issue.record("Expected first chest exercise to calibrate")
+            return
+        }
+
+        stateMachine.completeCalibration(
+            exercise: exercise,
+            weight: exercise.defaultStartingWeight,
+            manualEntry: false
+        )
+        stateMachine.stopActiveSet(SetResult(
+            actualReps: 8,
+            repIntervals: [],
+            struggled: false,
+            manualOverride: false,
+            targetWeight: 60
+        ))
+
+        guard case .setComplete(_, _, _, _, let overload, _, _) = stateMachine.state else {
+            Issue.record("Expected adjusted-weight set to complete")
+            return
+        }
+
+        #expect(overload.newWeight == 70)
+    }
+
+    @Test("completed set logs exercise name weight repetitions and timestamp")
+    func completedSetLogsExerciseDetails() throws {
+        let (stateMachine, context) = try makeStateMachineWithContext(selectedGroup: "chest")
+
+        stateMachine.startWorkout()
+        stateMachine.beginExercise(exerciseIndex: 0)
+        guard case .calibration(_, _, let exercise, _, _) = stateMachine.state else {
+            Issue.record("Expected first chest exercise to calibrate")
+            return
+        }
+
+        stateMachine.completeCalibration(
+            exercise: exercise,
+            weight: exercise.defaultStartingWeight,
+            manualEntry: false
+        )
+        stateMachine.stopActiveSet(SetResult(
+            actualReps: 9,
+            repIntervals: [],
+            struggled: false,
+            manualOverride: false,
+            targetWeight: 60
+        ))
+
+        let records = try context.fetch(FetchDescriptor<ExerciseRecord>())
+        guard let record = records.first else {
+            Issue.record("Expected completed set to create an exercise log row")
+            return
+        }
+
+        #expect(record.exerciseName == "Bench Press")
+        #expect(record.targetWeight == 60)
+        #expect(record.actualReps == 9)
+        #expect(record.date <= Date())
+    }
+
+    @Test("custom queue begins selected exercises in chosen order")
+    func customQueueBeginsSelectedExercisesInChosenOrder() throws {
+        let stateMachine = try makeStateMachine(selectedGroup: "chest")
+
+        stateMachine.startWorkout()
+        guard case .exerciseQueue(let exercises, _) = stateMachine.state,
+              exercises.count >= 3 else {
+            Issue.record("Expected chest queue to contain several exercises")
+            return
+        }
+
+        let editedQueue = [exercises[2], exercises[0]]
+        stateMachine.beginWorkout(with: editedQueue)
+
+        guard case .calibration(let activeQueue, let exerciseIndex, let exercise, _, _) = stateMachine.state else {
+            Issue.record("Expected edited queue to start calibration for first selected exercise")
+            return
+        }
+
+        #expect(activeQueue.map(\.id) == editedQueue.map(\.id))
+        #expect(exerciseIndex == 0)
+        #expect(exercise.id == editedQueue[0].id)
+    }
+
     private func makeStateMachine(selectedGroup: String? = nil) throws -> WorkoutStateMachine {
+        try makeStateMachineWithContext(selectedGroup: selectedGroup).stateMachine
+    }
+
+    private func makeStateMachineWithContext(selectedGroup: String? = nil) throws -> (stateMachine: WorkoutStateMachine, context: ModelContext) {
         let container = try ModelContainer(
             for: ExerciseRecord.self,
             RestRecord.self,
             ExerciseCalibration.self,
             configurations: ModelConfiguration(isStoredInMemoryOnly: true)
         )
+        let context = ModelContext(container)
         let stateMachine = WorkoutStateMachine(
-            modelContext: ModelContext(container),
+            modelContext: context,
             workoutSessionController: ImmediateWorkoutSessionController(),
             speechAnnouncer: SilentSpeechAnnouncer()
         )
@@ -173,7 +271,7 @@ struct WorkoutStateMachineTests {
             selectOnly(selectedGroup, in: stateMachine)
         }
 
-        return stateMachine
+        return (stateMachine, context)
     }
 
     private func selectOnly(_ group: String, in stateMachine: WorkoutStateMachine) {

@@ -6,10 +6,10 @@
 	<integer>12</integer>
 	<key>logs</key>
 	<dict>
-		<key>A90CB546-195B-431F-A804-BC5C0DB46D75</key>
+		<key>58434AA3-82CE-48C9-ADCD-9291445358B9</key>
 		<dict>
 			<key>auxiliaryLogUniqueIdentifier</key>
-			<string>6DD0E11A-5C46-4F60-9D27-D8C7914DBDC8</string>
+			<string>B987E24D-D328-41F2-B9E2-B756D0C10F81</string>
 			<key>auxiliaryObservable</key>
 			<dict>
 				<key>highLevelStatus</key>
@@ -30,7 +30,7 @@
 			<key>domainType</key>
 			<string>com.apple.dt.unit.cocoaUnitTest</string>
 			<key>fileName</key>
-			<string>Test-WristCoach-2026.05.04_20-07-56--0400.xcresult</string>
+			<string>Test-WristCoach-2026.05.06_16-53-03--0400.xcresult</string>
 			<key>hasAuxiliaryLog</key>
 			<true/>
 			<key>hasCoverageData</key>
@@ -42,7 +42,7 @@
 				<key>highLevelStatus</key>
 				<string>S</string>
 				<key>totalCodeCoverage</key>
-				<real>0.29242016160061562</real>
+				<real>0.28914650537634407</real>
 				<key>totalNumberOfAnalyzerIssues</key>
 				<integer>0</integer>
 				<key>totalNumberOfErrors</key>
@@ -61,18 +61,18 @@
 			<key>signature</key>
 			<string>Test WristCoach</string>
 			<key>timeStartedRecording</key>
-			<real>799632476.20821202</real>
+			<real>799793583.09126794</real>
 			<key>timeStoppedRecording</key>
-			<real>799632482.88204396</real>
+			<real>799793593.11961102</real>
 			<key>title</key>
 			<string>Test WristCoach</string>
 			<key>uniqueIdentifier</key>
-			<string>A90CB546-195B-431F-A804-BC5C0DB46D75</string>
+			<string>58434AA3-82CE-48C9-ADCD-9291445358B9</string>
 		</dict>
-		<key>FB6012D3-F625-471F-9A1E-3A05B366CD76</key>
+		<key>6428EDBF-DC2B-4C26-B4EE-8A0FCA1C9CB9</key>
 		<dict>
 			<key>auxiliaryLogUniqueIdentifier</key>
-			<string>60AB4832-0206-496E-92A2-0DC5DA7B6E0C</string>
+			<string>B0BEA7C7-4902-4E78-877B-89AC9610FE84</string>
 			<key>auxiliaryObservable</key>
 			<dict>
 				<key>highLevelStatus</key>
@@ -93,7 +93,7 @@
 			<key>domainType</key>
 			<string>com.apple.dt.unit.cocoaUnitTest</string>
 			<key>fileName</key>
-			<string>Test-WristCoach-2026.05.04_20-23-38--0400.xcresult</string>
+			<string>Test-WristCoach-2026.05.06_16-54-20--0400.xcresult</string>
 			<key>hasAuxiliaryLog</key>
 			<true/>
 			<key>hasCoverageData</key>
@@ -105,7 +105,7 @@
 				<key>highLevelStatus</key>
 				<string>S</string>
 				<key>totalCodeCoverage</key>
-				<real>0.2871859750587385</real>
+				<real>0.28968187173876453</real>
 				<key>totalNumberOfAnalyzerIssues</key>
 				<integer>0</integer>
 				<key>totalNumberOfErrors</key>
@@ -124,13 +124,389 @@
 			<key>signature</key>
 			<string>Test WristCoach</string>
 			<key>timeStartedRecording</key>
-			<real>799633418.44750094</real>
+			<real>799793660.10297203</real>
 			<key>timeStoppedRecording</key>
-			<real>799633425.71538496</real>
+			<real>799793669.05536306</real>
 			<key>title</key>
 			<string>Test WristCoach</string>
 			<key>uniqueIdentifier</key>
-			<string>FB6012D3-F625-471F-9A1E-3A05B366CD76</string>
+			<string>6428EDBF-DC2B-4C26-B4EE-8A0FCA1C9CB9</string>
+		</dict>
+		<key>6FA4E27F-A5A3-49C7-A3A1-FCC93032C445</key>
+		<dict>
+			<key>auxiliaryLogUniqueIdentifier</key>
+			<string>364297E1-C964-4DB0-87FB-BE32628EAAC8</string>
+			<key>auxiliaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>className</key>
+			<string>IDESchemeActionsInvocationRecord</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>com.apple.dt.unit.cocoaUnitTest</string>
+			<key>fileName</key>
+			<string>Test-WristCoach-2026.05.06_16-58-12--0400.xcresult</string>
+			<key>hasAuxiliaryLog</key>
+			<true/>
+			<key>hasCoverageData</key>
+			<true/>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalCodeCoverage</key>
+				<real>0.28460393583595173</real>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>WristCoach project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>WristCoach</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Test WristCoach</string>
+			<key>timeStartedRecording</key>
+			<real>799793892.62651002</real>
+			<key>timeStoppedRecording</key>
+			<real>799793901.95670497</real>
+			<key>title</key>
+			<string>Test WristCoach</string>
+			<key>uniqueIdentifier</key>
+			<string>6FA4E27F-A5A3-49C7-A3A1-FCC93032C445</string>
+		</dict>
+		<key>76783B7A-096C-4F45-B2FC-26B4EDDB845F</key>
+		<dict>
+			<key>auxiliaryLogUniqueIdentifier</key>
+			<string>9AA31A3C-B258-4626-99C6-6395D7E7AA5B</string>
+			<key>auxiliaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>className</key>
+			<string>IDESchemeActionsInvocationRecord</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>com.apple.dt.unit.cocoaUnitTest</string>
+			<key>fileName</key>
+			<string>Test-WristCoach-2026.05.06_16-56-56--0400.xcresult</string>
+			<key>hasAuxiliaryLog</key>
+			<true/>
+			<key>hasCoverageData</key>
+			<true/>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalCodeCoverage</key>
+				<real>0.28683333333333333</real>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>WristCoach project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>WristCoach</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Test WristCoach</string>
+			<key>timeStartedRecording</key>
+			<real>799793816.57248902</real>
+			<key>timeStoppedRecording</key>
+			<real>799793826.53360701</real>
+			<key>title</key>
+			<string>Test WristCoach</string>
+			<key>uniqueIdentifier</key>
+			<string>76783B7A-096C-4F45-B2FC-26B4EDDB845F</string>
+		</dict>
+		<key>80B9B9E5-FC74-41EF-8088-B42E2B084A07</key>
+		<dict>
+			<key>auxiliaryLogUniqueIdentifier</key>
+			<string>9AF3286E-54D1-43ED-94F7-576199979C42</string>
+			<key>auxiliaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>className</key>
+			<string>IDESchemeActionsInvocationRecord</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>com.apple.dt.unit.cocoaUnitTest</string>
+			<key>fileName</key>
+			<string>Test-WristCoach-2026.05.06_16-55-56--0400.xcresult</string>
+			<key>hasAuxiliaryLog</key>
+			<true/>
+			<key>hasCoverageData</key>
+			<true/>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalCodeCoverage</key>
+				<real>0.28697682174420541</real>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>WristCoach project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>WristCoach</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Test WristCoach</string>
+			<key>timeStartedRecording</key>
+			<real>799793756.74259496</real>
+			<key>timeStoppedRecording</key>
+			<real>799793766.09853804</real>
+			<key>title</key>
+			<string>Test WristCoach</string>
+			<key>uniqueIdentifier</key>
+			<string>80B9B9E5-FC74-41EF-8088-B42E2B084A07</string>
+		</dict>
+		<key>9C97F410-401B-43CE-B0B6-C8A62875BCDD</key>
+		<dict>
+			<key>auxiliaryLogUniqueIdentifier</key>
+			<string>9B556FB9-54D8-4D5B-A3E0-B27A6F9EA14E</string>
+			<key>auxiliaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>className</key>
+			<string>IDESchemeActionsInvocationRecord</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>com.apple.dt.unit.cocoaUnitTest</string>
+			<key>fileName</key>
+			<string>Test-WristCoach-2026.05.06_16-59-33--0400.xcresult</string>
+			<key>hasAuxiliaryLog</key>
+			<true/>
+			<key>hasCoverageData</key>
+			<true/>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalCodeCoverage</key>
+				<real>0.28460393583595173</real>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>WristCoach project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>WristCoach</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Test WristCoach</string>
+			<key>timeStartedRecording</key>
+			<real>799793973.91959596</real>
+			<key>timeStoppedRecording</key>
+			<real>799793982.194031</real>
+			<key>title</key>
+			<string>Test WristCoach</string>
+			<key>uniqueIdentifier</key>
+			<string>9C97F410-401B-43CE-B0B6-C8A62875BCDD</string>
+		</dict>
+		<key>E517186C-2B00-41EF-B3F3-2F229ABA3319</key>
+		<dict>
+			<key>auxiliaryLogUniqueIdentifier</key>
+			<string>0BAD27AB-151B-4344-BBEF-F3ACA08C880F</string>
+			<key>auxiliaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>E</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>3</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>className</key>
+			<string>IDESchemeActionsInvocationRecord</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>com.apple.dt.unit.cocoaUnitTest</string>
+			<key>fileName</key>
+			<string>Test-WristCoach-2026.05.06_16-52-36--0400.xcresult</string>
+			<key>hasAuxiliaryLog</key>
+			<true/>
+			<key>hasCoverageData</key>
+			<true/>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>E</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>4</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>WristCoach project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>WristCoach</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Test WristCoach</string>
+			<key>timeStartedRecording</key>
+			<real>799793556.25732303</real>
+			<key>timeStoppedRecording</key>
+			<real>799793557.160532</real>
+			<key>title</key>
+			<string>Test WristCoach</string>
+			<key>uniqueIdentifier</key>
+			<string>E517186C-2B00-41EF-B3F3-2F229ABA3319</string>
+		</dict>
+		<key>F880ADA2-B975-4980-9382-EDD4E3ABE949</key>
+		<dict>
+			<key>auxiliaryLogUniqueIdentifier</key>
+			<string>223F3B14-21E6-40DA-9FBB-94CCDD0D5C3A</string>
+			<key>auxiliaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>className</key>
+			<string>IDESchemeActionsInvocationRecord</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>com.apple.dt.unit.cocoaUnitTest</string>
+			<key>fileName</key>
+			<string>Test-WristCoach-2026.05.06_17-00-19--0400.xcresult</string>
+			<key>hasAuxiliaryLog</key>
+			<true/>
+			<key>hasCoverageData</key>
+			<true/>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalCodeCoverage</key>
+				<real>0.2841340597655605</real>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>WristCoach project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>WristCoach</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Test WristCoach</string>
+			<key>timeStartedRecording</key>
+			<real>799794019.38556802</real>
+			<key>timeStoppedRecording</key>
+			<real>799794025.64241099</real>
+			<key>title</key>
+			<string>Test WristCoach</string>
+			<key>uniqueIdentifier</key>
+			<string>F880ADA2-B975-4980-9382-EDD4E3ABE949</string>
 		</dict>
 	</dict>
 </dict>
