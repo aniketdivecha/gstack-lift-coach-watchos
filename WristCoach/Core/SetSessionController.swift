@@ -6,6 +6,21 @@ struct SetResult {
     let repIntervals: [Double]
     let struggled: Bool
     let manualOverride: Bool
+    let targetWeight: Double?
+
+    init(
+        actualReps: Int,
+        repIntervals: [Double],
+        struggled: Bool,
+        manualOverride: Bool,
+        targetWeight: Double? = nil
+    ) {
+        self.actualReps = actualReps
+        self.repIntervals = repIntervals
+        self.struggled = struggled
+        self.manualOverride = manualOverride
+        self.targetWeight = targetWeight
+    }
 }
 
 @MainActor

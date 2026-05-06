@@ -52,14 +52,11 @@ struct ContentView: View {
                     }
                 )
 
-            case .exerciseQueue(let exercises, let currentIndex):
+            case .exerciseQueue(let exercises, _):
                 ExerciseQueueView(
                     exercises: exercises,
-                    onBegin: {
-                        stateMachine.beginExercise(exerciseIndex: currentIndex)
-                    },
-                    onSelectExercise: { index in
-                        stateMachine.beginExercise(exerciseIndex: index)
+                    onBegin: { selectedExercises in
+                        stateMachine.beginWorkout(with: selectedExercises)
                     }
                 )
 
@@ -155,7 +152,7 @@ struct V5ScreenshotScreen: View {
                     onStartWorkout: {}
                 )
             case "queue":
-                ExerciseQueueView(exercises: Self.queueExercises, onBegin: {}, onSelectExercise: { _ in })
+                ExerciseQueueView(exercises: Self.queueExercises, onBegin: { _ in })
             case "calibration":
                 CalibrationView(exercise: exercise, currentWeight: exercise.defaultStartingWeight, onComplete: { _ in }, onManualEntry: {})
             case "preset":
