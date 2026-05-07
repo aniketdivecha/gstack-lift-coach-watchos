@@ -123,11 +123,12 @@ class WorkoutStateMachine: ObservableObject {
         }
 
         currentReadiness = readiness
-        state = .activeSet(exercise: exercise, targetReps: 8, readiness: readiness)
+        let initialWeight = getLastWeight(for: exercise.id) ?? exercise.defaultStartingWeight
+        state = .activeSet(exercise: exercise, targetReps: 8, readiness: readiness, initialWeight: initialWeight)
     }
 
     func stopActiveSet(_ result: SetResult) {
-        guard case .activeSet(let exercise, let targetReps, let readiness) = state else {
+        guard case .activeSet(let exercise, let targetReps, let readiness, _) = state else {
             return
         }
 
@@ -303,7 +304,8 @@ class WorkoutStateMachine: ObservableObject {
         let motionSource = CMMotionSource()
         let entryReadiness = WorkoutReadiness.optimisticEntry(motionAvailable: motionSource.isAvailable)
         currentReadiness = entryReadiness
-        state = .activeSet(exercise: exercise, targetReps: 8, readiness: entryReadiness)
+        let initialWeight = getLastWeight(for: exercise.id) ?? exercise.defaultStartingWeight
+        state = .activeSet(exercise: exercise, targetReps: 8, readiness: entryReadiness, initialWeight: initialWeight)
 
         Task {
             let readiness = await workoutSessionController.prepareForWorkout(
@@ -313,10 +315,10 @@ class WorkoutStateMachine: ObservableObject {
             guard readinessRequestID == requestID else { return }
 
             currentReadiness = readiness
-            if case .activeSet(let activeExercise, let targetReps, _) = state,
+            if case .activeSet(let activeExercise, let targetReps, _, let w) = state,
                activeExercise.id == exercise.id {
                 if readiness.canEnterActiveSet {
-                    state = .activeSet(exercise: activeExercise, targetReps: targetReps, readiness: readiness)
+                    state = .activeSet(exercise: activeExercise, targetReps: targetReps, readiness: readiness, initialWeight: w)
                 } else {
                     state = .workoutReadiness(
                         exercises: exercises,

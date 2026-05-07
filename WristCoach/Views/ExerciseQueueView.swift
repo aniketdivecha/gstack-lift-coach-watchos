@@ -61,11 +61,11 @@ struct ExerciseQueueView: View {
 
                 Button(action: beginSelectedWorkout) {
                     Text("Begin workout")
-                        .font(.system(size: 12, weight: .bold))
+                        .font(.system(size: 11, weight: .bold))
                         .frame(maxWidth: .infinity)
                 }
-                .frame(height: 34)
-                .background(selectedExercises.isEmpty ? Color(white: 0.11) : Color(red: 0.04, green: 0.52, blue: 1.0))
+                .frame(height: 20)
+                .background(selectedExercises.isEmpty ? Color(white: 0.11) : Color(red: 0.18, green: 0.82, blue: 0.33))
                 .foregroundColor(selectedExercises.isEmpty ? Color(white: 0.35) : .white)
                 .cornerRadius(11)
                 .buttonStyle(.plain)
@@ -102,13 +102,13 @@ struct ExerciseQueueView: View {
                 Text(exercise.name)
                     .font(.system(size: 9.8, weight: .semibold))
                     .lineLimit(1)
-                    .minimumScaleFactor(0.72)
+                    .truncationMode(.tail)
                 if metaLabel(for: exercise).isEmpty == false {
                     Text(metaLabel(for: exercise))
                         .font(.system(size: 7.5))
                         .foregroundColor(Color(white: 0.33))
                         .lineLimit(1)
-                        .minimumScaleFactor(0.70)
+                        .truncationMode(.tail)
                 }
             }
             Spacer(minLength: 4)
