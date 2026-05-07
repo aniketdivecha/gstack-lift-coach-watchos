@@ -83,11 +83,12 @@ struct ContentView: View {
                     }
                 )
 
-            case .activeSet(let exercise, let targetReps, let readiness):
+            case .activeSet(let exercise, let targetReps, let readiness, let initialWeight):
                 ActiveSetView(
                     exercise: exercise,
                     targetReps: targetReps,
                     manualMode: readiness.usesManualRepMode,
+                    initialWeight: initialWeight,
                     onStop: { result in
                         stateMachine.stopActiveSet(result)
                     }

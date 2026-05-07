@@ -219,8 +219,8 @@
 			);
 			name = WristCoach;
 			productName = WristCoach;
-			productReference = AA7B40DDF4D84F2683EA2C31 /* WristCoach.appex */;
-			productType = "com.apple.product-type.watchkit2-extension";
+			productReference = AA7B40DDF4D84F2683EA2C31 /* WristCoach.app */;
+			productType = "com.apple.product-type.application";
 		};
 		100000000000000000000060 /* WristCoachTests */ = {
 			isa = PBXNativeTarget;

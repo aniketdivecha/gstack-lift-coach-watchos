@@ -12,6 +12,7 @@ struct ActiveSetView: View, @unchecked Sendable {
         exercise: Exercise,
         targetReps: Int,
         manualMode: Bool = false,
+        initialWeight: Double? = nil,
         initialRepCount: Int = 0,
         initialCountingStarted: Bool = false,
         initialFatigued: Bool = false,
@@ -21,7 +22,7 @@ struct ActiveSetView: View, @unchecked Sendable {
         self.targetReps = targetReps
         self.onStop = onStop
         self.manualMode = manualMode
-        _currentWeight = State(initialValue: exercise.defaultStartingWeight)
+        _currentWeight = State(initialValue: initialWeight ?? exercise.defaultStartingWeight)
         _setController = StateObject(
             wrappedValue: SetSessionController(
                 exercise: exercise,
