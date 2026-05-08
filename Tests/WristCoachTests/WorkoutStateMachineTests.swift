@@ -19,7 +19,7 @@ struct WorkoutStateMachineTests {
 
         stateMachine.completeCalibration(exercise: exercise, weight: 135, manualEntry: false)
 
-        guard case .activeSet(let activeExercise, let targetReps, let readiness) = stateMachine.state else {
+        guard case .activeSet(let activeExercise, let targetReps, let readiness, _, _) = stateMachine.state else {
             Issue.record("Expected selected exercise to open the GO screen immediately")
             return
         }
@@ -148,7 +148,7 @@ struct WorkoutStateMachineTests {
         stateMachine.continueToRest()
         stateMachine.repeatExerciseAfterRest()
 
-        guard case .activeSet(let repeatedExercise, let targetReps, _) = stateMachine.state else {
+        guard case .activeSet(let repeatedExercise, let targetReps, _, _, _) = stateMachine.state else {
             Issue.record("Expected Repeat to return to the same active exercise")
             return
         }
@@ -249,6 +249,67 @@ struct WorkoutStateMachineTests {
         #expect(exercise.id == editedQueue[0].id)
     }
 
+    @Test("recalibrate active exercise returns to calibration")
+    func recalibrateActiveExerciseReturnsToCalibration() throws {
+        let stateMachine = try makeStateMachine(selectedGroup: "chest")
+
+        stateMachine.startWorkout()
+        stateMachine.beginExercise(exerciseIndex: 0)
+        guard case .calibration(_, _, let exercise, _, _) = stateMachine.state else {
+            Issue.record("Expected first chest exercise to calibrate")
+            return
+        }
+
+        stateMachine.completeCalibration(
+            exercise: exercise,
+            weight: exercise.defaultStartingWeight,
+            manualEntry: false
+        )
+        stateMachine.recalibrateActiveExercise(currentWeight: 72)
+
+        guard case .calibration(_, let exerciseIndex, let calibrationExercise, let currentWeight, _) = stateMachine.state else {
+            Issue.record("Expected recalibration to reopen calibration")
+            return
+        }
+
+        #expect(exerciseIndex == 0)
+        #expect(calibrationExercise.id == exercise.id)
+        #expect(currentWeight == 72)
+    }
+
+    @Test("recalibration replaces existing calibration")
+    func recalibrationReplacesExistingCalibration() throws {
+        let (stateMachine, context) = try makeStateMachineWithContext(selectedGroup: "chest")
+
+        stateMachine.startWorkout()
+        stateMachine.beginExercise(exerciseIndex: 0)
+        guard case .calibration(_, _, let exercise, _, _) = stateMachine.state else {
+            Issue.record("Expected first chest exercise to calibrate")
+            return
+        }
+
+        stateMachine.completeCalibration(
+            exercise: exercise,
+            weight: 50,
+            manualEntry: false
+        )
+        stateMachine.recalibrateActiveExercise(currentWeight: 70)
+        stateMachine.completeCalibration(
+            exercise: exercise,
+            weight: 70,
+            manualEntry: false
+        )
+
+        let exerciseId = exercise.id
+        let descriptor = FetchDescriptor<ExerciseCalibration>(
+            predicate: #Predicate<ExerciseCalibration> { $0.exerciseId == exerciseId }
+        )
+        let calibrations = try context.fetch(descriptor)
+
+        #expect(calibrations.count == 1)
+        #expect(calibrations.first?.calibratedWeight == 70)
+    }
+
     private func makeStateMachine(selectedGroup: String? = nil) throws -> WorkoutStateMachine {
         try makeStateMachineWithContext(selectedGroup: selectedGroup).stateMachine
     }
@@ -287,7 +348,7 @@ struct WorkoutStateMachineTests {
     }
 
     private func assertActiveSet(_ stateMachine: WorkoutStateMachine, exercise: Exercise) {
-        guard case .activeSet(let activeExercise, let targetReps, let readiness) = stateMachine.state else {
+        guard case .activeSet(let activeExercise, let targetReps, let readiness, _, _) = stateMachine.state else {
             Issue.record("Expected \(exercise.name) to open the GO screen")
             return
         }

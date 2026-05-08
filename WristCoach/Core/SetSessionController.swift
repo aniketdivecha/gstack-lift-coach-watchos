@@ -47,7 +47,8 @@ final class SetSessionController: ObservableObject {
         hapticEngine: HapticEngine = WatchHapticEngine(),
         initialRepCount: Int = 0,
         initialCountingStarted: Bool = false,
-        initialFatigued: Bool = false
+        initialFatigued: Bool = false,
+        repSignature: RepMotionSignature? = nil
     ) {
         self.exercise = exercise
         self.targetReps = targetReps
@@ -55,7 +56,7 @@ final class SetSessionController: ObservableObject {
         self.motionSource = motionSource
         self.speechAnnouncer = speechAnnouncer
         self.hapticEngine = hapticEngine
-        self.repDetector = RepDetector(threshold: exercise.defaultThreshold)
+        self.repDetector = RepDetector(threshold: exercise.defaultThreshold, signature: repSignature)
         self.delegate = SetSessionDelegate()
         self.delegate.controller = nil
         self.repDetector.delegate = delegate
@@ -96,6 +97,9 @@ final class SetSessionController: ObservableObject {
 
     func stop() -> SetResult {
         motionSource.stop()
+        if manualMode == false {
+            repCount = repDetector.finalizePendingRep()
+        }
         speechAnnouncer.say("\(repCount) reps. Nice work.")
         hapticEngine.play(.success)
 

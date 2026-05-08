@@ -6,6 +6,7 @@ struct ActiveSetView: View, @unchecked Sendable {
     let exercise: Exercise
     let targetReps: Int
     let manualMode: Bool
+    let onRecalibrate: (Double) -> Void
     let onStop: (SetResult) -> Void
 
     init(
@@ -16,10 +17,13 @@ struct ActiveSetView: View, @unchecked Sendable {
         initialRepCount: Int = 0,
         initialCountingStarted: Bool = false,
         initialFatigued: Bool = false,
+        repSignature: RepMotionSignature? = nil,
+        onRecalibrate: @escaping (Double) -> Void = { _ in },
         onStop: @escaping (SetResult) -> Void
     ) {
         self.exercise = exercise
         self.targetReps = targetReps
+        self.onRecalibrate = onRecalibrate
         self.onStop = onStop
         self.manualMode = manualMode
         _currentWeight = State(initialValue: initialWeight ?? exercise.defaultStartingWeight)
@@ -30,7 +34,8 @@ struct ActiveSetView: View, @unchecked Sendable {
                 manualMode: manualMode,
                 initialRepCount: initialRepCount,
                 initialCountingStarted: initialCountingStarted,
-                initialFatigued: initialFatigued
+                initialFatigued: initialFatigued,
+                repSignature: repSignature
             )
         )
     }
@@ -77,6 +82,21 @@ struct ActiveSetView: View, @unchecked Sendable {
             Text("Tap when ready to lift")
                 .font(.system(size: 10))
                 .foregroundColor(Color(white: 0.27))
+
+            Button(action: {
+                onRecalibrate(currentWeight)
+            }) {
+                Text("Recalibrate")
+                    .font(.system(size: 10, weight: .bold))
+                    .frame(maxWidth: .infinity)
+            }
+            .frame(height: 32)
+            .background(Color(red: 1.0, green: 0.82, blue: 0.18))
+            .foregroundColor(.black)
+            .cornerRadius(10)
+            .buttonStyle(.plain)
+            .padding(.top, 3)
+            .padding(.horizontal, -8)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
@@ -292,81 +312,117 @@ struct SetCompleteView: View {
     let overload: OverloadResult
     let targetReps: Int
     let onRest: () -> Void
+    let onEndWorkout: (() -> Void)?
+
+    init(
+        exercise: Exercise,
+        result: SetResult,
+        overload: OverloadResult,
+        targetReps: Int,
+        onRest: @escaping () -> Void,
+        onEndWorkout: (() -> Void)? = nil
+    ) {
+        self.exercise = exercise
+        self.result = result
+        self.overload = overload
+        self.targetReps = targetReps
+        self.onRest = onRest
+        self.onEndWorkout = onEndWorkout
+    }
 
     var body: some View {
-        VStack(spacing: isGold ? 3 : 8) {
-            Text(exercise.name)
-                .font(.system(size: 10, weight: .semibold))
-                .foregroundColor(Color(white: 0.40))
-                .tracking(0.8)
-                .textCase(.uppercase)
-                .lineLimit(1)
+        ScrollView {
+            VStack(spacing: isGold ? 3 : 8) {
+                Text(exercise.name)
+                    .font(.system(size: 10, weight: .semibold))
+                    .foregroundColor(Color(white: 0.40))
+                    .tracking(0.8)
+                    .textCase(.uppercase)
+                    .lineLimit(1)
 
-            Text("\(result.actualReps)")
-                .font(.system(size: isGold ? 42 : 44, weight: isGold ? .black : .heavy))
-                .foregroundColor(heroColor)
-                .lineLimit(1)
+                Text("\(result.actualReps)")
+                    .font(.system(size: isGold ? 42 : 44, weight: isGold ? .black : .heavy))
+                    .foregroundColor(heroColor)
+                    .lineLimit(1)
 
-            Text(detailLine)
-                .font(.system(size: isGold ? 9.5 : 11))
-                .foregroundColor(isGold ? Color(red: 0.47, green: 0.40, blue: 0.0) : Color(white: 0.40))
-                .lineLimit(1)
-                .padding(.bottom, isGold ? 0 : 2)
+                Text(detailLine)
+                    .font(.system(size: isGold ? 9.5 : 11))
+                    .foregroundColor(isGold ? Color(red: 0.47, green: 0.40, blue: 0.0) : Color(white: 0.40))
+                    .lineLimit(1)
+                    .padding(.bottom, isGold ? 0 : 2)
 
-            Text("\"\(overload.message)\"")
-                .font(.system(size: isGold ? 10 : 11, weight: isGold ? .bold : .regular))
-                .foregroundColor(isGold ? heroColor : Color(white: 0.67))
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, isGold ? 4 : 6)
-                .padding(.horizontal, 10)
-                .background((isGold ? heroColor : Color.white).opacity(isGold ? 0.10 : 0.07))
-                .cornerRadius(8)
-                .lineLimit(1)
-
-            if isGold {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Next session")
-                        .font(.system(size: 9, weight: .semibold))
-                        .foregroundColor(Color(red: 0.29, green: 0.48, blue: 0.0))
-                        .tracking(0.6)
-                        .textCase(.uppercase)
-                    Text("\(Int(overload.newWeight)) lb × \(targetReps)")
-                        .font(.system(size: 13, weight: .heavy))
-                        .foregroundColor(Color(red: 0.18, green: 0.82, blue: 0.33))
-                    Text(nextReason)
-                        .font(.system(size: 8.5))
-                        .foregroundColor(Color(red: 0.23, green: 0.42, blue: 0.0))
-                        .lineLimit(1)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.vertical, 5)
-                .padding(.horizontal, 10)
-                .background(Color(red: 0.05, green: 0.10, blue: 0.0))
-                .cornerRadius(11)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 11)
-                        .stroke(Color(red: 0.16, green: 0.29, blue: 0.0), lineWidth: 1)
-                )
-            }
-
-            Button(action: onRest) {
-                Text("Rest →")
-                    .font(.system(size: isGold ? 11 : 12, weight: .bold))
+                Text("\"\(overload.message)\"")
+                    .font(.system(size: isGold ? 10 : 11, weight: isGold ? .bold : .regular))
+                    .foregroundColor(isGold ? heroColor : Color(white: 0.67))
                     .frame(maxWidth: .infinity)
+                    .padding(.vertical, isGold ? 4 : 6)
+                    .padding(.horizontal, 10)
+                    .background((isGold ? heroColor : Color.white).opacity(isGold ? 0.10 : 0.07))
+                    .cornerRadius(8)
+                    .lineLimit(1)
+                    .padding(.bottom, isGold ? 4 : 0)
+
+                if isGold {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Next session")
+                            .font(.system(size: 9, weight: .semibold))
+                            .foregroundColor(Color(red: 0.29, green: 0.48, blue: 0.0))
+                            .tracking(0.6)
+                            .textCase(.uppercase)
+                        Text("\(Int(overload.newWeight)) lb × \(targetReps)")
+                            .font(.system(size: 13, weight: .heavy))
+                            .foregroundColor(Color(red: 0.18, green: 0.82, blue: 0.33))
+                        Text(nextReason)
+                            .font(.system(size: 8.5))
+                            .foregroundColor(Color(red: 0.23, green: 0.42, blue: 0.0))
+                            .lineLimit(1)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical, 5)
+                    .padding(.horizontal, 10)
+                    .background(Color(red: 0.05, green: 0.10, blue: 0.0))
+                    .cornerRadius(11)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 11)
+                            .stroke(Color(red: 0.16, green: 0.29, blue: 0.0), lineWidth: 1)
+                    )
+                }
+
+                Button(action: onRest) {
+                    Text("Rest →")
+                        .font(.system(size: isGold ? 11 : 12, weight: .bold))
+                        .frame(maxWidth: .infinity)
+                }
+                .frame(height: isGold ? 27 : 34)
+                .background(isGold ? Color(red: 0.18, green: 0.82, blue: 0.33) : Color(white: 0.11))
+                .foregroundColor(isGold ? .black : Color(red: 0.18, green: 0.82, blue: 0.33))
+                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(isGold ? Color.clear : Color(red: 0.18, green: 0.82, blue: 0.33), lineWidth: 1)
+                )
+                .buttonStyle(.plain)
+                .padding(.top, isGold ? 8 : 10)
+
+                if let onEndWorkout {
+                    Button(action: onEndWorkout) {
+                        Text("End Workout")
+                            .font(.system(size: 10, weight: .bold))
+                            .frame(maxWidth: .infinity)
+                    }
+                    .frame(height: 32)
+                    .background(Color(red: 1.0, green: 0.27, blue: 0.23))
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .buttonStyle(.plain)
+                    .padding(.top, 6)
+                }
             }
-            .frame(height: isGold ? 27 : 34)
-            .background(isGold ? Color(red: 0.18, green: 0.82, blue: 0.33) : Color(white: 0.11))
-            .foregroundColor(isGold ? .black : Color(red: 0.18, green: 0.82, blue: 0.33))
-            .cornerRadius(10)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(isGold ? Color.clear : Color(red: 0.18, green: 0.82, blue: 0.33), lineWidth: 1)
-            )
-            .buttonStyle(.plain)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 8)
+            .frame(maxWidth: .infinity)
         }
-        .padding(.horizontal, 8)
-        .padding(.vertical, 8)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     private var isGold: Bool {
