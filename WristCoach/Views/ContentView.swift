@@ -29,6 +29,11 @@ struct ContentView: View {
 
     @ViewBuilder
     private var appBody: some View {
+        currentScreen
+    }
+
+    @ViewBuilder
+    private var currentScreen: some View {
         switch stateMachine.state {
             case .idle:
                 MusclePickerView(
@@ -57,42 +62,60 @@ struct ContentView: View {
                     exercises: exercises,
                     onBegin: { selectedExercises in
                         stateMachine.beginWorkout(with: selectedExercises)
+                    },
+                    onEndWorkout: {
+                        stateMachine.reset()
                     }
                 )
 
             case .calibration( _, _, let exercise, let currentWeight, _):
-                CalibrationView(
-                    exercise: exercise,
-                    onComplete: { weight in
-                        stateMachine.completeCalibration(exercise: exercise, weight: weight, manualEntry: false)
-                    },
-                    onManualEntry: {
-                        stateMachine.completeCalibration(exercise: exercise, weight: currentWeight, manualEntry: true)
-                    }
-                )
+                endWorkoutScroll {
+                    CalibrationView(
+                        exercise: exercise,
+                        onComplete: { weight, motionSignature in
+                            stateMachine.completeCalibration(
+                                exercise: exercise,
+                                weight: weight,
+                                manualEntry: false,
+                                motionSignature: motionSignature
+                            )
+                        },
+                        onManualEntry: {
+                            stateMachine.completeCalibration(exercise: exercise, weight: currentWeight, manualEntry: true)
+                        }
+                    )
+                }
 
             case .workoutReadiness(_, _, let exercise, let readiness):
-                WorkoutReadinessView(
-                    exercise: exercise,
-                    readiness: readiness,
-                    onContinue: {
-                        stateMachine.continueFromReadiness()
-                    },
-                    onRetry: {
-                        stateMachine.retryReadiness()
-                    }
-                )
+                endWorkoutScroll {
+                    WorkoutReadinessView(
+                        exercise: exercise,
+                        readiness: readiness,
+                        onContinue: {
+                            stateMachine.continueFromReadiness()
+                        },
+                        onRetry: {
+                            stateMachine.retryReadiness()
+                        }
+                    )
+                }
 
-            case .activeSet(let exercise, let targetReps, let readiness, let initialWeight):
-                ActiveSetView(
-                    exercise: exercise,
-                    targetReps: targetReps,
-                    manualMode: readiness.usesManualRepMode,
-                    initialWeight: initialWeight,
-                    onStop: { result in
-                        stateMachine.stopActiveSet(result)
-                    }
-                )
+            case .activeSet(let exercise, let targetReps, let readiness, let initialWeight, let repSignature):
+                endWorkoutScroll {
+                    ActiveSetView(
+                        exercise: exercise,
+                        targetReps: targetReps,
+                        manualMode: readiness.usesManualRepMode,
+                        initialWeight: initialWeight,
+                        repSignature: repSignature,
+                        onRecalibrate: { weight in
+                            stateMachine.recalibrateActiveExercise(currentWeight: weight)
+                        },
+                        onStop: { result in
+                            stateMachine.stopActiveSet(result)
+                        }
+                    )
+                }
 
             case .setComplete(_, _, let exercise, let result, let overload, let targetReps, _):
                 SetCompleteView(
@@ -102,22 +125,27 @@ struct ContentView: View {
                     targetReps: targetReps,
                     onRest: {
                         stateMachine.continueToRest()
+                    },
+                    onEndWorkout: {
+                        stateMachine.reset()
                     }
                 )
 
             case .rest(_, _, let exercise, _, let targetHR, let degradedHR):
-                RestView(
-                    exercise: exercise,
-                    nextExercise: stateMachine.nextExercise(after: exercise),
-                    targetHR: targetHR,
-                    degradedHR: degradedHR,
-                    onRepeat: {
-                        stateMachine.repeatExerciseAfterRest()
-                    },
-                    onNext: {
-                        stateMachine.finishRest()
-                    }
-                )
+                endWorkoutScroll {
+                    RestView(
+                        exercise: exercise,
+                        nextExercise: stateMachine.nextExercise(after: exercise),
+                        targetHR: targetHR,
+                        degradedHR: degradedHR,
+                        onRepeat: {
+                            stateMachine.repeatExerciseAfterRest()
+                        },
+                        onNext: {
+                            stateMachine.finishRest()
+                        }
+                    )
+                }
 
             case .sessionSummary(let exercises, let records):
                 SessionSummaryView(
@@ -125,9 +153,40 @@ struct ContentView: View {
                     records: records,
                     onDone: {
                         stateMachine.reset()
+                    },
+                    onEndWorkout: {
+                        stateMachine.reset()
                     }
                 )
         }
+    }
+
+    private func endWorkoutScroll<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+        ScrollView {
+            VStack(spacing: 8) {
+                content()
+                    .frame(maxWidth: .infinity)
+                endWorkoutButton
+            }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 8)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    private var endWorkoutButton: some View {
+        Button(action: {
+            stateMachine.reset()
+        }) {
+            Text("End Workout")
+                .font(.system(size: 10, weight: .bold))
+                .frame(maxWidth: .infinity)
+        }
+        .frame(height: 32)
+        .background(Color(red: 1.0, green: 0.27, blue: 0.23))
+        .foregroundColor(.white)
+        .cornerRadius(10)
+        .buttonStyle(.plain)
     }
 }
 
@@ -155,7 +214,7 @@ struct V5ScreenshotScreen: View {
             case "queue":
                 ExerciseQueueView(exercises: Self.queueExercises, onBegin: { _ in })
             case "calibration":
-                CalibrationView(exercise: exercise, currentWeight: exercise.defaultStartingWeight, onComplete: { _ in }, onManualEntry: {})
+                CalibrationView(exercise: exercise, currentWeight: exercise.defaultStartingWeight, onComplete: { _, _ in }, onManualEntry: {})
             case "preset":
                 V5PresetScreen(exercise: exercise, weightRaised: false)
             case "active-preset":

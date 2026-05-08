@@ -93,19 +93,57 @@ class WorkoutStateMachine: ObservableObject {
         beginExerciseFromQueue(exercises, exerciseIndex: 0)
     }
 
-    func completeCalibration(exercise: Exercise, weight: Double, manualEntry: Bool) {
+    func completeCalibration(
+        exercise: Exercise,
+        weight: Double,
+        manualEntry: Bool,
+        motionSignature: RepMotionSignature? = nil
+    ) {
         guard case .calibration(let exercises, let exerciseIndex, _, _, _) = state else {
             return
         }
 
+        removeCalibrations(for: exercise.id)
         let calibration = ExerciseCalibration(
             exerciseId: exercise.id,
             calibratedWeight: weight,
             detectionThreshold: exercise.defaultThreshold,
-            manualEntry: manualEntry
+            manualEntry: manualEntry,
+            motionSignature: motionSignature
         )
         modelContext.insert(calibration)
-        beginReadiness(exercises: exercises, exerciseIndex: exerciseIndex, exercise: exercise)
+        beginReadiness(
+            exercises: exercises,
+            exerciseIndex: exerciseIndex,
+            exercise: exercise,
+            repSignature: motionSignature
+        )
+    }
+
+    func recalibrateActiveExercise(currentWeight: Double? = nil) {
+        guard case .activeSet(let exercise, _, _, let initialWeight, _) = state else {
+            return
+        }
+
+        readinessRequestID = UUID()
+        let exercises = currentExercises.isEmpty ? [exercise] : currentExercises
+        let exerciseIndex: Int
+        if exercises.indices.contains(currentExerciseIndex),
+           exercises[currentExerciseIndex].id == exercise.id {
+            exerciseIndex = currentExerciseIndex
+        } else {
+            exerciseIndex = exercises.firstIndex(where: { $0.id == exercise.id }) ?? 0
+        }
+
+        currentExercises = exercises
+        currentExerciseIndex = exerciseIndex
+        state = .calibration(
+            exercises: exercises,
+            currentExerciseIndex: exerciseIndex,
+            exercise: exercise,
+            currentWeight: currentWeight ?? initialWeight,
+            attemptCount: 0
+        )
     }
 
     func retryReadiness() {
@@ -124,11 +162,17 @@ class WorkoutStateMachine: ObservableObject {
 
         currentReadiness = readiness
         let initialWeight = getLastWeight(for: exercise.id) ?? exercise.defaultStartingWeight
-        state = .activeSet(exercise: exercise, targetReps: 8, readiness: readiness, initialWeight: initialWeight)
+        state = .activeSet(
+            exercise: exercise,
+            targetReps: 8,
+            readiness: readiness,
+            initialWeight: initialWeight,
+            repSignature: findCalibration(for: exercise.id)?.motionSignature
+        )
     }
 
     func stopActiveSet(_ result: SetResult) {
-        guard case .activeSet(let exercise, let targetReps, let readiness, _) = state else {
+        guard case .activeSet(let exercise, let targetReps, let readiness, _, _) = state else {
             return
         }
 
@@ -260,6 +304,7 @@ class WorkoutStateMachine: ObservableObject {
     }
 
     func reset() {
+        readinessRequestID = UUID()
         Task {
             await workoutSessionController.endWorkout()
         }
@@ -296,16 +341,28 @@ class WorkoutStateMachine: ObservableObject {
         return exercises
     }
 
-    private func beginReadiness(exercises: [Exercise], exerciseIndex: Int, exercise: Exercise) {
+    private func beginReadiness(
+        exercises: [Exercise],
+        exerciseIndex: Int,
+        exercise: Exercise,
+        repSignature: RepMotionSignature? = nil
+    ) {
         currentExercises = exercises
         currentExerciseIndex = exerciseIndex
+        let activeRepSignature = repSignature ?? findCalibration(for: exercise.id)?.motionSignature
         let requestID = UUID()
         readinessRequestID = requestID
         let motionSource = CMMotionSource()
         let entryReadiness = WorkoutReadiness.optimisticEntry(motionAvailable: motionSource.isAvailable)
         currentReadiness = entryReadiness
         let initialWeight = getLastWeight(for: exercise.id) ?? exercise.defaultStartingWeight
-        state = .activeSet(exercise: exercise, targetReps: 8, readiness: entryReadiness, initialWeight: initialWeight)
+        state = .activeSet(
+            exercise: exercise,
+            targetReps: 8,
+            readiness: entryReadiness,
+            initialWeight: initialWeight,
+            repSignature: activeRepSignature
+        )
 
         Task {
             let readiness = await workoutSessionController.prepareForWorkout(
@@ -315,10 +372,16 @@ class WorkoutStateMachine: ObservableObject {
             guard readinessRequestID == requestID else { return }
 
             currentReadiness = readiness
-            if case .activeSet(let activeExercise, let targetReps, _, let w) = state,
+            if case .activeSet(let activeExercise, let targetReps, _, let w, let signature) = state,
                activeExercise.id == exercise.id {
                 if readiness.canEnterActiveSet {
-                    state = .activeSet(exercise: activeExercise, targetReps: targetReps, readiness: readiness, initialWeight: w)
+                    state = .activeSet(
+                        exercise: activeExercise,
+                        targetReps: targetReps,
+                        readiness: readiness,
+                        initialWeight: w,
+                        repSignature: signature
+                    )
                 } else {
                     state = .workoutReadiness(
                         exercises: exercises,
@@ -355,13 +418,24 @@ class WorkoutStateMachine: ObservableObject {
     }
 
     private func findCalibration(for exerciseId: String) -> ExerciseCalibration? {
+        fetchCalibrations(for: exerciseId).first
+    }
+
+    private func removeCalibrations(for exerciseId: String) {
+        for calibration in fetchCalibrations(for: exerciseId) {
+            modelContext.delete(calibration)
+        }
+    }
+
+    private func fetchCalibrations(for exerciseId: String) -> [ExerciseCalibration] {
         let fetchDescriptor = FetchDescriptor<ExerciseCalibration>(
-            predicate: #Predicate<ExerciseCalibration> { $0.exerciseId == exerciseId }
+            predicate: #Predicate<ExerciseCalibration> { $0.exerciseId == exerciseId },
+            sortBy: [SortDescriptor(\.calibrationDate, order: .reverse)]
         )
         do {
-            return try modelContext.fetch(fetchDescriptor).first
+            return try modelContext.fetch(fetchDescriptor)
         } catch {
-            return nil
+            return []
         }
     }
 
