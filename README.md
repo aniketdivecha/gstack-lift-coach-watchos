@@ -191,7 +191,7 @@ Agent instructions and the local gstack skill pack live in [AGENTS.md](AGENTS.md
 ## Contact
 
 - GitHub: [@aniketdivecha](https://github.com/aniketdivecha)
-- Reddit: [u/FullSwim4484](https://www.reddit.com/user/FullSwim4484/)
+- Reddit: [u/aniketdivecha](https://www.reddit.com/user/aniketdivecha/)
 
 ## License
 
