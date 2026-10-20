@@ -188,6 +188,11 @@ The app must already be installed on that simulator, for example by running it o
 
 Agent instructions and the local gstack skill pack live in [AGENTS.md](AGENTS.md) and `.agents/skills`.
 
+## Contact
+
+- GitHub: [@aniketdivecha](https://github.com/aniketdivecha)
+- Reddit: [u/FullSwim4484](https://www.reddit.com/user/FullSwim4484/)
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
