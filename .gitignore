@@ -1,1 +1,13 @@
-.claude/worktrees/agitated-golick-f57e47
+# macOS
+.DS_Store
+
+# Xcode build output
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+
+# Local agent worktrees and screenshot captures
+# Screenshots used by the README live in docs/screenshots/
+.claude/worktrees/
+.gstack-screenshots/
