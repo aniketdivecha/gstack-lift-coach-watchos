@@ -19,7 +19,7 @@ A hands-mostly-free strength coach for Apple Watch, now growing an iPhone compan
 - **Programs (in progress).** Build a named session on iPhone, send it to the watch, and run the planned queue without picking exercises on your wrist.
 - **Fully local.** No accounts, no network, no cloud. Records live in SwiftData on the watch and will sync to the phone over WatchConnectivity.
 
-Screen flow:
+Current watch flow:
 
 ```text
 Muscle picker -> Exercise queue -> Calibration (first time only) -> Readiness gate

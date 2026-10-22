@@ -84,7 +84,7 @@ Each step is sized for one focused session. Steps marked "needs Xcode" cannot be
 - [ ] **0.3** Sample programs: Push A, Pull A, Legs
 - [ ] **0.4** `ProgramStore` protocol and in-memory store
 - [ ] **0.5** JSON file store with atomic writes
-- [ ] **0.6** Volume and program summary calculations
+- [x] **0.6** Volume and set totals for a program
 - [ ] **0.7** Next-load suggestion per program exercise
 - [x] **0.8** CI workflow for WristCoachKit tests
 
@@ -143,4 +143,5 @@ Nothing blocked yet.
 
 - 2026-10-22: 0.1 roadmap and architecture
 - 2026-10-22: 0.2 program models, validation, and 8 tests
+- 2026-10-22: 0.6 program set totals and volume
 - 2026-10-22: 0.8 core test CI workflow
