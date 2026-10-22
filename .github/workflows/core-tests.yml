@@ -1,0 +1,23 @@
+name: Core tests
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "WristCoachKit/**"
+      - "scripts/test.sh"
+      - ".github/workflows/core-tests.yml"
+  pull_request:
+    paths:
+      - "WristCoachKit/**"
+      - "scripts/test.sh"
+
+jobs:
+  test:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Show Swift version
+        run: swift --version
+      - name: Run core tests
+        run: ./scripts/test.sh
