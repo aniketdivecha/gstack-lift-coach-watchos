@@ -8,7 +8,7 @@
   <img src="docs/screenshots/summary.png" width="156" alt="Session summary">
 </p>
 
-A hands-mostly-free strength coach for Apple Watch. Pick the muscles you are training, tap GO, lift, tap STOP. WristCoach counts reps from wrist motion, suggests the next load, and times rest against heart rate so your hands stay on the bar.
+A hands-mostly-free strength coach for Apple Watch, now growing an iPhone companion. Plan a program on the phone, execute it on the watch, then review the session. WristCoach counts reps from wrist motion, suggests the next load, and times rest against heart rate so your hands stay on the bar.
 
 ## What it does
 
@@ -16,7 +16,8 @@ A hands-mostly-free strength coach for Apple Watch. Pick the muscles you are tra
 - **Progressive overload.** Every set produces a next-session weight from reps hit, struggle, and the exercise's own increment.
 - **Heart-rate rest gates.** Rest ends when your heart rate recovers toward the target, with a timer-only fallback when health data is unavailable.
 - **Audio and haptics.** The watch speaks each rep, calls the last two reps, and announces the set result. Haptics fire on GO, on set completion, and when the detector sees fatigue.
-- **Fully local.** No accounts, no network, no cloud. Records live in SwiftData on the watch.
+- **Programs (in progress).** Build a named session on iPhone, send it to the watch, and run the planned queue without picking exercises on your wrist.
+- **Fully local.** No accounts, no network, no cloud. Records live in SwiftData on the watch and will sync to the phone over WatchConnectivity.
 
 Screen flow:
 
@@ -25,6 +26,19 @@ Muscle picker -> Exercise queue -> Calibration (first time only) -> Readiness ga
   -> Active set -> Set complete -> Rest -> next exercise or Session summary
 ```
 
+## Product direction
+
+The next release adds an iPhone companion. The phone becomes the place to plan and review training; the watch stays the place to execute it. The watch remains usable on its own: with no program loaded, the muscle picker flow is unchanged.
+
+| Surface | Status |
+|---------|--------|
+| Apple Watch app | Working foundation |
+| `WristCoachKit` | In progress |
+| iPhone app | Planned, needs Xcode |
+| Phone to watch sync | Planned |
+
+Shared models, validation, and the sync envelope live in `WristCoachKit`, a platform-neutral Swift package. The phased plan, current status, and daily progress log are in [docs/ROADMAP.md](docs/ROADMAP.md).
+
 ## Requirements
 
 | Requirement | Notes |
@@ -32,7 +46,7 @@ Muscle picker -> Exercise queue -> Calibration (first time only) -> Readiness ga
 | macOS with Xcode 26 or later | Project uses the watchOS 26 SDK, Swift 6 language mode, SwiftUI, SwiftData, and Swift Testing |
 | Apple Watch Series 6 or later | watchOS 26 or later. Series 4 and earlier are out of scope |
 | Apple Developer team | Needed for on-device installs. Simulator builds do not require one |
-| Paired iPhone | The app is watch-only (`WKWatchOnly`), so there is no iOS companion app |
+| Paired iPhone | The watch app is watch-only today. An iPhone companion is in development |
 
 The Xcode project does not pin `WATCHOS_DEPLOYMENT_TARGET`, so builds inherit the default deployment target from the installed watchOS SDK.
 
@@ -49,6 +63,14 @@ WristCoach/
 Tests/                    Test bundle sources
   WristCoachTests/        Swift Testing suites
   Fixtures/               Recorded motion fixture for rep detector replay
+WristCoachKit/            Shared program models, validation, and sync types
+  Sources/
+  Tests/
+docs/
+  ROADMAP.md              iPhone companion plan and daily progress log
+scripts/
+  test.sh                 Runs the core package tests
+.github/workflows/        CI for the core package
 DESIGN.md                 Design tokens, accessibility contract, small-watch rules
 design-doc.md             Product and engineering design record
 TODOS.md                  Deferred work, with context for each item
@@ -126,6 +148,16 @@ These are logic tests. The `WristCoachTests` target has no test host: the core s
 
 Motion fixtures live in `Tests/Fixtures`. `bench_press_8_reps.json` describes sample rate, threshold, baseline noise, peak magnitude, and peak times. `FixtureLoader` synthesizes samples from it and `RepDetectorTests` replays them, which makes rep counting testable without a watch. Add a fixture for each new exercise you want to protect.
 
+### Core package tests
+
+`WristCoachKit` has no Xcode dependency and runs on macOS with the Swift toolchain:
+
+```bash
+./scripts/test.sh
+```
+
+The script calls `swift test` from `WristCoachKit` and adds the Command Line Tools plugin path when full Xcode is not selected. CI runs the same script on a macOS runner.
+
 ### Screenshot harness
 
 Any screen can be opened directly, without walking the flow, by setting `WRISTCOACH_V5_SCREEN`. Set it in the scheme under **Edit Scheme > Run > Arguments > Environment Variables**, or pass it at launch.
@@ -184,6 +216,7 @@ The app must already be installed on that simulator, for example by running it o
 - [DESIGN.md](DESIGN.md) covers tokens, components, accessibility, and small-watch layout rules.
 - [design-doc.md](design-doc.md) covers the product problem, UX decisions, rep detection approach, and review history.
 - [TODOS.md](TODOS.md) lists deferred work with the reasoning behind each item.
+- [docs/ROADMAP.md](docs/ROADMAP.md) covers the iPhone companion plan, phases, and progress log.
 - [mocks-v5.html](mocks-v5.html) is the visual baseline for the current screens.
 
 Agent instructions and the local gstack skill pack live in [AGENTS.md](AGENTS.md) and `.agents/skills`.
