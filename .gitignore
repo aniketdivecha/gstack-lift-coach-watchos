@@ -11,3 +11,6 @@ xcuserdata/
 # Screenshots used by the README live in docs/screenshots/
 .claude/worktrees/
 .gstack-screenshots/
+
+# Swift Package Manager
+.build/
