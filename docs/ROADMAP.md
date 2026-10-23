@@ -146,3 +146,4 @@ Nothing blocked yet.
 - 2026-10-22: 0.6 program set totals and volume
 - 2026-10-22: 0.8 core test CI workflow
 - 2026-10-23: 0.3 sample Push, Pull, and Legs programs
+- 2026-10-23: maintenance: exercise id validation, volume overflow fix, AGENTS cleanup

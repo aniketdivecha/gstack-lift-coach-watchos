@@ -71,6 +71,7 @@ docs/
 scripts/
   test.sh                 Runs the core package tests
 .github/workflows/        CI for the core package
+AGENTS.md                 Working notes for agents and contributors
 DESIGN.md                 Design tokens, accessibility contract, small-watch rules
 design-doc.md             Product and engineering design record
 TODOS.md                  Deferred work, with context for each item
@@ -211,6 +212,15 @@ The app must already be installed on that simulator, for example by running it o
 | Tests do not see a new core type | The file is missing from the `WristCoachTests` target. Add it to both targets |
 | Rep counts consistently high or low | Tune `defaultThreshold` for that exercise, then recalibrate |
 
+## Changelog
+
+### 2026-10-23
+
+- Added sample Push, Pull, and Legs programs. The app now has opinions about leg day.
+- Exercise ids are validated before a program can reach the watch. "Bench Press" is a name, not an id.
+- Fixed a volume calculation that could overflow on two billion reps. We admire the optimism.
+- Moved the local gstack skill pack out of version control. The app is the product; the tooling can live on your machine.
+
 ## Documentation
 
 - [DESIGN.md](DESIGN.md) covers tokens, components, accessibility, and small-watch layout rules.
@@ -219,7 +229,7 @@ The app must already be installed on that simulator, for example by running it o
 - [docs/ROADMAP.md](docs/ROADMAP.md) covers the iPhone companion plan, phases, and progress log.
 - [mocks-v5.html](mocks-v5.html) is the visual baseline for the current screens.
 
-Agent instructions and the local gstack skill pack live in [AGENTS.md](AGENTS.md) and `.agents/skills`.
+Agent instructions live in [AGENTS.md](AGENTS.md). The local gstack skill pack is ignored by git.
 
 ## Contact
 
