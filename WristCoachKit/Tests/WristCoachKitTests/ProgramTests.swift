@@ -104,6 +104,19 @@ struct ProgramTests {
     }
 
 
+    @Test("exercise ids must match the watch library format")
+    func exerciseIdsMustMatchLibraryFormat() {
+        let invalidIds = ["Bench Press", "Bench_Press", "bench-press", " bench_press", "bench press"]
+
+        for id in invalidIds {
+            let program = Program(name: "Push A", exercises: [makeExercise(exerciseId: id)])
+            #expect(
+                program.validationIssues.contains(.invalidExerciseId(index: 0, exerciseId: id)),
+                "\(id) should be rejected"
+            )
+        }
+    }
+
     @Test("planned volume survives an absurd rep count")
     func plannedVolumeSurvivesAbsurdRepCount() {
         let exercise = makeExercise(sets: Int.max, reps: 2, weight: 1)

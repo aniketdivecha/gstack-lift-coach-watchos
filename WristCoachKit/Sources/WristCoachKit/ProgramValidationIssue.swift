@@ -4,6 +4,7 @@ public enum ProgramValidationIssue: Equatable, Sendable {
     case emptyName
     case noExercises
     case emptyExerciseId(index: Int)
+    case invalidExerciseId(index: Int, exerciseId: String)
     case emptyExerciseName(index: Int)
     case invalidSetCount(index: Int, sets: Int)
     case invalidRepCount(index: Int, reps: Int)
@@ -19,6 +20,8 @@ public enum ProgramValidationIssue: Equatable, Sendable {
             return "Add at least one exercise."
         case .emptyExerciseId(let index):
             return "Exercise \(index + 1) has no library match."
+        case .invalidExerciseId(let index, let exerciseId):
+            return "Exercise \(index + 1) has an id the watch cannot match: \(exerciseId)."
         case .emptyExerciseName(let index):
             return "Exercise \(index + 1) needs a name."
         case .invalidSetCount(let index, let sets):

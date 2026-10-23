@@ -1,5 +1,8 @@
 import Foundation
 
+/// A saved workout. Drafts are allowed to be invalid, so callers validate
+/// before sending one to the watch. Exercises are identified by `exerciseId`,
+/// which must match an id in `WristCoach/Models/ExerciseLibrary.swift`.
 public struct Program: Codable, Equatable, Identifiable, Sendable {
     public let id: UUID
     public var name: String
@@ -32,6 +35,9 @@ public struct Program: Codable, Equatable, Identifiable, Sendable {
         exercises.reduce(0) { $0 + $1.plannedVolume }
     }
 
+    /// Checks that a program can be sent to the watch. This is deliberately
+    /// strict: the watch rejects programs it cannot map to its exercise
+    /// library, and it does not try to repair them.
     public var validationIssues: [ProgramValidationIssue] {
         var issues: [ProgramValidationIssue] = []
 
@@ -45,13 +51,17 @@ public struct Program: Codable, Equatable, Identifiable, Sendable {
 
         var seenExerciseIds: Set<String> = []
         for (index, exercise) in exercises.enumerated() {
-            let trimmedId = exercise.exerciseId.trimmingCharacters(in: .whitespacesAndNewlines)
-            if trimmedId.isEmpty {
+            let exerciseId = exercise.exerciseId
+            if exerciseId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 issues.append(.emptyExerciseId(index: index))
-            } else if seenExerciseIds.contains(trimmedId) {
-                issues.append(.duplicateExercise(exerciseId: trimmedId))
+            } else if !Self.isLibraryStyleId(exerciseId) {
+                // The watch does exact string matching, so "Bench Press" and
+                // "Bench_Press" are not close enough to "bench_press".
+                issues.append(.invalidExerciseId(index: index, exerciseId: exerciseId))
+            } else if seenExerciseIds.contains(exerciseId) {
+                issues.append(.duplicateExercise(exerciseId: exerciseId))
             } else {
-                seenExerciseIds.insert(trimmedId)
+                seenExerciseIds.insert(exerciseId)
             }
 
             if exercise.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -76,5 +86,12 @@ public struct Program: Codable, Equatable, Identifiable, Sendable {
 
     public var isValid: Bool {
         validationIssues.isEmpty
+    }
+
+    private static func isLibraryStyleId(_ id: String) -> Bool {
+        guard !id.isEmpty else { return false }
+        return id.allSatisfy { character in
+            character.isASCII && (character.isLowercase || character.isNumber || character == "_")
+        }
     }
 }
