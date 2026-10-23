@@ -103,6 +103,14 @@ struct ProgramTests {
         #expect(exercise.plannedVolume == 1500)
     }
 
+
+    @Test("planned volume survives an absurd rep count")
+    func plannedVolumeSurvivesAbsurdRepCount() {
+        let exercise = makeExercise(sets: Int.max, reps: 2, weight: 1)
+
+        #expect(exercise.plannedVolume == Double(Int.max) * 2)
+    }
+
     @Test("programs round trip through JSON")
     func codableRoundTrip() throws {
         let created = Date(timeIntervalSince1970: 1_700_000_000)

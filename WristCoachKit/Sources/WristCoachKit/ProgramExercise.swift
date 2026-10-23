@@ -42,7 +42,11 @@ public struct ProgramExercise: Codable, Equatable, Identifiable, Sendable {
         self.restSeconds = restSeconds
     }
 
+    /// Total weight moved if every planned set is completed.
+    ///
+    /// Convert before multiplying. Sets times reps can overflow `Int` for
+    /// optimistic drafts, and crashing is a bad way to report a typo.
     public var plannedVolume: Double {
-        targetWeight * Double(targetSets * targetReps)
+        targetWeight * Double(targetSets) * Double(targetReps)
     }
 }
