@@ -32,7 +32,8 @@ The watch must stay usable without a phone during a workout. If a change breaks 
 - No accounts, no cloud, no server. WatchConnectivity is the only bridge between devices.
 - Programs are data. Validate them before the watch sees them.
 - One idea per commit. Prefix with `feat:`, `fix:`, `docs:`, `test:`, `ci:`, or `chore:`.
-- Update the README or roadmap when behavior changes.
+- Update the README or roadmap when behavior changes. Each daily step adds a changelog bullet.
+- Fix real bugs you find while working, with a regression test. Do not invent bugs to pad the log.
 - Comments explain why. If a comment only explains what the code does, rename the code instead.
 - New core files need tests. New tests need a reason to exist.
 

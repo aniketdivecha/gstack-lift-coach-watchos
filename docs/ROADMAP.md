@@ -126,10 +126,10 @@ Each step is sized for one focused session. Steps marked "needs Xcode" cannot be
 The daily job follows these rules:
 
 1. Read this file and pick the first unchecked step that does not need Xcode.
-2. Implement only that step.
+2. Implement only that step. Write comments that explain why, not what.
 3. Add or update tests with the change.
-4. Run `cd WristCoachKit && swift test`.
-5. Check the box and add one line to the progress log.
+4. Run `./scripts/test.sh`.
+5. Check the box, add one line to the progress log, and add a bullet under today's date in the README changelog.
 6. Commit and push to `master` with a descriptive message.
 7. Never force push, never rewrite history, and never commit an empty change.
 
