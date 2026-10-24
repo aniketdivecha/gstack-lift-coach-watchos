@@ -214,6 +214,10 @@ The app must already be installed on that simulator, for example by running it o
 
 ## Changelog
 
+### 2026-10-24
+
+- Added a program store protocol and an in-memory implementation. Persistence is still a list, but it is a well-tested list.
+
 ### 2026-10-23
 
 - Added sample Push, Pull, and Legs programs. The app now has opinions about leg day.
