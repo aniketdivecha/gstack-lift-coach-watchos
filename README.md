@@ -214,6 +214,10 @@ The app must already be installed on that simulator, for example by running it o
 
 ## Changelog
 
+### 2026-10-25
+
+- Added a JSON program store with atomic writes. A missing file is an empty library, which beats a crash.
+
 ### 2026-10-24
 
 - Added a program store protocol and an in-memory implementation. Persistence is still a list, but it is a well-tested list.
