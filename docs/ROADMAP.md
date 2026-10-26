@@ -85,7 +85,7 @@ Each step is sized for one focused session. Steps marked "needs Xcode" cannot be
 - [x] **0.4** `ProgramStore` protocol and in-memory store
 - [x] **0.5** JSON file store with atomic writes
 - [x] **0.6** Volume and set totals for a program
-- [ ] **0.7** Next-load suggestion per program exercise
+- [x] **0.7** Next-load suggestion per program exercise
 - [x] **0.8** CI workflow for WristCoachKit tests
 
 ### Phase 1: Sync protocol
@@ -149,3 +149,4 @@ Nothing blocked yet.
 - 2026-10-23: maintenance: exercise id validation, volume overflow fix, AGENTS cleanup
 - 2026-10-24: 0.4 program store protocol and in-memory store
 - 2026-10-25: 0.5 JSON program store with atomic writes
+- 2026-10-26: 0.7 next-load suggestions for program exercises

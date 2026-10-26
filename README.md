@@ -214,6 +214,10 @@ The app must already be installed on that simulator, for example by running it o
 
 ## Changelog
 
+### 2026-10-26
+
+- Added next-load suggestions. Hit your reps and add weight, miss badly and take some off, anything in between and run it back.
+
 ### 2026-10-25
 
 - Added a JSON program store with atomic writes. A missing file is an empty library, which beats a crash.
