@@ -214,6 +214,10 @@ The app must already be installed on that simulator, for example by running it o
 
 ## Changelog
 
+### 2026-10-27
+
+- Added a versioned message envelope for phone to watch sync. It can send a program, ask for one, and acknowledge one. Small talk comes later.
+
 ### 2026-10-26
 
 - Added next-load suggestions. Hit your reps and add weight, miss badly and take some off, anything in between and run it back.
