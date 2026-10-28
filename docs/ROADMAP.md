@@ -91,7 +91,7 @@ Each step is sized for one focused session. Steps marked "needs Xcode" cannot be
 ### Phase 1: Sync protocol
 
 - [x] **1.1** `WatchMessage` envelope with version and message kind
-- [ ] **1.2** Program payload validation and size guard before send
+- [x] **1.2** Program payload validation and size guard before send
 - [ ] **1.3** Phone-side sync coordinator with a fake transport
 - [ ] **1.4** Watch-side receiver with a fake transport
 
@@ -151,3 +151,4 @@ Nothing blocked yet.
 - 2026-10-25: 0.5 JSON program store with atomic writes
 - 2026-10-26: 0.7 next-load suggestions for program exercises
 - 2026-10-27: 1.1 versioned watch message envelope
+- 2026-10-28: 1.2 program payload validation and size guard

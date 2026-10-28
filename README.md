@@ -214,6 +214,10 @@ The app must already be installed on that simulator, for example by running it o
 
 ## Changelog
 
+### 2026-10-28
+
+- Program messages are validated and size-checked before they leave the phone. The watch should not be the first to find out the program is wrong.
+
 ### 2026-10-27
 
 - Added a versioned message envelope for phone to watch sync. It can send a program, ask for one, and acknowledge one. Small talk comes later.
