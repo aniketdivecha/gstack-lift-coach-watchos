@@ -214,6 +214,10 @@ The app must already be installed on that simulator, for example by running it o
 
 ## Changelog
 
+### 2026-10-29
+
+- Added the phone-side sync coordinator and a recording transport. The send path is now testable without a wrist.
+
 ### 2026-10-28
 
 - Program messages are validated and size-checked before they leave the phone. The watch should not be the first to find out the program is wrong.

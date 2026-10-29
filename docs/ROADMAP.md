@@ -92,7 +92,7 @@ Each step is sized for one focused session. Steps marked "needs Xcode" cannot be
 
 - [x] **1.1** `WatchMessage` envelope with version and message kind
 - [x] **1.2** Program payload validation and size guard before send
-- [ ] **1.3** Phone-side sync coordinator with a fake transport
+- [x] **1.3** Phone-side sync coordinator with a fake transport
 - [ ] **1.4** Watch-side receiver with a fake transport
 
 ### Phase 2: iPhone app (needs Xcode)
@@ -152,3 +152,4 @@ Nothing blocked yet.
 - 2026-10-26: 0.7 next-load suggestions for program exercises
 - 2026-10-27: 1.1 versioned watch message envelope
 - 2026-10-28: 1.2 program payload validation and size guard
+- 2026-10-29: 1.3 phone-side sync coordinator and fake transport
