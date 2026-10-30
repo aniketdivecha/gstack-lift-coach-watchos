@@ -93,7 +93,7 @@ Each step is sized for one focused session. Steps marked "needs Xcode" cannot be
 - [x] **1.1** `WatchMessage` envelope with version and message kind
 - [x] **1.2** Program payload validation and size guard before send
 - [x] **1.3** Phone-side sync coordinator with a fake transport
-- [ ] **1.4** Watch-side receiver with a fake transport
+- [x] **1.4** Watch-side receiver with a fake transport
 
 ### Phase 2: iPhone app (needs Xcode)
 
@@ -137,7 +137,8 @@ If a step needs Xcode and Xcode is not available, skip it, note it under Blocked
 
 ## Blocked
 
-Nothing blocked yet.
+- Phase 2 and Phase 3 need Xcode 26 or later. This machine has Command Line Tools only, so those steps cannot be built or verified locally.
+- Next action: install Xcode, run `sudo xcode-select -s /Applications/Xcode.app`, then resume the daily job at step 2.1.
 
 ## Progress log
 
@@ -153,3 +154,4 @@ Nothing blocked yet.
 - 2026-10-27: 1.1 versioned watch message envelope
 - 2026-10-28: 1.2 program payload validation and size guard
 - 2026-10-29: 1.3 phone-side sync coordinator and fake transport
+- 2026-10-30: 1.4 watch-side receiver with validation

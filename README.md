@@ -33,9 +33,9 @@ The next release adds an iPhone companion. The phone becomes the place to plan a
 | Surface | Status |
 |---------|--------|
 | Apple Watch app | Working foundation |
-| `WristCoachKit` | In progress |
-| iPhone app | Planned, needs Xcode |
-| Phone to watch sync | Planned |
+| `WristCoachKit` | Core slice complete |
+| iPhone app | Needs Xcode |
+| WatchConnectivity transport | Needs Xcode |
 
 Shared models, validation, and the sync envelope live in `WristCoachKit`, a platform-neutral Swift package. The phased plan, current status, and daily progress log are in [docs/ROADMAP.md](docs/ROADMAP.md).
 
@@ -213,6 +213,11 @@ The app must already be installed on that simulator, for example by running it o
 | Rep counts consistently high or low | Tune `defaultThreshold` for that exercise, then recalibrate |
 
 ## Changelog
+
+### 2026-10-30
+
+- Added the watch-side receiver. It checks the envelope and the program before saving, which is the watch equivalent of reading the label first.
+- Finished the no-Xcode slice: 59 tests across the core package. Phase 2 needs Xcode 26 or later.
 
 ### 2026-10-29
 
