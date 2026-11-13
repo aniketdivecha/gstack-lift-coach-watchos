@@ -155,3 +155,4 @@ If a step needs Xcode and Xcode is not available, skip it, note it under Blocked
 - 2026-10-28: 1.2 program payload validation and size guard
 - 2026-10-29: 1.3 phone-side sync coordinator and fake transport
 - 2026-10-30: 1.4 watch-side receiver with validation
+- 2026-11-13: program editing helpers for add, remove, and reorder

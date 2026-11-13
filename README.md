@@ -214,6 +214,10 @@ The app must already be installed on that simulator, for example by running it o
 
 ## Changelog
 
+### 2026-11-13
+
+- Added program editing helpers. Adding, removing, and reordering an exercise returns a new program and stamps the edit time, which is what the phone editor will call.
+
 ### 2026-10-30
 
 - Added the watch-side receiver. It checks the envelope and the program before saving, which is the watch equivalent of reading the label first.

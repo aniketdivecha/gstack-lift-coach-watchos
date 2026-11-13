@@ -22,6 +22,18 @@ struct ProgramTests {
         )
     }
 
+    private func makeProgram(
+        exercises: [ProgramExercise]? = nil,
+        updatedAt: Date = Date(timeIntervalSince1970: 1_000)
+    ) -> Program {
+        Program(
+            name: "Push A",
+            exercises: exercises ?? [makeExercise()],
+            createdAt: Date(timeIntervalSince1970: 900),
+            updatedAt: updatedAt
+        )
+    }
+
     @Test("a complete program has no validation issues")
     func validProgramHasNoIssues() {
         let program = Program(
@@ -140,5 +152,84 @@ struct ProgramTests {
         let decoded = try JSONDecoder().decode(Program.self, from: data)
 
         #expect(decoded == program)
+    }
+
+    @Test("adding an exercise appends it and stamps the edit")
+    func addingAppends() {
+        let now = Date(timeIntervalSince1970: 2_000)
+        let program = makeProgram()
+        let added = makeExercise(exerciseId: "incline_press", name: "Incline Press", sets: 3, reps: 10, weight: 50)
+
+        let edited = program.adding(added, now: now)
+
+        #expect(edited.exercises.map(\.exerciseId) == ["bench_press", "incline_press"])
+        #expect(edited.updatedAt == now)
+        #expect(program.exercises.count == 1)
+    }
+
+    @Test("adding at an index inserts instead of appending")
+    func addingAtAnIndexInserts() {
+        let second = makeExercise(exerciseId: "incline_press", name: "Incline Press", sets: 3, reps: 10, weight: 50)
+        let program = makeProgram(exercises: [makeExercise(), second])
+        let first = makeExercise(exerciseId: "chest_fly", name: "Chest Fly", sets: 3, reps: 12, weight: 80)
+
+        let edited = program.adding(first, at: 0)
+
+        #expect(edited.exercises.map(\.exerciseId) == ["chest_fly", "bench_press", "incline_press"])
+    }
+
+    @Test("adding past the end appends instead of trapping")
+    func addingPastTheEndAppends() {
+        let program = makeProgram()
+        let added = makeExercise(exerciseId: "chest_fly", name: "Chest Fly", sets: 3, reps: 12, weight: 80)
+
+        let edited = program.adding(added, at: 99)
+
+        #expect(edited.exercises.map(\.exerciseId) == ["bench_press", "chest_fly"])
+    }
+
+    @Test("removing an exercise keeps the rest in order")
+    func removingKeepsOrder() {
+        let now = Date(timeIntervalSince1970: 2_000)
+        let second = makeExercise(exerciseId: "incline_press", name: "Incline Press", sets: 3, reps: 10, weight: 50)
+        let program = makeProgram(exercises: [makeExercise(), second])
+
+        let edited = program.removingExercise(at: 0, now: now)
+
+        #expect(edited.exercises.map(\.exerciseId) == ["incline_press"])
+        #expect(edited.updatedAt == now)
+    }
+
+    @Test("removing an invalid index is a no-op")
+    func removingInvalidIndexDoesNothing() {
+        let originalUpdatedAt = Date(timeIntervalSince1970: 1_000)
+        let program = makeProgram(updatedAt: originalUpdatedAt)
+
+        let edited = program.removingExercise(at: 4, now: Date(timeIntervalSince1970: 2_000))
+
+        #expect(edited == program)
+        #expect(edited.updatedAt == originalUpdatedAt)
+    }
+
+    @Test("moving an exercise reorders the list")
+    func movingReorders() {
+        let now = Date(timeIntervalSince1970: 2_000)
+        let second = makeExercise(exerciseId: "incline_press", name: "Incline Press", sets: 3, reps: 10, weight: 50)
+        let third = makeExercise(exerciseId: "chest_fly", name: "Chest Fly", sets: 3, reps: 12, weight: 80)
+        let program = makeProgram(exercises: [makeExercise(), second, third])
+
+        let edited = program.movingExercise(from: 2, to: 0, now: now)
+
+        #expect(edited.exercises.map(\.exerciseId) == ["chest_fly", "bench_press", "incline_press"])
+        #expect(edited.updatedAt == now)
+    }
+
+    @Test("moving an invalid index is a no-op")
+    func movingInvalidIndexDoesNothing() {
+        let program = makeProgram()
+
+        #expect(program.movingExercise(from: 0, to: 9) == program)
+        #expect(program.movingExercise(from: 9, to: 0) == program)
+        #expect(program.movingExercise(from: 0, to: 0) == program)
     }
 }
