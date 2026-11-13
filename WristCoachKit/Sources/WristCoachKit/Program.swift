@@ -31,8 +31,12 @@ public struct Program: Codable, Equatable, Identifiable, Sendable {
         exercises.reduce(0) { $0 + $1.targetSets }
     }
 
+    /// Total weight moved in pounds if every planned set is completed.
+    ///
+    /// Exercises carry their own unit, so each one is converted before the
+    /// sum. Adding the raw weights would mix pounds and kilograms.
     public var plannedVolume: Double {
-        exercises.reduce(0) { $0 + $1.plannedVolume }
+        exercises.reduce(0) { $0 + $1.plannedVolumeInPounds }
     }
 
     /// Returns a copy with `exercise` inserted at `index`.

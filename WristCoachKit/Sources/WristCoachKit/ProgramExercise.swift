@@ -10,6 +10,16 @@ public enum WeightUnit: String, Codable, CaseIterable, Sendable {
         case .kilograms: return "kg"
         }
     }
+
+    /// Pounds in one unit of this weight.
+    public var poundsPerUnit: Double {
+        switch self {
+        case .pounds: return 1
+        case .kilograms: return Self.poundsPerKilogram
+        }
+    }
+
+    public static let poundsPerKilogram = 2.204_622_621_848_78
 }
 
 public struct ProgramExercise: Codable, Equatable, Identifiable, Sendable {
@@ -42,11 +52,18 @@ public struct ProgramExercise: Codable, Equatable, Identifiable, Sendable {
         self.restSeconds = restSeconds
     }
 
-    /// Total weight moved if every planned set is completed.
+    /// Total weight moved if every planned set is completed, in this
+    /// exercise's own unit.
     ///
     /// Convert before multiplying. Sets times reps can overflow `Int` for
     /// optimistic drafts, and crashing is a bad way to report a typo.
     public var plannedVolume: Double {
         targetWeight * Double(targetSets) * Double(targetReps)
+    }
+
+    /// The same volume in pounds, so exercises with different units can be
+    /// added together.
+    public var plannedVolumeInPounds: Double {
+        plannedVolume * weightUnit.poundsPerUnit
     }
 }

@@ -10,6 +10,7 @@ struct ProgramTests {
         sets: Int = 4,
         reps: Int = 8,
         weight: Double = 135,
+        unit: WeightUnit = .pounds,
         rest: Int = 120
     ) -> ProgramExercise {
         ProgramExercise(
@@ -18,6 +19,7 @@ struct ProgramTests {
             targetSets: sets,
             targetReps: reps,
             targetWeight: weight,
+            weightUnit: unit,
             restSeconds: rest
         )
     }
@@ -134,6 +136,25 @@ struct ProgramTests {
         let exercise = makeExercise(sets: Int.max, reps: 2, weight: 1)
 
         #expect(exercise.plannedVolume == Double(Int.max) * 2)
+    }
+
+    @Test("planned volume converts kilograms to pounds")
+    func plannedVolumeConvertsKilograms() {
+        let program = makeProgram(exercises: [
+            makeExercise(exerciseId: "squats", name: "Squats", sets: 3, reps: 10, weight: 100, unit: .kilograms)
+        ])
+
+        #expect(abs(program.plannedVolume - 6_613.867_865_546_34) < 0.001)
+    }
+
+    @Test("planned volume sums mixed units in pounds")
+    func plannedVolumeSumsMixedUnits() {
+        let program = makeProgram(exercises: [
+            makeExercise(),
+            makeExercise(exerciseId: "squats", name: "Squats", sets: 3, reps: 10, weight: 50, unit: .kilograms)
+        ])
+
+        #expect(abs(program.plannedVolume - 7_626.933_932_773_17) < 0.001)
     }
 
     @Test("programs round trip through JSON")

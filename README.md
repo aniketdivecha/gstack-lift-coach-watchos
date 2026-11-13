@@ -217,6 +217,7 @@ The app must already be installed on that simulator, for example by running it o
 ### 2026-11-13
 
 - Added program editing helpers. Adding, removing, and reordering an exercise returns a new program and stamps the edit time, which is what the phone editor will call.
+- Planned volume now totals in pounds. A program that mixed pounds and kilograms used to add the two as if they were the same unit.
 
 ### 2026-10-30
 
