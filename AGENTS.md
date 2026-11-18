@@ -41,6 +41,8 @@ The watch must stay usable without a phone during a workout. If a change breaks 
 
 - Never commit `build/`, `.gstack-screenshots/`, or local credentials.
 - Never force push or rewrite history.
+- Push only to `aniketdivecha/gstack-lift-coach-watchos`. Never push or commit with the `aniketdivecha-mongodb` account.
+- Enable the pre-push guard in a fresh clone with `git config core.hooksPath scripts/hooks`. It rejects remotes outside `aniketdivecha` and commits authored by the work identity.
 - Do not change the deployment target without testing on a real watch.
 - The gstack skill pack in `.agents/skills` is local tooling and is ignored by git. Reinstall it with `npx gstack-codex init --project` if needed.
 

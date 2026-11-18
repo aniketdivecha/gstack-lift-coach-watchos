@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Keep this repository on the personal GitHub account. Automation pushes here
+# unattended, and a wrong gh login should fail loudly instead of landing a
+# commit under another identity.
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+remote="${1:-origin}"
+url="$(git remote get-url "$remote")"
+
+case "$url" in
+  https://github.com/aniketdivecha/*|git@github.com:aniketdivecha/*) ;;
+  *)
+    printf 'pre-push: refusing %s, that is not aniketdivecha\n' "$url" >&2
+    exit 1
+    ;;
+esac
+
+status=0
+while read -r _local_ref local_sha _remote_ref _remote_sha; do
+  if [ "$local_sha" = "0000000000000000000000000000000000000000" ]; then
+    continue
+  fi
+
+  author="$(git log -1 --format='%ae' "$local_sha")"
+  case "$author" in
+    *aniketdivecha-mongodb*)
+      printf 'pre-push: %s is authored by %s\n' "$local_sha" "$author" >&2
+      status=1
+      ;;
+  esac
+done
+
+exit "$status"
