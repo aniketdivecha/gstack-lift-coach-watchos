@@ -39,6 +39,32 @@ public struct Program: Codable, Equatable, Identifiable, Sendable {
         exercises.reduce(0) { $0 + $1.plannedVolumeInPounds }
     }
 
+    /// Returns a fresh program that can be edited and saved without touching
+    /// this one.
+    ///
+    /// The store matches programs by id, so a copy that keeps the id replaces
+    /// the original. Exercise ids are regenerated for the same reason: a list
+    /// showing both programs needs distinct row identity in SwiftUI.
+    public func editableCopy(named newName: String? = nil, now: Date = .now) -> Program {
+        Program(
+            name: newName ?? "\(name) copy",
+            notes: notes,
+            exercises: exercises.map { exercise in
+                ProgramExercise(
+                    exerciseId: exercise.exerciseId,
+                    name: exercise.name,
+                    targetSets: exercise.targetSets,
+                    targetReps: exercise.targetReps,
+                    targetWeight: exercise.targetWeight,
+                    weightUnit: exercise.weightUnit,
+                    restSeconds: exercise.restSeconds
+                )
+            },
+            createdAt: now,
+            updatedAt: now
+        )
+    }
+
     /// Returns a copy with `exercise` inserted at `index`.
     ///
     /// Out-of-range indexes append instead of trapping. Indices come from a

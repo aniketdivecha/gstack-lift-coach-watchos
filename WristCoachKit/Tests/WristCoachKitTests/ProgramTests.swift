@@ -157,6 +157,54 @@ struct ProgramTests {
         #expect(abs(program.plannedVolume - 7_626.933_932_773_17) < 0.001)
     }
 
+    @Test("a copy gets a new program id and keeps the targets")
+    func copyGetsNewIdentity() {
+        let program = makeProgram()
+        let copy = program.editableCopy()
+
+        #expect(copy.id != program.id)
+        #expect(copy.name == "Push A copy")
+        #expect(copy.notes == program.notes)
+        #expect(copy.exercises.count == 1)
+        #expect(copy.exercises[0].exerciseId == "bench_press")
+        #expect(copy.exercises[0].targetSets == 4)
+        #expect(copy.exercises[0].targetReps == 8)
+        #expect(copy.exercises[0].targetWeight == 135)
+        #expect(copy.exercises[0].weightUnit == .pounds)
+        #expect(copy.exercises[0].restSeconds == 120)
+    }
+
+    @Test("a copy regenerates exercise ids so rows stay distinct")
+    func copyRegeneratesExerciseIds() {
+        let program = makeProgram()
+        let copy = program.editableCopy()
+
+        #expect(copy.exercises[0].id != program.exercises[0].id)
+        #expect(Set(copy.exercises.map(\.id)).count == copy.exercises.count)
+    }
+
+    @Test("a copy can be renamed and stamped")
+    func copyCanBeRenamed() {
+        let now = Date(timeIntervalSince1970: 2_000)
+        let copy = makeProgram().editableCopy(named: "Push B", now: now)
+
+        #expect(copy.name == "Push B")
+        #expect(copy.createdAt == now)
+        #expect(copy.updatedAt == now)
+    }
+
+    @Test("copying a program leaves the original untouched")
+    func copyLeavesOriginalAlone() {
+        let program = makeProgram()
+        let copy = program.editableCopy(named: "Push B")
+
+        _ = copy.adding(makeExercise(exerciseId: "chest_fly", name: "Chest Fly", sets: 3, reps: 12, weight: 80))
+
+        #expect(program.exercises.count == 1)
+        #expect(program.name == "Push A")
+        #expect(program.updatedAt == Date(timeIntervalSince1970: 1_000))
+    }
+
     @Test("programs round trip through JSON")
     func codableRoundTrip() throws {
         let created = Date(timeIntervalSince1970: 1_700_000_000)

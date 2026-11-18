@@ -214,6 +214,10 @@ The app must already be installed on that simulator, for example by running it o
 
 ## Changelog
 
+### 2026-11-18
+
+- Added program copies. A copy gets a new program id and new exercise ids, because a copy that kept them would overwrite the original in the store and confuse the editor list.
+
 ### 2026-11-13
 
 - Added program editing helpers. Adding, removing, and reordering an exercise returns a new program and stamps the edit time, which is what the phone editor will call.
