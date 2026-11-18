@@ -158,3 +158,4 @@ If a step needs Xcode and Xcode is not available, skip it, note it under Blocked
 - 2026-11-13: program editing helpers for add, remove, and reorder
 - 2026-11-13: planned volume totals in a single weight unit
 - 2026-11-18: editable program copies with fresh ids
+- 2026-11-18: rough session duration estimate

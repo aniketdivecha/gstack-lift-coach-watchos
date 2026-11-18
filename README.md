@@ -217,6 +217,7 @@ The app must already be installed on that simulator, for example by running it o
 ### 2026-11-18
 
 - Added program copies. A copy gets a new program id and new exercise ids, because a copy that kept them would overwrite the original in the store and confuse the editor list.
+- Added a rough duration estimate. Each set costs 30 seconds of work plus the programmed rest, which is arithmetic, not a stopwatch.
 
 ### 2026-11-13
 

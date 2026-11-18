@@ -115,6 +115,23 @@ public struct Program: Codable, Equatable, Identifiable, Sendable {
         return copy
     }
 
+    /// Rough time to work through the program, in seconds.
+    ///
+    /// Every set costs `secondsPerSet` and every set is followed by the
+    /// programmed rest, so the last rest of an exercise doubles as slack for
+    /// moving to the next one. Calibration, warm-ups, and plate changes are
+    /// not counted. This is arithmetic, not a stopwatch, and the caller owns
+    /// the work time.
+    public func estimatedDuration(secondsPerSet: Double = 30) -> TimeInterval {
+        let work = max(secondsPerSet, 0)
+
+        return exercises.reduce(0) { total, exercise in
+            let sets = Double(max(exercise.targetSets, 0))
+            let rest = Double(max(exercise.restSeconds, 0))
+            return total + sets * (work + rest)
+        }
+    }
+
     /// Checks that a program can be sent to the watch. This is deliberately
     /// strict: the watch rejects programs it cannot map to its exercise
     /// library, and it does not try to repair them.

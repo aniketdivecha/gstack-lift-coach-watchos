@@ -205,6 +205,40 @@ struct ProgramTests {
         #expect(program.updatedAt == Date(timeIntervalSince1970: 1_000))
     }
 
+    @Test("duration counts work and rest for every set")
+    func durationCountsWorkAndRest() {
+        let program = makeProgram(exercises: [
+            makeExercise(sets: 4, reps: 8, weight: 135, rest: 120),
+            makeExercise(exerciseId: "incline_press", name: "Incline Press", sets: 3, reps: 10, weight: 50, rest: 90)
+        ])
+
+        #expect(program.estimatedDuration() == 960)
+    }
+
+    @Test("duration honors a caller supplied work time")
+    func durationHonorsWorkTime() {
+        let program = makeProgram(exercises: [
+            makeExercise(sets: 4, reps: 8, weight: 135, rest: 120),
+            makeExercise(exerciseId: "incline_press", name: "Incline Press", sets: 3, reps: 10, weight: 50, rest: 90)
+        ])
+
+        #expect(program.estimatedDuration(secondsPerSet: 45) == 1_065)
+    }
+
+    @Test("an empty program takes no time")
+    func emptyProgramHasNoDuration() {
+        #expect(Program(name: "Empty", exercises: []).estimatedDuration() == 0)
+    }
+
+    @Test("negative work time falls back to rest only")
+    func negativeWorkTimeIsClamped() {
+        let program = makeProgram(exercises: [
+            makeExercise(sets: 3, reps: 10, weight: 50, rest: 60)
+        ])
+
+        #expect(program.estimatedDuration(secondsPerSet: -10) == 180)
+    }
+
     @Test("programs round trip through JSON")
     func codableRoundTrip() throws {
         let created = Date(timeIntervalSince1970: 1_700_000_000)
